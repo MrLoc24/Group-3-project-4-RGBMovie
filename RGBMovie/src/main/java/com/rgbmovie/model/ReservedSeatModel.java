@@ -21,13 +21,13 @@ public class ReservedSeatModel {
     @Column(name = "reservation")
     private Integer reservation;
     @ManyToOne
-    @JoinColumn(name = "screening", referencedColumnName = "pk")
+    @JoinColumn(name = "screening", referencedColumnName = "pk", insertable = false, updatable = false)
     private ScreeningModel screeningByScreening;
     @ManyToOne
-    @JoinColumn(name = "seat", referencedColumnName = "pk")
+    @JoinColumn(name = "seat", referencedColumnName = "pk", insertable = false, updatable = false)
     private SeatModel seatBySeat;
     @ManyToOne
-    @JoinColumn(name = "reservation", referencedColumnName = "pk")
+    @JoinColumn(name = "reservation", referencedColumnName = "pk", insertable = false, updatable = false)
     private ReservationModel reservationByReservation;
 
     public int getPk() {

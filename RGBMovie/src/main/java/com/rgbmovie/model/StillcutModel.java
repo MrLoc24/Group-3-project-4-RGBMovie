@@ -18,7 +18,7 @@ public class StillcutModel {
     @Column(name = "image")
     private String image;
     @ManyToOne
-    @JoinColumn(name = "movie", referencedColumnName = "pk")
+    @JoinColumn(name = "movie", referencedColumnName = "pk", insertable = false, updatable = false)
     private MovieModel movieByMovie;
 
     public int getPk() {

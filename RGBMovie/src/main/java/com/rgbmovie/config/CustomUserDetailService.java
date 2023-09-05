@@ -2,6 +2,8 @@ package com.rgbmovie.config;
 
 import com.rgbmovie.model.RoleModel;
 import com.rgbmovie.model.UserModel;
+
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,27 +13,34 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CustomUserDetails implements UserDetails {
+
+public class CustomUserDetailService extends UserModel implements UserDetails {
 
     @Serial
     private static final long serialVersionUID = -8214062200052083773L;
 
-    private UserModel userModel;
+    private UserModel userModel = new UserModel();
 
-    public CustomUserDetails(UserModel userModel) {
+    public CustomUserDetailService(UserModel userModel) {
         super();
         this.userModel = userModel;
     }
 
-    @Override
+    public CustomUserDetailService() {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        Collection<RoleModel> roles = userModel.getRoles();
-        for (RoleModel role : roles) {
+        for (RoleModel role : userModel.getRoles()) {
             SimpleGrantedAuthority simple = new SimpleGrantedAuthority(role.getName());
             authorities.add(simple);
+            System.out.println("Role: " + simple);
+            
         }
+        System.out.println(authorities);
         return authorities;
     }
 

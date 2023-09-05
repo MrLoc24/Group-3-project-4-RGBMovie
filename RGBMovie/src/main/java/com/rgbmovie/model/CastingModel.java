@@ -21,10 +21,10 @@ public class CastingModel {
     @Column(name = "cast")
     private String cast;
     @ManyToOne
-    @JoinColumn(name = "movie", referencedColumnName = "pk")
+    @JoinColumn(name = "movie", referencedColumnName = "pk", insertable = false, updatable = false)
     private MovieModel movieByMovie;
     @ManyToOne
-    @JoinColumn(name = "actor", referencedColumnName = "pk")
+    @JoinColumn(name = "actor", referencedColumnName = "pk", insertable = false, updatable = false)
     private CastModel castByActor;
 
     public int getPk() {

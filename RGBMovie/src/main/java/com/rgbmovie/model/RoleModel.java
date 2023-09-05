@@ -1,10 +1,10 @@
 package com.rgbmovie.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
-import java.util.Collection;
 import java.util.Objects;
-
+@Data
 @Entity
 @Table(name = "Role", schema = "rgb", catalog = "")
 public class RoleModel {
@@ -18,8 +18,6 @@ public class RoleModel {
     @Basic
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "roleByRoleId")
-    private Collection<UserRoleModel> userRolesByPk;
 
     public int getPk() {
         return pk;
@@ -58,11 +56,18 @@ public class RoleModel {
         return Objects.hash(pk, name, description);
     }
 
-    public Collection<UserRoleModel> getUserRolesByPk() {
-        return userRolesByPk;
+	public RoleModel(String name) {
+		super();
+		this.name = name;
+	}
+	public RoleModel() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+    public String toString() {
+        return this.name;
     }
 
-    public void setUserRolesByPk(Collection<UserRoleModel> userRolesByPk) {
-        this.userRolesByPk = userRolesByPk;
-    }
+    
 }

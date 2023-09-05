@@ -27,7 +27,7 @@ public class SeatModel {
     @OneToMany(mappedBy = "seatBySeat")
     private Collection<ReservedSeatModel> reservedSeatsByPk;
     @ManyToOne
-    @JoinColumn(name = "auditorium", referencedColumnName = "pk")
+    @JoinColumn(name = "auditorium", referencedColumnName = "pk", insertable = false, updatable = false)
     private AuditoriumModel auditoriumByAuditorium;
 
     public int getPk() {

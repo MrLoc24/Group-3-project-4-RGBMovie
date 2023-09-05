@@ -18,10 +18,10 @@ public class WorkplaceModel {
     @Column(name = "theater_id")
     private Integer theaterId;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "pk")
+    @JoinColumn(name = "user_id", referencedColumnName = "pk", insertable = false, updatable = false)
     private UserModel userByUserId;
     @ManyToOne
-    @JoinColumn(name = "theater_id", referencedColumnName = "pk")
+    @JoinColumn(name = "theater_id", referencedColumnName = "pk", insertable = false, updatable = false)
     private TheaterModel theaterByTheaterId;
 
     public int getPk() {

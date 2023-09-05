@@ -30,13 +30,13 @@ public class ScreeningModel {
     @OneToMany(mappedBy = "screeningByScreening")
     private Collection<ReservedSeatModel> reservedSeatsByPk;
     @ManyToOne
-    @JoinColumn(name = "movie", referencedColumnName = "pk", nullable = false)
+    @JoinColumn(name = "movie", referencedColumnName = "pk", nullable = false, insertable = false, updatable = false)
     private MovieModel movieByMovie;
     @ManyToOne
-    @JoinColumn(name = "theater", referencedColumnName = "pk", nullable = false)
+    @JoinColumn(name = "theater", referencedColumnName = "pk", nullable = false, insertable = false, updatable = false)
     private TheaterModel theaterByTheater;
     @ManyToOne
-    @JoinColumn(name = "auditorium", referencedColumnName = "pk")
+    @JoinColumn(name = "auditorium", referencedColumnName = "pk", insertable = false, updatable = false)
     private AuditoriumModel auditoriumByAuditorium;
 
     public int getPk() {

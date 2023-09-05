@@ -18,7 +18,7 @@ public class WebTrailerContainerModel {
     @Column(name = "posting_img")
     private String postingImg;
     @ManyToOne
-    @JoinColumn(name = "movie", referencedColumnName = "pk")
+    @JoinColumn(name = "movie", referencedColumnName = "pk", insertable = false, updatable = false)
     private MovieModel movieByMovie;
 
     public int getPk() {

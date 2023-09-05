@@ -18,10 +18,10 @@ public class DirectingModel {
     @Column(name = "director")
     private Integer director;
     @ManyToOne
-    @JoinColumn(name = "movie", referencedColumnName = "pk")
+    @JoinColumn(name = "movie", referencedColumnName = "pk", insertable = false, updatable = false)
     private MovieModel movieByMovie;
     @ManyToOne
-    @JoinColumn(name = "director", referencedColumnName = "pk")
+    @JoinColumn(name = "director", referencedColumnName = "pk", insertable = false, updatable = false)
     private DirectorModel directorByDirector;
 
     public int getPk() {

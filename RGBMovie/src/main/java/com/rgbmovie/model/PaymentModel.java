@@ -27,7 +27,7 @@ public class PaymentModel {
     @Column(name = "user_id")
     private Integer userId;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "pk")
+    @JoinColumn(name = "user_id", referencedColumnName = "pk", insertable = false, updatable = false)
     private UserModel userByUserId;
 
     public int getPk() {

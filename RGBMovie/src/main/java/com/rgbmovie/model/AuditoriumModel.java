@@ -22,7 +22,7 @@ public class AuditoriumModel {
     @Column(name = "theater")
     private Integer theater;
     @ManyToOne
-    @JoinColumn(name = "theater", referencedColumnName = "pk")
+    @JoinColumn(name = "theater", referencedColumnName = "pk", insertable = false, updatable = false)
     private TheaterModel theaterByTheater;
     @OneToMany(mappedBy = "auditoriumByAuditorium")
     private Collection<ScreeningModel> screeningsByPk;

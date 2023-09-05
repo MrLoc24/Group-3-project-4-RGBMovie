@@ -30,10 +30,10 @@ public class ReservationModel {
     @OneToMany(mappedBy = "reservationByReservationId")
     private Collection<BankingModel> bankingsByPk;
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "pk")
+    @JoinColumn(name = "user", referencedColumnName = "pk", insertable = false, updatable = false)
     private UserModel userByUser;
     @ManyToOne
-    @JoinColumn(name = "screening", referencedColumnName = "pk")
+    @JoinColumn(name = "screening", referencedColumnName = "pk", insertable = false, updatable = false)
     private ScreeningModel screeningByScreening;
     @OneToMany(mappedBy = "reservationByReservation")
     private Collection<ReservedSeatModel> reservedSeatsByPk;

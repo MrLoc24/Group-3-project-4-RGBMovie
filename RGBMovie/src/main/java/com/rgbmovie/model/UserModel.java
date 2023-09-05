@@ -1,11 +1,15 @@
 package com.rgbmovie.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "User", schema = "rgb", catalog = "")
 public class UserModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +46,25 @@ public class UserModel {
     private Collection<PaymentModel> paymentsByPk;
     @OneToMany(mappedBy = "userByUser")
     private Collection<ReservationModel> reservationsByPk;
-    @OneToMany(mappedBy = "userByUserId")
-    private Collection<UserRoleModel> userRolesByPk;
+    @ManyToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name="UserRole",
+            joinColumns = {@JoinColumn(name="user_id")},
+            inverseJoinColumns = {@JoinColumn(name="role_id")}
+    )
+    private Set<RoleModel> roles = new HashSet<>();
+
+    public Set<RoleModel> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleModel> roles) {
+        this.roles = roles;
+    }
+    public void addRole(RoleModel role) {
+        this.roles.add(role);
+    }
+
     @OneToMany(mappedBy = "userByUserId")
     private Collection<WorkplaceModel> workplacesByPk;
 
@@ -156,13 +177,6 @@ public class UserModel {
         this.reservationsByPk = reservationsByPk;
     }
 
-    public Collection<UserRoleModel> getUserRolesByPk() {
-        return userRolesByPk;
-    }
-
-    public void setUserRolesByPk(Collection<UserRoleModel> userRolesByPk) {
-        this.userRolesByPk = userRolesByPk;
-    }
 
     public Collection<WorkplaceModel> getWorkplacesByPk() {
         return workplacesByPk;
