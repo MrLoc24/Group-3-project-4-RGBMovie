@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head>
+<meta charset="UTF-8">
+<title>Movie Detail</title>
+</head>
+<body>
+	<section id="admin-content" class="p-3" layout:fragment="content">
+		<h3 class="mb-3" style="text-align: center;">Movie detail</h3>
+		<div class="row" th:object="${movie}">
+			<div class="col-md-4">
+				<a th:if="*{thumbnail_img == null}"> <img
+					style="width: 320px; height: 400px; margin-left: 15%" alt=""
+					th:src="@{/images/video.png}" />
+				</a> <a th:if="*{thumbnail_img != null}"> <img
+					style="width: 320px; height: 400px; margin-left: 15%" alt=""
+					th:src="@{*{thumbnail_img}}" />
+				</a>
+
+
+			</div>
+			<div class="col-md-8">
+				<div class="row">
+					<div class="col-md-3">
+						<p type="hidden"  th:field="*{pk}"></p>
+						<label>Title
+						</label>
+						<p th:text="*{title}"></p>
+						<label>Eng title</label>
+						<p th:text="*{eng_title}"></p>
+					</div>
+					<div class="col-md-3">
+						<label>Duration (min)</label>
+						<p th:text="*{duration_min}"></p>
+						<label>Opening date</label>
+						<p th:text="*{opening_date}"></p>
+					</div>
+					<div class="col-md-3">
+						<label>Genre</label>
+						<p th:text="*{genre}"></p>
+						<label>Age</label>
+						<p th:text="*{age}"></p>
+					</div>
+					<div class="col-md-3" style="padding-left: 0">
+						<label>Score</label>
+						<p th:text="*{reservation_score}"></p>
+						
+					</div>
+				</div>
+				<div>
+					<label>Description</label>
+						<p th:text="*{description}"></p>
+				</div>
+				<div th:if="*{trailer != null}">
+					<div style="margin: 5% 15% ">
+						<iframe width="560" height="315" th:src="*{trailer}" 
+						title="YouTube video player" frameborder="0" 
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+						allowfullscreen></iframe>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h4 class="mb-3">Director</h4>
+			</div>
+			<div class="col-md-8">
+				<a style="margin-left: 80%" th:href="@{/directing/add(pk=${movie.pk})}"
+					class="btn btn-primary">Edit</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4" th:each="item : ${listDirector}">
+				<div class="row">
+					<div class="col-md-3">
+						<a th:if="*{item.profile_img != null}" style="margin-left: 0" th:href="@{/directing/edit(pk=${item.directingPk})}">
+							<img style="width: 64px; height: 80px; margin-left: 15%" alt=""
+							th:src="@{${item.profile_img}}" />
+						</a>	
+						<a th:if="*{item.profile_img == null}" style="margin-left: 0" th:href="@{/directing/edit(pk=${item.directingPk})}">
+							<img style="width: 64px; height: 80px; margin-left: 15%" alt=""
+							th:src="@{/images/director.png}" />
+						</a>					
+					</div>
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-4">
+								<p>Director:</p>
+								<p>Eng DIR:</p>
+							</div>
+							<div class="col-md-8" style="padding-left: 0">
+								<p th:text="${item.director}"></p>
+								<p th:text="${item.eng_director}"></p>
+							</div>
+						</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">
+				<h4 class="mb-3">Cast</h4>
+			</div>
+			<div class="col-md-8">
+				<a style="margin-left: 80%" th:href="@{/casting/add(pk=${movie.pk})}"
+					class="btn btn-primary">Edit</a>
+					
+		
+			</div>
+		</div>
+		<div class="row" >
+			<div class="col-md-4" th:each="item : ${listCast}">
+				<div class="row">
+					<div class="col-md-3">
+						<a th:if="*{item.profile_img != null}" style="margin-left: 0" th:href="@{/casting/edit(pk=${item.castingPk})}">
+							<img style="width: 64px; height: 80px; margin-left: 15%" alt=""
+							th:src="@{${item.profile_img}}" />
+						</a>	
+						<a th:if="*{item.profile_img == null}" style="margin-left: 0" th:href="@{/casting/edit(pk=${item.castingPk})}">
+							<img style="width: 64px; height: 80px; margin-left: 15%" alt=""
+							th:src="@{/images/actor.png}" />
+						</a>					
+					</div>
+					<div class="col-md-9">
+						<div class="row">
+							<div class="col-md-4">
+								<p>Actor:</p>
+								<p>Eng actor:</p>
+								<p>Cast: </p>
+							</div>
+							<div class="col-md-8" style="padding-left: 0">
+								<p th:text="${item.actor}"></p>
+								<p th:text="${item.eng_actor}"></p>
+								<p th:text="${item.cast}"></p>
+							</div>
+						</div>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+		
+	</section>
+
+</body>
+</html>

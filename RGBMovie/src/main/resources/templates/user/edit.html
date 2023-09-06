@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head>
+<meta charset="UTF-8">
+<title>User Edit</title>
+</head>
+<body>
+	<section id="admin-content" class="p-3" layout:fragment="content">
+		<h3 class="mb-4">Edit user</h3>
+		<p class="text-center" style="color: red;" th:text=${message}></p>
+		<form method="post" th:action="@{/user/edit}" th:object="${user}" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<input type="hidden" class="form-control" th:field="*{pk}" />
+					</div>
+					<div class="form-group">
+						<label>User name</label> <input type="text" name="username"
+							class="form-control" th:field="*{username}" placeholder="user name" readonly/>
+					</div>
+					<div class="form-group">
+						<label>Email</label> <input type="text" name="email"
+							class="form-control" th:field="*{email}" placeholder="email" />
+					</div>
+					<div class="form-group">
+						<label>Avatar</label> <input type="file" name="fileImage"
+							id="fileImage" accept="image/png, image/jpeg" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>First name</label> <input type="text" name="first_name"
+							class="form-control" th:field="*{first_name}" placeholder="First name" />
+					</div>
+					<div class="form-group">
+						<label>Last name</label> <input type="text" name="last_name"
+							class="form-control" th:field="*{last_name}" placeholder="last name" />
+					</div>
+					<div class="form-group">
+						<label>Phone</label> <input type="text" name="phone"
+							class="form-control" th:field="*{phone_number}" placeholder="phone" />
+					</div>
+					<div class="form-group">
+						<label class="col-sm-12">Role</label>
+						<div class="col-sm-12">
+							<select th:field="*{role_id}"
+								class="form-control form-control-line">
+								<option th:each="item : ${list}" th:value="${item.pk}"
+									th:text="${item.description}"></option>
+							</select>
+						</div>
+					</div>
+
+				</div>
+				<div class="col-12 mt-3">
+					<button type="submit" class="btn btn-success">Save</button>
+					<a class="btn btn-secondary" th:href="@{/user}">Back</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</body>
+</html>

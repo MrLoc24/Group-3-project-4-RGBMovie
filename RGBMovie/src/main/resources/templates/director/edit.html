@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head>
+<meta charset="UTF-8">
+<title>Director Edit</title>
+</head>
+<body>
+	<section id="admin-content" class="p-3" layout:fragment="content">
+		<h3 class="mb-4">Edit director</h3>
+		<p class="text-center" th:text=${message}></p>
+		<form method="post" th:action="@{/director/edit}" th:object="${director}" enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-6 m-auto">
+					<div class="form-group">
+						<input type="hidden" th:field="*{pk}" class="form-control" />
+					</div>
+					<div class="form-group">
+						<label>Director</label> <input type="text" th:field="*{director}"
+							class="form-control" placeholder="name" />
+					</div>
+					<div class="form-group">
+						<label>English Director</label> <input type="text"
+							th:field="*{eng_director}" class="form-control"
+							placeholder="English Director" />
+					</div>
+					<div class="form-group">
+						<label>Image</label> <input type="file" name="fileImage"
+							id="fileImage" accept="image/png, image/jpeg" />
+					</div>
+				</div>				
+				<div class="col-12 mt-3">
+					<button type="submit" class="btn btn-success">Save</button>
+					<a class="btn btn-secondary" th:href="@{/director}">Back</a>
+				</div>
+			</div>
+		</form>
+    </section>
+</body>
+</html>

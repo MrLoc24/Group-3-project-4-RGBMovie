@@ -18,13 +18,13 @@ public class TestApi {
 	@Autowired
 	UserService userService;
 	@GetMapping("")
-	@RolesAllowed("ADMIN")
+	@RolesAllowed("CUSTOMER")
 	public List<UserModel> testOk() {
 		return userService.getAll();
 	}
 	
 	@GetMapping("/customer")
-	@RolesAllowed("ADMIN")
+	@RolesAllowed("CUSTOMER")
 	public String testCus() {
 		return "Cyka";
 	}

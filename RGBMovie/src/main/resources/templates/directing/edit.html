@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head>
+<meta charset="UTF-8">
+<title>Casting Add</title>
+</head>
+<body>
+	<section id="admin-content" class="p-3" layout:fragment="content">
+		<h3 class="mb-4 text-center">Edit casting</h3>
+		<p class="text-center" style="color:red;" th:text=${message}></p>
+		<form method="post" th:action="@{/directing/edit}" th:object="${directing}">
+			<div class="row">
+				<div class="col-md-6 m-auto">
+					<div class="form-group">
+						<input type="hidden" th:field="*{pk}" class="form-control" />
+						
+					</div>					
+					<div class="form-group">
+						<label class="col-sm-12">Director</label>
+						<div class="col-sm-12">
+							<select th:field="*{director}"
+								class="form-control form-control-line">
+								<option th:each="item : ${listDirector}" th:value="${item.pk}"
+									th:text="${item.eng_director}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						
+						<button type="submit" class="btn btn-success">Save</button>
+						
+						<a class="btn btn-secondary" th:href="@{/movie}">Back</a>
+						<a th:href="@{/directing/delete(pk=${directing.pk})}" class="btn btn-danger"> <i
+							class="fa fa-trash-o"></i>
+						</a>
+						
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+</body>
+</html>

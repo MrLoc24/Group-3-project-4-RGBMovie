@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/default">
+
+<head>
+<meta charset="UTF-8">
+<title>User Add</title>
+</head>
+<body>
+	<section id="admin-content" class="p-3" layout:fragment="content">
+		<h3 class="mb-4">Add movie</h3>
+		<p class="text-center" style="color: red;" th:text=${message}></p>
+		<form method="post" th:action="@{/movie/add}" th:object="${movie}"
+			enctype="multipart/form-data">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<input type="hidden" class="form-control" th:field="*{pk}" />
+					</div>
+					<div class="form-group">
+						<label>Title</label> <input type="text" name="title"
+							class="form-control" th:field="*{title}" placeholder="title" />
+					</div>
+					<div class="form-group">
+						<label>Eng title</label> <input type="text" name="eng_title"
+							class="form-control" th:field="*{eng_title}" placeholder="eng_title" />
+					</div>
+					<div class="form-group">
+						<label>Duration (min)</label> <input type=number step=1 name="duration_min"
+							class="form-control" th:field="*{duration_min}" />
+					</div>
+					<div class="form-group">
+						<label>Age</label> <input type="text" name="age"
+							class="form-control" th:field="*{age}" placeholder="age" />
+					</div>
+					<div class="form-group">
+						<label>Thumbnail</label> <input type="file" name="fileImage"
+							id="fileImage" accept="image/png, image/jpeg" />
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label>Opening date</label> <input type="date" name="opening_date"
+							class="form-control" th:field="*{opening_date}" placeholder="opening_date" />
+					</div>
+					<div class="form-group">
+						<label>Genre</label> <input type="text" name="genre"
+							class="form-control" th:field="*{genre}" placeholder="genre" />
+					</div>
+					<div class="form-group">
+						<label>Description</label> <input type="text" name="description"
+							class="form-control" th:field="*{description}" placeholder="description" />
+					</div>
+					<div class="form-group">
+						<label>Score</label> <input type=number step=0.1 name="reservation_score"
+							class="form-control" th:field="*{reservation_score}" placeholder="0" />
+					</div>
+					<div class="form-group">
+						<label>Trailer</label> <input type="text" name="trailer"
+							class="form-control" th:field="*{trailer}" placeholder="trailer" />
+					</div>
+
+				</div>
+				<div class="col-12 mt-3">
+					<button type="submit" class="btn btn-success">Save</button>
+					<a class="btn btn-secondary" th:href="@{/movie}">Back</a>
+				</div>
+			</div>
+		</form>
+	</section>
+</body>
+</html>
