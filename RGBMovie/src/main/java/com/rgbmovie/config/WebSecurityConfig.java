@@ -1,88 +1,105 @@
 package com.rgbmovie.config;
 
-import static org.springframework.security.config.Customizer.withDefaults;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.rgbmovie.repository.UserRepository;
 import com.rgbmovie.security.JwtTokenFilter;
 
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(jsr250Enabled = true, prePostEnabled = true, securedEnabled = true)
-public class WebSecurityConfig implements WebMvcConfigurer  {
+@EnableMethodSecurity(jsr250Enabled = true, prePostEnabled = true, securedEnabled = true) // Setup for role annotation
+public class WebSecurityConfig implements WebMvcConfigurer {
 
-	@Autowired private JwtTokenFilter jwtTokenFilter;
+	@Autowired
+	private JwtTokenFilter jwtTokenFilter;
+
 	@Bean
-    UserDetailsService userDetailsService() {
-    	return new CustomUserDetailServiceImpl();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return new ProviderManager(provider);
-    }
-    
-
-    @Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    	http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-         
-        http.authorizeRequests()
-                .requestMatchers("/api/auth", "/docs/**", "/users").permitAll()
-                .anyRequest().authenticated();
-         
-            http.exceptionHandling()
-                    .authenticationEntryPoint(
-                        (request, response, ex) -> {
-                            response.sendError(
-                                HttpServletResponse.SC_UNAUTHORIZED,
-                                ex.getMessage()
-                            );
-                        }
-                );
-         
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+	UserDetailsService userDetailsService() {
+		return new CustomUserDetailServiceImpl();
 	}
-    
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:8080")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowCredentials(false)
-                .maxAge(4800);
-    }
-    
-    
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	AuthenticationManager authenticationManager() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService());
+		provider.setPasswordEncoder(passwordEncoder());
+		return new ProviderManager(provider);
+	}
+
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		http.csrf(AbstractHttpConfigurer::disable);
+//		http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+		//For request not require auth
+		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/docs/**", "/users").permitAll());
+		// Filter for api only
+		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/test/**").authenticated())
+				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+		//For request require auth
+		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/user/**","/role/**","/movie/**","/director/**", 
+				"/casting/**","/cast/**")
+		.hasAnyRole("ADMIN").anyRequest().authenticated());
+		http.exceptionHandling(exc -> exc.authenticationEntryPoint((request, response, authException) -> {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+		}));
+		http.formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/auth/login").permitAll()
+				.usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home", true)
+				.failureUrl("/auth/login?error=true"));
+		http.logout(l -> l.logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login"));
+		return http.build();
+	}
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/api/**").allowedOrigins("http://localhost:8080")
+				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowCredentials(false).maxAge(4800);
+	}
 	
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+	    return (web) -> web.ignoring().requestMatchers("/resources/**", "/static/**", 
+				"/css/**", "/js/**","/fonts/**", "/icon/**", "/images/**", "/plugins/**");
+	}
+
+    @Bean
+	public AuthenticationSuccessHandler authenticationSuccessHandler(){
+		return new AuthenticationSuccessHandler() {
+			@Override
+			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+			}
+		};
+	}
+	
+
 }
