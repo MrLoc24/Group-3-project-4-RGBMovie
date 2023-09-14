@@ -8,8 +8,17 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import { Carousel, SignIn, SlideSection, Theater, SignUp } from "./components/index.ts";
+import {
+  Carousel,
+  SignIn,
+  SlideSection,
+  Theater,
+  SignUp,
+  PrivateRoute,
+} from "./components/index.ts";
 import { LoginScreen, SectionScreen } from "./screens";
+import { Provider } from "react-redux";
+import store from "./store.ts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +46,7 @@ const router = createBrowserRouter(
       <Route path="/signin" element={<LoginScreen child={<SignIn />} />} />
       <Route path="/signup" element={<LoginScreen child={<SignUp />} />} />
       {/* Private Routes */}
-      <Route path="">
+      <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" />
       </Route>
     </Route>
@@ -45,9 +54,9 @@ const router = createBrowserRouter(
 );
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  // <Provider store={store}></Provider>
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-  // </Provider>
+  <Provider store={store}>
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  </Provider>
 );

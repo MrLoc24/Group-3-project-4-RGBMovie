@@ -12,8 +12,14 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../slices/authSlice";
+import { useLoginMutation } from "../../slices/customersApiSlice";
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -21,6 +27,20 @@ export default function SignIn() {
       email: data.get("email"),
       password: data.get("password"),
     });
+    try {
+      // const res = await login({ username, password }).unwrap();
+      toast.success("Login successfully!");
+      dispatch(
+        setCredentials({
+          username: "Elizabeth",
+          email: data.get("email"),
+          password: data.get("password"),
+        })
+      );
+      navigate("/");
+    } catch (error) {
+      toast(error?.data?.message || error.error);
+    }
   };
 
   const navigate = useNavigate();

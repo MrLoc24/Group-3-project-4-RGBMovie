@@ -3,6 +3,7 @@ import {
   TheatersOutlined,
   EventOutlined,
   LockOpenOutlined,
+  AccountCircleOutlined,
 } from "@mui/icons-material";
 import {
   BottomNavigationAction,
@@ -10,19 +11,68 @@ import {
   Typography,
   Box,
   Modal,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { BookLogo, Logo } from "../../assets";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QuickBooking } from "..";
+import { useDispatch, useSelector } from "react-redux";
+// import { useLogoutMutation } from "../../slices/customersApiSlice";
+import { logout } from "../../slices/authSlice";
+import { toast } from "react-toastify";
 
 const NavigationBar = () => {
+  // Handle auth
+  const { customerInfo } = useSelector((state: any) => state.auth);
+  const [username, setUsername] = useState("User");
+
+  useEffect(() => {
+    if (customerInfo) {
+      setUsername(customerInfo.username);
+    }
+  }, [customerInfo]);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      // await logoutApiCall().unwrap();
+      setAnchorEl(null);
+      dispatch(logout(""));
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // Handle Close/Open QuickBooking
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+
   const handleClose = (event: object, reason: string) => {
     reason == "backdropClick" ? "" : setOpen(false);
   };
-  const navigate = useNavigate();
+  const handleOpen = () => {
+    if (customerInfo) {
+      setOpen(true);
+    } else {
+      navigate("/signin");
+      toast("Please sign in before booking ticket");
+    }
+  };
+
+  // Profile menu
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const openProfile = Boolean(anchorEl);
+  const handleClickProfile = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseProfile = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Box alignContent={"center"}>
@@ -69,12 +119,24 @@ const NavigationBar = () => {
           className="neonText"
           icon={<EventOutlined />}
         />
-        <BottomNavigationAction
-          label="Sign In"
-          className="neonText"
-          icon={<LockOpenOutlined />}
-          value="signin"
-        />
+        {customerInfo ? (
+          <BottomNavigationAction
+            label={username}
+            className="neonText"
+            icon={<AccountCircleOutlined />}
+            aria-controls={openProfile ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={openProfile ? "true" : undefined}
+            onClick={handleClickProfile}
+          />
+        ) : (
+          <BottomNavigationAction
+            label="Sign In"
+            className="neonText"
+            icon={<LockOpenOutlined />}
+            value="signin"
+          />
+        )}
         <Typography
           className="logoHover neonImagePurple"
           variant="h2"
@@ -98,6 +160,20 @@ const NavigationBar = () => {
       >
         <QuickBooking handleClose={handleClose} />
       </Modal>
+
+      {/* Profile menu */}
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openProfile}
+        onClose={handleCloseProfile}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={handleCloseProfile}>Profile</MenuItem>
+        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+      </Menu>
     </Box>
   );
 };

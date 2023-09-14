@@ -16,6 +16,7 @@ import SignUp from "./SignUp/SignUp";
 import QuickBooking from "./QuickBooking/QuickBooking";
 import LocationMenu from "./common/LocationMenu/LocationMenu";
 import PaymentSelect from "./common/PaymentSelect/PaymentSelect";
+import PrivateRoute from "./PrivateRoute";
 
 export {
   Carousel,
@@ -34,4 +35,5 @@ export {
   QuickBooking,
   LocationMenu,
   PaymentSelect,
+  PrivateRoute,
 };
