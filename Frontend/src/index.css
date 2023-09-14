@@ -22,7 +22,7 @@ body {
 }
 
 .neonText {
-  color: #fff;
+  color: var(--textPrimary);
   text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
     0 0 42px var(--neonPurple), 0 0 82px var(--neonPurple),
     0 0 92px var(--neonPurple), 0 0 102px var(--neonPurple),
@@ -56,6 +56,25 @@ body {
   }
 }
 
+/* Flickering animation */
+@keyframes imageflicker {
+  0%,
+  18%,
+  22%,
+  25%,
+  53%,
+  57%,
+  100% {
+    filter: drop-shadow(0 0 0.75rem var(--neonYellow));
+  }
+
+  20%,
+  24%,
+  55% {
+    filter: none;
+  }
+}
+
 /* Neon effect on Image */
 .neonImageCrimson {
   filter: drop-shadow(0 0 0.75rem var(--neonCrimson));
@@ -70,8 +89,29 @@ body {
   filter: drop-shadow(0 0 0.75rem var(--neonPink));
 }
 
+.neonImagePurple {
+  filter: drop-shadow(0 0 0.75rem var(--neonPurple));
+}
+
+.logoHover:hover {
+  filter: contrast(200%) saturate(8) drop-shadow(0 0 0.75rem var(--neonYellow));
+}
+
 /* Neon effect on border */
 .neonBorder {
   box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--neonPurple),
     0 0 0.8rem var(--neonBlue), inset 0 0 1.3rem var(--neonPurple);
+}
+
+/* Overlay Text */
+.overlayText {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.9);
+  color: #f1f1f1;
+  width: auto;
+  padding: 20px;
+  text-align: center;
 }

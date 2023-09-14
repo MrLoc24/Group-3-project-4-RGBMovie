@@ -16,7 +16,7 @@ const DateSelect = () => {
   useEffect(() => {
     const startDate = new Date();
     const endDate = new Date();
-    endDate.setDate(startDate.getDate() + 15);
+    endDate.setDate(startDate.getDate() + 14);
     const dateList: Date[] = [];
 
     for (

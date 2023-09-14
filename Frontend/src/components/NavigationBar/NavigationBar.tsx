@@ -2,19 +2,28 @@ import {
   MovieOutlined,
   TheatersOutlined,
   EventOutlined,
-  NewspaperOutlined,
+  LockOpenOutlined,
 } from "@mui/icons-material";
 import {
   BottomNavigationAction,
   BottomNavigation,
   Typography,
   Box,
+  Modal,
 } from "@mui/material";
-import { LogoColor, LogoTicket } from "../../assets";
+import { BookLogo, Logo } from "../../assets";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { QuickBooking } from "..";
 
 const NavigationBar = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = (event: object, reason: string) => {
+    reason == "backdropClick" ? "" : setOpen(false);
+  };
   const navigate = useNavigate();
+
   return (
     <Box alignContent={"center"}>
       <BottomNavigation
@@ -30,17 +39,18 @@ const NavigationBar = () => {
         }}
       >
         <Typography
-          className="neonImagePink"
+          className="neonImagePurple logoHover"
           variant="h2"
           noWrap
           component="a"
-          href="/"
+          href="#"
+          onClick={() => navigate("/")}
           sx={{
             display: "block",
             mx: "2rem",
           }}
         >
-          <img src={LogoColor} alt="Logo" width={200} />
+          <img src={Logo} alt="Logo" width={170} />
         </Typography>
         <BottomNavigationAction
           label="Movies"
@@ -60,25 +70,34 @@ const NavigationBar = () => {
           icon={<EventOutlined />}
         />
         <BottomNavigationAction
-          label="News"
+          label="Sign In"
           className="neonText"
-          icon={<NewspaperOutlined />}
-          value="news"
+          icon={<LockOpenOutlined />}
+          value="signin"
         />
         <Typography
-          className="neonImagePink"
+          className="logoHover neonImagePurple"
           variant="h2"
           noWrap
           component="a"
-          href="/"
+          href="#"
+          onClick={handleOpen}
           sx={{
             display: "block",
             mx: "2rem",
           }}
         >
-          <img src={LogoTicket} alt="Logo" width={100} />
+          <img src={BookLogo} alt="Logo" width={160} />
         </Typography>
       </BottomNavigation>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <QuickBooking handleClose={handleClose} />
+      </Modal>
     </Box>
   );
 };

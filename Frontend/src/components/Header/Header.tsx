@@ -9,6 +9,7 @@ const Header = ({children}: HeaderProps) => {
         backgroundColor: "transparent",
         justifyContent: "center",
         backgroundImage: "none",
+        paddingTop: '2rem'
       }}
     >
       <Toolbar style={{

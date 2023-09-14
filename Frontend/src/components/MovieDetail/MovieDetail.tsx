@@ -29,18 +29,7 @@ const ButtonStyled = styled(Button)({
   width: "7.5rem",
 });
 
-const MovieDetail = ({
-  image,
-  title,
-  cast,
-  description,
-  director,
-  genre,
-  language,
-  rated,
-  releaseDate,
-  runningTime,
-}: DetailProps) => {
+const MovieDetail = ({ image, title, description }: DetailProps) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -81,10 +70,7 @@ const MovieDetail = ({
             </Typography>
             <Typography color={"white"}>{description}</Typography>
             <Container>
-              <Button
-                variant="outlined"
-                startIcon={<CreditCardOutlined />}
-              >
+              <Button variant="outlined" startIcon={<CreditCardOutlined />}>
                 Book
               </Button>
               <Button

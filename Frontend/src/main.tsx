@@ -8,8 +8,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import { Carousel, SlideSection, Theater } from "./components/index.ts";
-import { SectionScreen } from "./screens";
+import { Carousel, SignIn, SlideSection, Theater, SignUp } from "./components/index.ts";
+import { LoginScreen, SectionScreen } from "./screens";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +34,8 @@ const router = createBrowserRouter(
         path="/theater"
         element={<SectionScreen title="Theater" child={<Theater />} />}
       />
-      <Route path="/login" />
+      <Route path="/signin" element={<LoginScreen child={<SignIn />} />} />
+      <Route path="/signup" element={<LoginScreen child={<SignUp />} />} />
       {/* Private Routes */}
       <Route path="">
         <Route path="/profile" />
