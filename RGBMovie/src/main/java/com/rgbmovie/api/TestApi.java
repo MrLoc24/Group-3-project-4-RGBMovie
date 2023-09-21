@@ -1,7 +1,10 @@
 package com.rgbmovie.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.rgbmovie.dto.UserDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +19,13 @@ import jakarta.annotation.security.RolesAllowed;
 @RequestMapping("/api/test")
 public class TestApi {
 	@Autowired
-	UserService userService;
+	private UserService userService;
+	@Autowired
+	private ModelMapper modelMapper;
 	@GetMapping("")
 	@RolesAllowed("CUSTOMER")
-	public List<UserModel> testOk() {
-		return userService.getAll();
+	public List<UserDTO> testOk() {
+		return userService.getAll().stream().map(user -> modelMapper.map(user, UserDTO.class)).collect(Collectors.toList());
 	}
 	
 	@GetMapping("/customer")

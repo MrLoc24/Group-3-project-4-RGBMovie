@@ -39,7 +39,7 @@ public class UserModel {
     private String images;
     @Basic
     @Column(name = "enabled")
-    private byte enabled;
+    private boolean enabled;
     @OneToMany(mappedBy = "userByUserId")
     private Collection<BankingModel> bankingsByPk;
     @OneToMany(mappedBy = "userByUserId")
@@ -132,11 +132,11 @@ public class UserModel {
         this.images = images;
     }
 
-    public byte getEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(byte enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 

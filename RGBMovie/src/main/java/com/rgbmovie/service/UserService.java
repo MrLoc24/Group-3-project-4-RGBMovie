@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserService {
     List<UserModel> getAll();
     UserModel findByUsername(String name);
+
+    public UserModel addNew(UserModel userModel);
 }

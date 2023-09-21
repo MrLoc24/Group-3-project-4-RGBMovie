@@ -23,4 +23,11 @@ public class UserServiceImpl implements UserService {
     	// TODO Auto-generated method stub
     	return userRepository.findUserModelByUsernameOrEmail(name);
     }
+
+    @Override
+    public UserModel addNew(UserModel userModel) {
+        return userRepository.saveAndFlush(userModel);
+    }
+
+
 }
