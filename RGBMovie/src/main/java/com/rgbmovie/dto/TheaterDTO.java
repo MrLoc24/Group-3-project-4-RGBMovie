@@ -1,4 +1,8 @@
+package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class TheaterDTO {
     private Integer pk;
     private String location;

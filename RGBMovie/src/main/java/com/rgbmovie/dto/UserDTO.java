@@ -1,4 +1,8 @@
+package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class UserDTO {
     private Integer pk;
     private String username;
@@ -8,7 +12,7 @@ public class UserDTO {
     private String email;
     private String phoneNumber;
     private String images;
-    private java.lang.Byte enabled;
+    private boolean enabled;
 
     public Integer getPk() {
         return this.pk;
@@ -74,11 +78,11 @@ public class UserDTO {
         this.images = images;
     }
 
-    public java.lang.Byte getEnabled() {
+    public boolean getEnabled() {
         return this.enabled;
     }
 
-    public void setEnabled(java.lang.Byte enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 }

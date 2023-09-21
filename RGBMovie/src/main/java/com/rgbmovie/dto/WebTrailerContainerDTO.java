@@ -1,4 +1,8 @@
+package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class WebTrailerContainerDTO {
     private Integer pk;
     private Integer movie;

@@ -1,3 +1,4 @@
+package com.rgbmovie.dto;
 
 public class StillcutDTO {
     private Integer pk;

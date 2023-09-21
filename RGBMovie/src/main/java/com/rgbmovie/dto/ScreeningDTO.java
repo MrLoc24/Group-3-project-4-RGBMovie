@@ -1,3 +1,6 @@
+package com.rgbmovie.dto;
+
+import java.time.LocalDateTime;
 
 public class ScreeningDTO {
     private Integer pk;

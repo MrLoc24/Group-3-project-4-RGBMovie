@@ -1,3 +1,4 @@
+package com.rgbmovie.dto;
 
 public class CastingDTO {
     private Integer pk;

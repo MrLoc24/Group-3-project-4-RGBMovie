@@ -1,4 +1,8 @@
+package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class RoleDTO {
     private Integer pk;
     private String name;

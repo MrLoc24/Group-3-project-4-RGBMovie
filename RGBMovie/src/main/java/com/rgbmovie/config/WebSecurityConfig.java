@@ -1,8 +1,6 @@
 package com.rgbmovie.config;
 
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,14 +10,11 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -28,7 +23,6 @@ import com.rgbmovie.security.JwtTokenFilter;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -59,22 +53,19 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable);
-//		http.sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        //For request static and template file
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**").permitAll());
 		//For request not require auth
-		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/docs/**", "/users").permitAll());
+		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/docs/**", "/users/**").permitAll());
 		// Filter for api only
 		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/test/**").authenticated())
-				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+				.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		//For request require auth
 		http.authorizeHttpRequests((auth) -> auth.requestMatchers("/user/**","/role/**","/movie/**","/director/**", 
-				"/casting/**","/cast/**")
-		.hasAnyRole("ADMIN").anyRequest().authenticated());
-		http.exceptionHandling(exc -> exc.authenticationEntryPoint((request, response, authException) -> {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-		}));
-		http.formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/auth/login").permitAll()
+				"/casting/**","/cast/**", "/home/**")
+		.hasAnyRole("ADMIN").anyRequest().authenticated()).formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/auth/login").permitAll()
 				.usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home", true)
-				.failureUrl("/auth/login?error=true"));
+				.failureUrl("/auth/login?error=true")).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)).exceptionHandling(exp -> exp.accessDeniedPage("/403"));
 		http.logout(l -> l.logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login"));
 		return http.build();
 	}
@@ -85,21 +76,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 				.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS").allowCredentials(false).maxAge(4800);
 	}
 	
-	@Bean
-	public WebSecurityCustomizer webSecurityCustomizer() {
-	    return (web) -> web.ignoring().requestMatchers("/resources/**", "/static/**", 
-				"/css/**", "/js/**","/fonts/**", "/icon/**", "/images/**", "/plugins/**");
-	}
 
-    @Bean
-	public AuthenticationSuccessHandler authenticationSuccessHandler(){
-		return new AuthenticationSuccessHandler() {
-			@Override
-			public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
-			}
-		};
-	}
-	
 
 }

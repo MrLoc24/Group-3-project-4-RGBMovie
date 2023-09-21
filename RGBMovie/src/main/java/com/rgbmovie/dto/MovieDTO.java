@@ -1,3 +1,6 @@
+package com.rgbmovie.dto;
+
+import java.time.LocalDate;
 
 public class MovieDTO {
     private Integer pk;
