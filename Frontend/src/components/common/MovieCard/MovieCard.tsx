@@ -4,6 +4,7 @@ import "./MovieCard.css";
 import { Button, Card, Container } from "@mui/material";
 import { CardProps } from "../../../interfaces/CardProps";
 import MovieDetail from "../../MovieDetail/MovieDetail";
+import { ReceiptOutlined } from "@mui/icons-material";
 
 const OverlayText = styled(Typography)({
   display: "none",
@@ -54,21 +55,14 @@ export default function MovieCard(props: CardProps) {
             marginTop: "1rem",
           }}
         >
-          {props.primaryButton ? (
-            <ButtonStyled
-              variant="outlined"
-              startIcon={props.primaryButton.icon}
-            >
-              {props.primaryButton.label}
-            </ButtonStyled>
-          ) : null}
-          {props.secondaryButton && (
-            <MovieDetail
-              image={props.image}
-              title={props.title}
-              description={props.content}
-            />
-          )}
+          <ButtonStyled variant="outlined" startIcon={<ReceiptOutlined />}>
+            Book
+          </ButtonStyled>
+          <MovieDetail
+            image={props.image}
+            title={props.title}
+            description={props.content}
+          />
         </Container>
       </OverlayText>
     </Card>

@@ -10,13 +10,14 @@ import {
 } from "./common";
 import Header from "./Header/Header";
 import Theater from "./Theater/Theater";
-import ShowingTime from "./ShowingTime/ShowingTime";
+import ShowingTime from "./common/ShowingTime/ShowingTime";
 import SignIn from "./SignIn/SignIn";
 import SignUp from "./SignUp/SignUp";
 import QuickBooking from "./QuickBooking/QuickBooking";
 import LocationMenu from "./common/LocationMenu/LocationMenu";
 import PaymentSelect from "./common/PaymentSelect/PaymentSelect";
 import PrivateRoute from "./PrivateRoute";
+import ShowingTimesSection from "./ShowingTimesSection/ShowingTimesSection";
 
 export {
   Carousel,
@@ -36,4 +37,5 @@ export {
   LocationMenu,
   PaymentSelect,
   PrivateRoute,
+  ShowingTimesSection,
 };

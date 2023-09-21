@@ -27,6 +27,7 @@ const DateSelect = () => {
       dateList.push(new Date(date));
     }
     setDates(dateList);
+    setDate(startDate.toISOString());
   }, []);
 
   const handleDateSelect = (
@@ -34,6 +35,7 @@ const DateSelect = () => {
     date: string | null
   ) => {
     setDate(date);
+    console.log(date);
   };
 
   return (
@@ -43,7 +45,7 @@ const DateSelect = () => {
         exclusive
         onChange={handleDateSelect}
         aria-label="date"
-        sx={{ display: "flex", flexWrap: 'wrap' }}
+        sx={{ display: "flex", flexWrap: "wrap" }}
       >
         {dates
           ? dates.map((item) => (

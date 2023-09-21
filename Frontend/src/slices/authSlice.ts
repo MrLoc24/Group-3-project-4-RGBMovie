@@ -14,6 +14,7 @@ const authSlice = createSlice({
       state.customerInfo = action.payload;
       localStorage.setItem("customerInfo", JSON.stringify(action.payload));
     },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     logout: (state, action) => {
       state.customerInfo = null;
       localStorage.removeItem("customerInfo");

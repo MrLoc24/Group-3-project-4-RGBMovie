@@ -15,11 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../slices/authSlice";
-import { useLoginMutation } from "../../slices/customersApiSlice";
+// import { useLoginMutation } from "../../slices/customersApiSlice";
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  const [login, { isLoading }] = useLoginMutation();
+  // const [login, { isLoading }] = useLoginMutation();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -38,7 +38,8 @@ export default function SignIn() {
         })
       );
       navigate("/");
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
   };

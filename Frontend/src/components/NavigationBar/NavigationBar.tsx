@@ -25,6 +25,7 @@ import { toast } from "react-toastify";
 
 const NavigationBar = () => {
   // Handle auth
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { customerInfo } = useSelector((state: any) => state.auth);
   const [username, setUsername] = useState("User");
 

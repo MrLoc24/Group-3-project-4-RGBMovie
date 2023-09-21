@@ -1,5 +1,5 @@
 import React from "react";
-import { ShowingTimeProps } from "../../interfaces/ShowingTimeProps";
+import { ShowingTimeProps } from "../../../interfaces/ShowingTimeProps";
 import { Button, Container } from "@mui/material";
 
 const ShowingTime = ({ format, showingTime }: ShowingTimeProps) => {

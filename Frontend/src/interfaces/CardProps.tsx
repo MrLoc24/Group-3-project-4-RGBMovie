@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 export declare interface CardProps {
+  id?: number;
   title?: string;
   image: string;
   content?: string;

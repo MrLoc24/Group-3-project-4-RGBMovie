@@ -1,70 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { CustomerContainer, ShowingTime } from "..";
+import { CustomerContainer, ShowingTimesSection } from "..";
 import DateSelect from "../common/DateSelect/DateSelect";
-import { Card, Container } from "@mui/material";
-
-const dumpData: { location: Array<string>; theater: Array<string> } = {
-  location: [
-    "Ho Chi Minh",
-    "Ha Noi",
-    "Da Nang",
-    "Dong Nai",
-    "Ba Ria - Vung Tau",
-    "Hai Phong",
-    "Con Dao",
-  ],
-  theater: [
-    "RGB Ly Chinh Thang",
-    "RGB Hung Vuong",
-    "RGB Su Van Hanh",
-    "RGB Cong Hoa",
-  ],
-};
-
-const dunmpShowingTimeData = [
-  {
-    format: "3D",
-    showingTime: [
-      "11:00 AM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-    ],
-  },
-  {
-    format: "2D",
-    showingTime: [
-      "11:00 AM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-    ],
-  },
-  { format: "IMAX", showingTime: ["11:00 AM", "12:00 PM", "12:00 PM"] },
-];
+import { useSelector } from "react-redux";
 
 const Theater = () => {
-  const [location, setLocation] = useState("");
-  const [theater, setTheater] = useState("");
+  const [locationIndex, setLocationIndex] = useState("");
+  const [theaterIndex, setTheaterIndex] = useState("");
+  const [locations, setLocations] = useState<any[]>([]);
+  const [theaters, setTheaters] = useState<any[]>([]);
+  const [films, setFilms] = useState<any[]>([]);
+  const [movies, setMovies] = useState<any[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const theaterList = useSelector((state: any) => state.theaters.theaters);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const movieList = useSelector((state: any) => state.movies.movies);
+
+  useEffect(() => {
+    setLocations(theaterList.location);
+    setMovies(movieList);
+  }, []);
 
   const handleLocationSelect = (event: SelectChangeEvent) => {
-    setLocation(event.target.value);
+    setLocationIndex(event.target.value);
+    const index = parseInt(event.target.value);
+    setTheaters(locations[index].theaters);
   };
 
   const hadnleTheaterSelect = (event: SelectChangeEvent) => {
-    setTheater(event.target.value);
+    setTheaterIndex(event.target.value);
+    const index = parseInt(event.target.value);
+    const filmList = theaters[index].films;
+    setFilms(
+      filmList.map((film: any) => {
+        const movie = movies.find((item) => item.id == film.id);
+        return { ...film, name: movie.title, image: movie.image };
+      })
+    );
   };
 
   return (
@@ -81,15 +56,18 @@ const Theater = () => {
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={location}
+            value={locationIndex}
             onChange={handleLocationSelect}
             label="Location"
           >
-            {dumpData.location.map((location) => (
-              <MenuItem key={location} value={location}>
-                {location}
-              </MenuItem>
-            ))}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {locations
+              ? locations.map(({ name }, index) => (
+                  <MenuItem key={name} value={`${index}`}>
+                    {name}
+                  </MenuItem>
+                ))
+              : null}
           </Select>
         </FormControl>
         <FormControl
@@ -102,103 +80,32 @@ const Theater = () => {
           <Select
             labelId="demo-simple-select-standard-label"
             id="demo-simple-select-standard"
-            value={theater}
+            value={theaterIndex}
             onChange={hadnleTheaterSelect}
             label="Theater"
           >
-            {dumpData.theater.map((theater) => (
-              <MenuItem key={theater} value={theater}>
-                {theater}
-              </MenuItem>
-            ))}
+            {theaters
+              ? theaters.map(
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  ({ name }, index) => (
+                    <MenuItem key={name} value={`${index}`}>
+                      {name}
+                    </MenuItem>
+                  )
+                )
+              : null}
           </Select>
         </FormControl>
       </CustomerContainer>
 
       {/* Choose Date */}
-      <CustomerContainer>
-        <DateSelect />
-      </CustomerContainer>
+      {films ? (
+        <CustomerContainer>
+          <DateSelect />
+        </CustomerContainer>
+      ) : null}
 
-      {/* Choose Film and Showingtime */}
-      <CustomerContainer>
-        <Container
-          sx={{ justifyContent: "left", display: "flex", width: "fit-content" }}
-        >
-          <Card>
-            <img
-              src={
-                "https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071353/cinemas/poster/Stallion_fy0pxn.png"
-              }
-              alt="raven"
-              width={300}
-            />
-          </Card>
-        </Container>
-        <Container
-          sx={{
-            display: "block",
-            justifyContent: "center",
-            color: "var(--textPrimary)",
-          }}
-        >
-          {dunmpShowingTimeData.map((item) => (
-            <ShowingTime format={item.format} showingTime={item.showingTime} />
-          ))}
-        </Container>
-      </CustomerContainer>
-      <CustomerContainer>
-        <Container
-          sx={{ justifyContent: "left", display: "flex", width: "fit-content" }}
-        >
-          <Card>
-            <img
-              src={
-                "https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071345/cinemas/poster/NightParty_noxwho.png"
-              }
-              alt="raven"
-              width={300}
-            />
-          </Card>
-        </Container>
-        <Container
-          sx={{
-            display: "block",
-            justifyContent: "center",
-            color: "var(--textPrimary)",
-          }}
-        >
-          {dunmpShowingTimeData.map((item) => (
-            <ShowingTime format={item.format} showingTime={item.showingTime} />
-          ))}
-        </Container>
-      </CustomerContainer>
-      <CustomerContainer>
-        <Container
-          sx={{ justifyContent: "left", display: "flex", width: "fit-content" }}
-        >
-          <Card>
-            <img
-              src={
-                "https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071359/cinemas/poster/TheJourney_llcno4.png"
-              }
-              alt="raven"
-              width={300}
-            />
-          </Card>
-        </Container>
-        <Container
-          sx={{
-            display: "block",
-            justifyContent: "center",
-            color: "var(--textPrimary)",
-          }}
-        >
-          {dunmpShowingTimeData.map((item) => (
-            <ShowingTime format={item.format} showingTime={item.showingTime} />
-          ))}
-        </Container>
-      </CustomerContainer>
+      {films ? <ShowingTimesSection films={films} /> : null}
     </>
   );
 };
