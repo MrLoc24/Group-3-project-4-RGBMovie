@@ -18,6 +18,7 @@ import SearchBar from "./common/SearchBar/SearchBar";
 import CustomContainer from "./common/Container/CustomContainer";
 import SelectInput from "./common/SelectInput/SelectInput";
 import Poster from "./common/Poster/Poster";
+import SeatsSelect from "./SeatsSelect/SeatsSelect";
 
 export {
   Carousel,
@@ -40,4 +41,5 @@ export {
   ShowingTimesSection,
   Detail,
   Poster,
+  SeatsSelect,
 };
