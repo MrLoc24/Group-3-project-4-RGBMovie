@@ -1,13 +1,6 @@
 import Carousel from "./Carousel/Carousel";
 import NavigationBar from "./NavigationBar/NavigationBar";
 import SlideSection from "./SlideSection/SlideSection";
-import {
-  MovieCard,
-  Title,
-  SearchBar,
-  SelectInput,
-  CustomerContainer,
-} from "./common";
 import Header from "./Header/Header";
 import Theater from "./Theater/Theater";
 import ShowingTime from "./common/ShowingTime/ShowingTime";
@@ -18,6 +11,13 @@ import LocationMenu from "./common/LocationMenu/LocationMenu";
 import PaymentSelect from "./common/PaymentSelect/PaymentSelect";
 import PrivateRoute from "./PrivateRoute";
 import ShowingTimesSection from "./ShowingTimesSection/ShowingTimesSection";
+import Detail from "./common/Detail/Detail";
+import MovieCard from "./common/MovieCard/MovieCard";
+import Title from "./common/Title/Title";
+import SearchBar from "./common/SearchBar/SearchBar";
+import CustomContainer from "./common/Container/CustomContainer";
+import SelectInput from "./common/SelectInput/SelectInput";
+import Poster from "./common/Poster/Poster";
 
 export {
   Carousel,
@@ -29,7 +29,7 @@ export {
   Header,
   SelectInput,
   Theater,
-  CustomerContainer,
+  CustomContainer,
   ShowingTime,
   SignIn,
   SignUp,
@@ -38,4 +38,6 @@ export {
   PaymentSelect,
   PrivateRoute,
   ShowingTimesSection,
+  Detail,
+  Poster,
 };

@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export declare interface CardProps {
   id?: number;
   title?: string;
-  image: string;
+  image?: string;
   content?: string;
   rated?: string;
   primaryButton?: {
@@ -11,4 +11,5 @@ export declare interface CardProps {
     icon: ReactNode;
   };
   secondaryButton?: boolean;
+  handleClick?: React.FormEventHandler;
 }

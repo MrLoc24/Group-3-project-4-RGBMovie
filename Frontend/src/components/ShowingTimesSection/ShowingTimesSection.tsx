@@ -1,5 +1,5 @@
 import { Card, Container } from "@mui/material";
-import { CustomerContainer, ShowingTime } from "..";
+import { CustomContainer, ShowingTime } from "..";
 
 export declare interface ShowingTimesSectionProps {
   films: [
@@ -17,7 +17,7 @@ const ShowingTimesSection = ({ films }: any) => {
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {films.map((film: any) => {
         return film ? (
-          <CustomerContainer>
+          <CustomContainer>
             <Container
               sx={{
                 justifyContent: "left",
@@ -43,7 +43,7 @@ const ShowingTimesSection = ({ films }: any) => {
                 ))
               }
             </Container>
-          </CustomerContainer>
+          </CustomContainer>
         ) : null;
       })}
     </Container>

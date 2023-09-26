@@ -1,44 +1,17 @@
-import React, { useState } from "react";
-import { CustomerContainer } from "../..";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { CustomContainer } from "../..";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const dumpData: { location: Array<string>; theater: Array<string> } = {
-  location: [
-    "Ho Chi Minh",
-    "Ha Noi",
-    "Da Nang",
-    "Dong Nai",
-    "Ba Ria - Vung Tau",
-    "Hai Phong",
-    "Con Dao",
-  ],
-  theater: [
-    "RGB Ly Chinh Thang",
-    "RGB Hung Vuong",
-    "RGB Su Van Hanh",
-    "RGB Cong Hoa",
-  ],
-};
-
-const LocationMenu = () => {
-  const [location, setLocation] = useState("");
-  const [theater, setTheater] = useState("");
-
-  const handleLocationSelect = (event: SelectChangeEvent) => {
-    setLocation(event.target.value);
-  };
-
-  const hadnleTheaterSelect = (event: SelectChangeEvent) => {
-    setTheater(event.target.value);
-  };
+const LocationMenu = ({
+  location,
+  theater,
+  handleLocationSelect,
+  handleTheaterSelect,
+  locationList,
+  theaterList,
+}: any) => {
   return (
-    <CustomerContainer>
+    <CustomContainer>
       <FormControl
         variant="standard"
         sx={{ m: 1, minWidth: 120, width: "100%" }}
@@ -51,11 +24,14 @@ const LocationMenu = () => {
           onChange={handleLocationSelect}
           label="Location"
         >
-          {dumpData.location.map((location) => (
-            <MenuItem key={location} value={location}>
-              {location}
-            </MenuItem>
-          ))}
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {locationList
+            ? locationList.map(({ name }: any, index: any) => (
+                <MenuItem key={index} value={name}>
+                  {name}
+                </MenuItem>
+              ))
+            : null}
         </Select>
       </FormControl>
       <FormControl
@@ -67,17 +43,19 @@ const LocationMenu = () => {
           labelId="demo-simple-select-standard-label"
           id="demo-simple-select-standard"
           value={theater}
-          onChange={hadnleTheaterSelect}
+          onChange={handleTheaterSelect}
           label="Theater"
         >
-          {dumpData.theater.map((theater) => (
-            <MenuItem key={theater} value={theater}>
-              {theater}
-            </MenuItem>
-          ))}
+          {theaterList
+            ? theaterList.map(({ name }: any, index: any) => (
+                <MenuItem key={index} value={name}>
+                  {name}
+                </MenuItem>
+              ))
+            : null}
         </Select>
       </FormControl>
-    </CustomerContainer>
+    </CustomContainer>
   );
 };
 
