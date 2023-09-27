@@ -54,6 +54,12 @@ public class CustomUserDetailService extends UserModel implements UserDetails {
         return userModel.getUsername();
     }
 
+    public String getEmail(){
+        return  userModel.getEmail();
+    }
+    public String getImage(){
+        return userModel.getImages();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

@@ -1,5 +1,6 @@
 package com.rgbmovie.service;
 
+import com.rgbmovie.dto.UserDTO;
 import com.rgbmovie.model.UserModel;
 
 import org.springframework.stereotype.Service;
@@ -11,4 +12,14 @@ public interface UserService {
     UserModel findByUsername(String name);
 
     public UserModel addNew(UserModel userModel);
+
+    public UserModel findById(int id);
+
+    public boolean update(UserModel userModel);
+
+    public boolean updateWithoutPassword(UserModel user);
+
+    public boolean updateEnable(int pk, boolean enable);
+
+    public List<UserModel> getUserByRole(int number);
 }
