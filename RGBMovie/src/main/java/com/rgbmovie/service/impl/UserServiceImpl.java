@@ -59,6 +59,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean updatePassword(String password, int pk) {
+        try {
+            int result = userRepository.updatePassword(password, pk);
+            userRepository.flush();
+            return result >= 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
     public boolean updateEnable(int pk, boolean enable) {
         try {
             int result = userRepository.setStatus(pk, enable);

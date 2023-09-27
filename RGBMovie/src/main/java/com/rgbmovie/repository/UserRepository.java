@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
-	@Query("SELECT e FROM UserModel e WHERE e.username LIKE :username OR e.email LIKE :username ")
+    @Query("SELECT e FROM UserModel e WHERE e.username LIKE :username OR e.email LIKE :username ")
     UserModel findUserModelByUsernameOrEmail(@Param("username") String name);
 
     @Query("SELECT u FROM UserModel u JOIN UserRoleModel ur ON u.pk = ur.userId JOIN RoleModel r ON ur.roleId = r.pk WHERE r.name NOT LIKE 'ROLE_CUSTOMER'")
@@ -21,10 +21,17 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
     @Query("SELECT u FROM UserModel u JOIN UserRoleModel ur ON u.pk = ur.userId JOIN RoleModel r ON ur.roleId = r.pk WHERE r.name  LIKE 'ROLE_CUSTOMER'")
     List<UserModel> findCustomer();
 
+    //Change without password
     @Transactional
     @Modifying
     @Query("UPDATE UserModel u SET u.username = :username, u.lastName = :lastName, u.firstName = :firstName, u.email = :email, u.phoneNumber = :phoneNumber, u.images = :images WHERE u.pk = :pk")
     int updateUser(@Param("pk") Integer pk, @Param("username") String username, @Param("lastName") String lastName, @Param("firstName") String firstName, @Param("email") String email, @Param("phoneNumber") String phoneNumber, @Param("images") String images);
+
+    //Change password
+    @Transactional
+    @Modifying
+    @Query("UPDATE UserModel u SET u.password = :password WHERE u.pk = :pk")
+    int updatePassword(@Param("password") String password, @Param("pk") Integer pk);
 
     //Deactivate account
     @Transactional
