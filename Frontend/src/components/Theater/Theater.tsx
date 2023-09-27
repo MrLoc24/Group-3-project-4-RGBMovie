@@ -1,204 +1,65 @@
-import React, { useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { CustomerContainer, ShowingTime } from "..";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect, useState } from "react";
+import { SelectChangeEvent } from "@mui/material/Select";
+import { CustomContainer, LocationMenu, ShowingTimesSection } from "..";
 import DateSelect from "../common/DateSelect/DateSelect";
-import { Card, Container } from "@mui/material";
-
-const dumpData: { location: Array<string>; theater: Array<string> } = {
-  location: [
-    "Ho Chi Minh",
-    "Ha Noi",
-    "Da Nang",
-    "Dong Nai",
-    "Ba Ria - Vung Tau",
-    "Hai Phong",
-    "Con Dao",
-  ],
-  theater: [
-    "RGB Ly Chinh Thang",
-    "RGB Hung Vuong",
-    "RGB Su Van Hanh",
-    "RGB Cong Hoa",
-  ],
-};
-
-const dunmpShowingTimeData = [
-  {
-    format: "3D",
-    showingTime: [
-      "11:00 AM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-    ],
-  },
-  {
-    format: "2D",
-    showingTime: [
-      "11:00 AM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-    ],
-  },
-  { format: "IMAX", showingTime: ["11:00 AM", "12:00 PM", "12:00 PM"] },
-];
+import { useSelector } from "react-redux";
 
 const Theater = () => {
   const [location, setLocation] = useState("");
   const [theater, setTheater] = useState("");
+  const [locations, setLocations] = useState<any[]>([]);
+  const [theaters, setTheaters] = useState<any[]>([]);
+  const [films, setFilms] = useState<any[]>([]);
+  const theaterList = useSelector((state: any) => state.theaters.theaters);
+  const movieList = useSelector((state: any) => state.movies.movies);
+
+  useEffect(() => {
+    setLocations(theaterList.location);
+  }, []);
 
   const handleLocationSelect = (event: SelectChangeEvent) => {
     setLocation(event.target.value);
+
+    const index = locations.findIndex(
+      (item) => item.name == event.target.value
+    );
+
+    setTheaters(locations[index].theaters);
   };
 
-  const hadnleTheaterSelect = (event: SelectChangeEvent) => {
+  const handleTheaterSelect = (event: SelectChangeEvent) => {
     setTheater(event.target.value);
+    const index = theaters.findIndex((item) => item.name == event.target.value);
+    const filmList = theaters[index].films;
+    setFilms(
+      filmList.map((film: any) => {
+        const movie = movieList.find((item: any) => item.id == film.id);
+        return { ...film, name: movie.title, image: movie.image };
+      })
+    );
   };
 
   return (
     <>
       {/* Choose Location */}
-      <CustomerContainer>
-        <FormControl
-          variant="standard"
-          sx={{ m: 1, minWidth: 120, width: "100%" }}
-        >
-          <InputLabel id="demo-simple-select-standard-label">
-            Location
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={location}
-            onChange={handleLocationSelect}
-            label="Location"
-          >
-            {dumpData.location.map((location) => (
-              <MenuItem key={location} value={location}>
-                {location}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl
-          variant="standard"
-          sx={{ m: 1, minWidth: 120, width: "100%" }}
-        >
-          <InputLabel id="demo-simple-select-standard-label">
-            Theater
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-standard-label"
-            id="demo-simple-select-standard"
-            value={theater}
-            onChange={hadnleTheaterSelect}
-            label="Theater"
-          >
-            {dumpData.theater.map((theater) => (
-              <MenuItem key={theater} value={theater}>
-                {theater}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </CustomerContainer>
+      <LocationMenu
+        location={location}
+        theater={theater}
+        handleTheaterSelect={handleTheaterSelect}
+        handleLocationSelect={handleLocationSelect}
+        locationList={locations}
+        theaterList={theaters}
+      />
 
       {/* Choose Date */}
-      <CustomerContainer>
-        <DateSelect />
-      </CustomerContainer>
+      {films ? (
+        <CustomContainer>
+          <DateSelect />
+        </CustomContainer>
+      ) : null}
 
-      {/* Choose Film and Showingtime */}
-      <CustomerContainer>
-        <Container
-          sx={{ justifyContent: "left", display: "flex", width: "fit-content" }}
-        >
-          <Card>
-            <img
-              src={
-                "https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071353/cinemas/poster/Stallion_fy0pxn.png"
-              }
-              alt="raven"
-              width={300}
-            />
-          </Card>
-        </Container>
-        <Container
-          sx={{
-            display: "block",
-            justifyContent: "center",
-            color: "var(--textPrimary)",
-          }}
-        >
-          {dunmpShowingTimeData.map((item) => (
-            <ShowingTime format={item.format} showingTime={item.showingTime} />
-          ))}
-        </Container>
-      </CustomerContainer>
-      <CustomerContainer>
-        <Container
-          sx={{ justifyContent: "left", display: "flex", width: "fit-content" }}
-        >
-          <Card>
-            <img
-              src={
-                "https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071345/cinemas/poster/NightParty_noxwho.png"
-              }
-              alt="raven"
-              width={300}
-            />
-          </Card>
-        </Container>
-        <Container
-          sx={{
-            display: "block",
-            justifyContent: "center",
-            color: "var(--textPrimary)",
-          }}
-        >
-          {dunmpShowingTimeData.map((item) => (
-            <ShowingTime format={item.format} showingTime={item.showingTime} />
-          ))}
-        </Container>
-      </CustomerContainer>
-      <CustomerContainer>
-        <Container
-          sx={{ justifyContent: "left", display: "flex", width: "fit-content" }}
-        >
-          <Card>
-            <img
-              src={
-                "https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071359/cinemas/poster/TheJourney_llcno4.png"
-              }
-              alt="raven"
-              width={300}
-            />
-          </Card>
-        </Container>
-        <Container
-          sx={{
-            display: "block",
-            justifyContent: "center",
-            color: "var(--textPrimary)",
-          }}
-        >
-          {dunmpShowingTimeData.map((item) => (
-            <ShowingTime format={item.format} showingTime={item.showingTime} />
-          ))}
-        </Container>
-      </CustomerContainer>
+      {films ? <ShowingTimesSection films={films} /> : null}
     </>
   );
 };

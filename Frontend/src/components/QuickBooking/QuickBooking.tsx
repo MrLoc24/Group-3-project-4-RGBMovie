@@ -1,8 +1,26 @@
-import { Box, Button, Card, Container, Grid } from "@mui/material";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  Grid,
+  SelectChangeEvent,
+} from "@mui/material";
 import "./QuickBooking.css";
-import { LocationMenu, PaymentSelect, ShowingTime } from "..";
-import CustomContainer from "../common/Container/CustomContainer";
+import {
+  Detail,
+  PaymentSelect,
+  ShowingTime,
+  CustomContainer,
+  LocationMenu,
+  Poster,
+  SeatsSelect,
+} from "..";
 import DateSelect from "../common/DateSelect/DateSelect";
+import { forwardRef, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { ArrowBackOutlined } from "@mui/icons-material";
 
 const style = {
   display: "flex",
@@ -16,80 +34,184 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const dunmpShowingTimeData = [
-  {
-    format: "3D",
-    showingTime: [
-      "11:00 AM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-    ],
-  },
-  {
-    format: "2D",
-    showingTime: [
-      "11:00 AM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-      "12:00 PM",
-    ],
-  },
-  { format: "IMAX", showingTime: ["11:00 AM", "12:00 PM", "12:00 PM"] },
-];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const QuickBooking = forwardRef(({ handleClose }: any) => {
+  // States of Location
+  const [location, setLocation] = useState("");
+  const [theater, setTheater] = useState("");
+  const [locations, setLocations] = useState<any[]>([]);
+  const [theaters, setTheaters] = useState<any[]>([]);
 
-const QuickBooking = ({ handleClose }) => {
+  // States of CheckingForm
+  const [movieId, setMovieId] = useState<any>();
+  const [movieName, setMovieName] = useState<any>("");
+  const [movieImage, setMovieImage] = useState<any>("");
+  const [runningTime, setRunningTime] = useState("");
+  const [timedate, setTimeDate] = useState("");
+  const [room, setRoom] = useState("");
+  const [seats, setSeats] = useState([]);
+  const [price, setPrice] = useState("");
+  const [payment, setPayment] = useState("");
+
+  const [showingTime, setShowingTime] = useState<any>();
+
+  const theaterList = useSelector((state: any) => state.theaters.theaters);
+  const movieList = useSelector((state: any) => state.movies.movies);
+
+  useEffect(() => {
+    setLocations(theaterList.location);
+  }, []);
+
+  const handleLocationSelect = (event: SelectChangeEvent) => {
+    setLocation(event.target.value);
+
+    const index = locations.findIndex(
+      (item) => item.name == event.target.value
+    );
+
+    setTheaters(locations[index].theaters);
+  };
+  const handleTheaterSelect = (event: SelectChangeEvent) => {
+    setTheater(event.target.value);
+    const index = theaters.findIndex((item) => item.name == event.target.value);
+    const filmList = theaters[index].films;
+    // setShowingTime(filmList.find((item: any) => item.id == movieId));
+    const film = filmList.find((item: any) => item.id == movieId);
+    console.log(film.format);
+    setShowingTime(film.format);
+  };
+
+  const handleMovieClick = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    setMovieId(data.get("id"));
+    setMovieName(data.get("title"));
+    setMovieImage(data.get("image"));
+  };
+
+  const handleBack = () => {
+    setMovieId(null);
+    setMovieName(null);
+    setMovieImage(null);
+    setLocation("");
+    setTheater("");
+    setRunningTime("");
+    setSeats([]);
+    setTimeDate("");
+    setPayment("");
+    setPrice("");
+    setPrice("");
+    setShowingTime(null);
+  };
+
   return (
     <Box sx={style}>
       <Grid container spacing={2}>
+        {/* Select Movies */}
+        {movieName ? null : (
+          <Grid item xs={6} md={8}>
+            <Grid container spacing={2}>
+              {movieList.map((item: any) => (
+                <Grid item xs={4} md={4}>
+                  {/* <MovieCard {...item} />; */}
+                  <Poster
+                    key={item.id}
+                    {...item}
+                    handleClick={handleMovieClick}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        )}
+
         {/* Select Showingtime */}
-        <Grid item xs={6} md={8}>
-          <LocationMenu />
-          <CustomContainer>
-            <DateSelect />
-          </CustomContainer>
-          <CustomContainer>
+        {movieName ? (
+          <Grid
+            item
+            xs={6}
+            md={8}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
+            }}
+          >
+            {/* Location Select */}
+            <LocationMenu
+              location={location}
+              theater={theater}
+              handleTheaterSelect={handleTheaterSelect}
+              handleLocationSelect={handleLocationSelect}
+              locationList={locations}
+              theaterList={theaters}
+            />
+            {/* Theater Select */}
+            {theater ? (
+              <CustomContainer>
+                <DateSelect />
+              </CustomContainer>
+            ) : null}
+
+            {/* ShowingTimes Select */}
+            {movieId ? (
+              <CustomContainer>
+                <Container
+                  sx={{
+                    display: "block",
+                    justifyContent: "center",
+                    color: "var(--textPrimary)",
+                    paddingLeft: {
+                      md: "0rem",
+                    },
+                  }}
+                >
+                  {showingTime?.map(({ name, showingTimes }: any) => (
+                    <ShowingTime format={name} showingTime={showingTimes} />
+                  ))}
+                </Container>
+              </CustomContainer>
+            ) : null}
             <Container
               sx={{
-                display: "block",
-                justifyContent: "center",
-                color: "var(--textPrimary)",
-                paddingLeft: {
-                  md: "0rem",
-                },
+                marginLeft: "0.5rem",
               }}
             >
-              {dunmpShowingTimeData.map((item) => (
-                <ShowingTime
-                  format={item.format}
-                  showingTime={item.showingTime}
-                />
-              ))}
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackOutlined />}
+                onClick={handleBack}
+              >
+                Back
+              </Button>
             </Container>
-          </CustomContainer>
-        </Grid>
+          </Grid>
+        ) : null}
+
+        {/* Select seats */}
+        {timedate ? <SeatsSelect /> : null}
+
         {/* Show Information and payment select */}
         <Grid item xs={6} md={4}>
           <Card sx={{ marginBottom: "0.5rem" }}>
-            <img
-              className="imageCard"
-              src="https://res.cloudinary.com/dlv6zjsif/image/upload/v1694071219/cinemas/poster/Faith_wcgvn9.png"
-              alt="faith"
+            <Detail
+              name={movieName}
+              image={movieImage}
+              id={movieId}
+              runningTime={runningTime}
+              theater={theater}
+              seats={seats}
+              timedate={timedate}
+              room={room}
+              price={price}
+              payment={payment}
             />
           </Card>
           <PaymentSelect />
           <Container
             sx={{
-              width: "100%",
+              width: "-webkit-fill-available",
               display: "flex",
               justifyContent: "space-between",
               padding: {
@@ -109,6 +231,6 @@ const QuickBooking = ({ handleClose }) => {
       </Grid>
     </Box>
   );
-};
+});
 
 export default QuickBooking;

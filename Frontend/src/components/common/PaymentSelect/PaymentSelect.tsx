@@ -1,5 +1,5 @@
-import { Box, Button, Modal } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Box, Button, Container, Modal } from "@mui/material";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -25,7 +25,14 @@ const PaymentSelect = () => {
   };
 
   return (
-    <Fragment>
+    <Container
+      sx={{
+        width: "auto",
+        padding: {
+          md: "0rem",
+        },
+      }}
+    >
       <Button fullWidth onClick={handleOpen} variant="outlined">
         Payment
       </Button>
@@ -43,7 +50,7 @@ const PaymentSelect = () => {
           <Button onClick={handleClose}>Close Child Modal</Button>
         </Box>
       </Modal>
-    </Fragment>
+    </Container>
   );
 };
 
