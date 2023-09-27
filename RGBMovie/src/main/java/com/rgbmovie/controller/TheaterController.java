@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 package com.rgbmovie.controller;
 
 import java.util.List;
