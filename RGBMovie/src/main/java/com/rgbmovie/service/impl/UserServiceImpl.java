@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -18,11 +19,11 @@ public class UserServiceImpl implements UserService {
     public List<UserModel> getAll() {
         return userRepository.findAll();
     }
-    
+
     @Override
     public UserModel findByUsername(String name) {
-    	// TODO Auto-generated method stub
-    	return userRepository.findUserModelByUsernameOrEmail(name);
+        // TODO Auto-generated method stub
+        return userRepository.findUserModelByUsernameOrEmail(name);
     }
 
     @Override
@@ -40,21 +41,19 @@ public class UserServiceImpl implements UserService {
         try {
             userRepository.saveAndFlush(userModel);
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
 
     }
 
     @Override
-    public boolean updateWithoutPassword(UserModel userDTO) {
+    public boolean updateWithoutPassword(UserModel userModel) {
         try {
-           int result = userRepository.updateUser(userDTO.getPk(), userDTO.getUsername(), userDTO.getLastName(), userDTO.getFirstName(), userDTO.getEmail(), userDTO.getPhoneNumber(), userDTO.getImages());
-           userRepository.flush();
+            int result = userRepository.updateUser(userModel.getPk(), userModel.getUsername(), userModel.getLastName(), userModel.getFirstName(), userModel.getEmail(), userModel.getPhoneNumber(), userModel.getImages());
+            userRepository.flush();
             return result >= 0;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -65,14 +64,14 @@ public class UserServiceImpl implements UserService {
             int result = userRepository.setStatus(pk, enable);
             userRepository.flush();
             return result >= 0;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     @Override
     public List<UserModel> getUserByRole(int number) {
-     if (number == 1)  return userRepository.findStaff(); else return userRepository.findCustomer();
+        if (number == 1) return userRepository.findStaff();
+        else return userRepository.findCustomer();
     }
 }
