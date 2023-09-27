@@ -76,5 +76,4 @@ public class TheaterController {
     public String detail(@PathVariable("id") int id) {
         return "theater/detail";
     }
->>>>>>> Stashed changes
 }
