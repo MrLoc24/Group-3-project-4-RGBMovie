@@ -1,10 +1,837 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<html
+  lang="en"
+  layout:decorate="~{layout/default}"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Theater Detail</title>
+  </head>
+  <body>
+    <!--begin::Content-->
+    <div
+      class="content d-flex flex-column flex-column-fluid"
+      id="kt_content"
+      layout:fragment="content"
+    >
+      <!--begin::Toolbar-->
+      <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div
+          class="container-fluid d-flex flex-stack"
+          id="kt_toolbar_container"
+        >
+          <!--begin::Page title-->
+          <div
+            class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0"
+            data-kt-swapper="true"
+            data-kt-swapper-mode="prepend"
+            data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+          >
+            <!--begin::Title-->
+            <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
+              Theater Detail
+            </h1>
+            <!--end::Title-->
+            <!--begin::Separator-->
+            <span class="h-20px border-gray-200 border-start mx-4"></span>
+            <!--end::Separator-->
+            <!--begin::Breadcrumb-->
+            <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+              <!--begin::Item-->
+              <li class="breadcrumb-item text-muted">
+                <a class="text-muted text-hover-primary" href="/home">Home</a>
+              </li>
+              <!--end::Item-->
+              <!--begin::Item-->
+              <li class="breadcrumb-item">
+                <span class="bullet bg-gray-200 w-5px h-2px"></span>
+              </li>
+              <!--end::Item-->
+
+              <!--begin::Item-->
+              <li class="breadcrumb-item text-muted">Theater Management</li>
+              <!--end::Item-->
+              <!--begin::Item-->
+              <li class="breadcrumb-item">
+                <span class="bullet bg-gray-200 w-5px h-2px"></span>
+              </li>
+              <!--end::Item-->
+              <!--begin::Item-->
+              <li class="breadcrumb-item text-dark">Theater</li>
+              <!--end::Item-->
+            </ul>
+            <!--end::Breadcrumb-->
+          </div>
+          <!--end::Page title-->
+        </div>
+        <!--end::Container-->
+      </div>
+      <!--end::Toolbar-->
+      <!--begin::Post-->
+      <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div class="container-xxl" id="kt_content_container">
+          <!--begin::Toolbar-->
+          <div class="d-flex flex-wrap flex-stack my-5">
+            <!--begin::Heading-->
+            <h2 class="fs-2 fw-bold my-2">
+              Projects <span class="fs-6 text-gray-400 ms-1">by Status</span>
+            </h2>
+            <!--end::Heading-->
+            <!--begin::Controls-->
+            <div class="d-flex flex-wrap my-1">
+              <!--begin::Select wrapper-->
+              <div class="m-0">
+                <!--begin::Select-->
+                <select
+                  class="form-select form-select-white form-select-sm fw-bolder w-125px"
+                  data-control="select2"
+                  data-hide-search="true"
+                  name="status"
+                >
+                  <option selected="selected" value="Active">Active</option>
+                  <option value="Approved">In Progress</option>
+                  <option value="Declined">To Do</option>
+                  <option value="In Progress">Completed</option>
+                </select>
+                <!--end::Select-->
+              </div>
+              <!--end::Select wrapper-->
+            </div>
+            <!--end::Controls-->
+          </div>
+          <!--end::Toolbar-->
+          <!--begin::Row-->
+          <div class="row g-6 g-xl-9">
+            <!--begin::Col-->
+            <div class="col-md-6 col-xl-4">
+              <!--begin::Card-->
+              <a
+                class="card border border-2 border-gray-300 border-hover"
+                href="../../demo1/dist/pages/projects/project.html"
+              >
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-9">
+                  <!--begin::Card Title-->
+                  <div class="card-title m-0">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-50px w-50px bg-light">
+                      <img
+                        alt="image"
+                        class="p-3"
+                        src="assets/media/svg/brand-logos/plurk.svg"
+                      />
+                    </div>
+                    <!--end::Avatar-->
+                  </div>
+                  <!--end::Car Title-->
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <span
+                      class="badge badge-light-primary fw-bolder me-auto px-4 py-3"
+                      >In Progress</span
+                    >
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end:: Card header-->
+                <!--begin:: Card body-->
+                <div class="card-body p-9">
+                  <!--begin::Name-->
+                  <div class="fs-3 fw-bolder text-dark">Fitnes App</div>
+                  <!--end::Name-->
+                  <!--begin::Description-->
+                  <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+                    CRM App application to HR efficiency
+                  </p>
+                  <!--end::Description-->
+                  <!--begin::Info-->
+                  <div class="d-flex flex-wrap mb-5">
+                    <!--begin::Due-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        Aug 19, 2021
+                      </div>
+                      <div class="fw-bold text-gray-400">Due Date</div>
+                    </div>
+                    <!--end::Due-->
+                    <!--begin::Budget-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        $284,900.00
+                      </div>
+                      <div class="fw-bold text-gray-400">Budget</div>
+                    </div>
+                    <!--end::Budget-->
+                  </div>
+                  <!--end::Info-->
+                  <!--begin::Progress-->
+                  <div
+                    class="h-4px w-100 bg-light mb-5"
+                    data-bs-toggle="tooltip"
+                    title="This project 50% completed"
+                  >
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="50"
+                      class="bg-primary rounded h-4px"
+                      role="progressbar"
+                      style="width: 50%"
+                    ></div>
+                  </div>
+                  <!--end::Progress-->
+                  <!--begin::Users-->
+                  <div class="symbol-group symbol-hover">
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Emma Smith"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-1.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Rudy Stone"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-2.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Susan Redwood"
+                    >
+                      <span
+                        class="symbol-label bg-primary text-inverse-primary fw-bolder"
+                        >S</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                  </div>
+                  <!--end::Users-->
+                </div>
+                <!--end:: Card body-->
+              </a>
+              <!--end::Card-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-md-6 col-xl-4">
+              <!--begin::Card-->
+              <a
+                class="card border border-2 border-gray-300 border-hover"
+                href="../../demo1/dist/pages/projects/project.html"
+              >
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-9">
+                  <!--begin::Card Title-->
+                  <div class="card-title m-0">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-50px w-50px bg-light">
+                      <img
+                        alt="image"
+                        class="p-3"
+                        src="assets/media/svg/brand-logos/disqus.svg"
+                      />
+                    </div>
+                    <!--end::Avatar-->
+                  </div>
+                  <!--end::Car Title-->
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <span class="badge badge-light fw-bolder me-auto px-4 py-3"
+                      >Pending</span
+                    >
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end:: Card header-->
+                <!--begin:: Card body-->
+                <div class="card-body p-9">
+                  <!--begin::Name-->
+                  <div class="fs-3 fw-bolder text-dark">Leaf CRM</div>
+                  <!--end::Name-->
+                  <!--begin::Description-->
+                  <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+                    CRM App application to HR efficiency
+                  </p>
+                  <!--end::Description-->
+                  <!--begin::Info-->
+                  <div class="d-flex flex-wrap mb-5">
+                    <!--begin::Due-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        May 10, 2021
+                      </div>
+                      <div class="fw-bold text-gray-400">Due Date</div>
+                    </div>
+                    <!--end::Due-->
+                    <!--begin::Budget-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">$36,400.00</div>
+                      <div class="fw-bold text-gray-400">Budget</div>
+                    </div>
+                    <!--end::Budget-->
+                  </div>
+                  <!--end::Info-->
+                  <!--begin::Progress-->
+                  <div
+                    class="h-4px w-100 bg-light mb-5"
+                    data-bs-toggle="tooltip"
+                    title="This project 30% completed"
+                  >
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="30"
+                      class="bg-info rounded h-4px"
+                      role="progressbar"
+                      style="width: 30%"
+                    ></div>
+                  </div>
+                  <!--end::Progress-->
+                  <!--begin::Users-->
+                  <div class="symbol-group symbol-hover">
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Alan Warden"
+                    >
+                      <span
+                        class="symbol-label bg-warning text-inverse-warning fw-bolder"
+                        >A</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Brian Cox"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-4.jpg" />
+                    </div>
+                    <!--begin::User-->
+                  </div>
+                  <!--end::Users-->
+                </div>
+                <!--end:: Card body-->
+              </a>
+              <!--end::Card-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-md-6 col-xl-4">
+              <!--begin::Card-->
+              <a
+                class="card border border-2 border-gray-300 border-hover"
+                href="../../demo1/dist/pages/projects/project.html"
+              >
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-9">
+                  <!--begin::Card Title-->
+                  <div class="card-title m-0">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-50px w-50px bg-light">
+                      <img
+                        alt="image"
+                        class="p-3"
+                        src="assets/media/svg/brand-logos/figma-1.svg"
+                      />
+                    </div>
+                    <!--end::Avatar-->
+                  </div>
+                  <!--end::Car Title-->
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <span
+                      class="badge badge-light-success fw-bolder me-auto px-4 py-3"
+                      >Completed</span
+                    >
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end:: Card header-->
+                <!--begin:: Card body-->
+                <div class="card-body p-9">
+                  <!--begin::Name-->
+                  <div class="fs-3 fw-bolder text-dark">Atica Banking</div>
+                  <!--end::Name-->
+                  <!--begin::Description-->
+                  <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+                    CRM App application to HR efficiency
+                  </p>
+                  <!--end::Description-->
+                  <!--begin::Info-->
+                  <div class="d-flex flex-wrap mb-5">
+                    <!--begin::Due-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        Mar 14, 2021
+                      </div>
+                      <div class="fw-bold text-gray-400">Due Date</div>
+                    </div>
+                    <!--end::Due-->
+                    <!--begin::Budget-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        $605,100.00
+                      </div>
+                      <div class="fw-bold text-gray-400">Budget</div>
+                    </div>
+                    <!--end::Budget-->
+                  </div>
+                  <!--end::Info-->
+                  <!--begin::Progress-->
+                  <div
+                    class="h-4px w-100 bg-light mb-5"
+                    data-bs-toggle="tooltip"
+                    title="This project 100% completed"
+                  >
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="100"
+                      class="bg-success rounded h-4px"
+                      role="progressbar"
+                      style="width: 100%"
+                    ></div>
+                  </div>
+                  <!--end::Progress-->
+                  <!--begin::Users-->
+                  <div class="symbol-group symbol-hover">
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Mad Macy"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-3.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Cris Willson"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-8.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Mike Garcie"
+                    >
+                      <span
+                        class="symbol-label bg-info text-inverse-info fw-bolder"
+                        >M</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                  </div>
+                  <!--end::Users-->
+                </div>
+                <!--end:: Card body-->
+              </a>
+              <!--end::Card-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-md-6 col-xl-4">
+              <!--begin::Card-->
+              <a
+                class="card border border-2 border-gray-300 border-hover"
+                href="../../demo1/dist/pages/projects/project.html"
+              >
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-9">
+                  <!--begin::Card Title-->
+                  <div class="card-title m-0">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-50px w-50px bg-light">
+                      <img
+                        alt="image"
+                        class="p-3"
+                        src="assets/media/svg/brand-logos/sentry-3.svg"
+                      />
+                    </div>
+                    <!--end::Avatar-->
+                  </div>
+                  <!--end::Car Title-->
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <span class="badge badge-light fw-bolder me-auto px-4 py-3"
+                      >Pending</span
+                    >
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end:: Card header-->
+                <!--begin:: Card body-->
+                <div class="card-body p-9">
+                  <!--begin::Name-->
+                  <div class="fs-3 fw-bolder text-dark">Finance Dispatch</div>
+                  <!--end::Name-->
+                  <!--begin::Description-->
+                  <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+                    CRM App application to HR efficiency
+                  </p>
+                  <!--end::Description-->
+                  <!--begin::Info-->
+                  <div class="d-flex flex-wrap mb-5">
+                    <!--begin::Due-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        May 05, 2021
+                      </div>
+                      <div class="fw-bold text-gray-400">Due Date</div>
+                    </div>
+                    <!--end::Due-->
+                    <!--begin::Budget-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        $284,900.00
+                      </div>
+                      <div class="fw-bold text-gray-400">Budget</div>
+                    </div>
+                    <!--end::Budget-->
+                  </div>
+                  <!--end::Info-->
+                  <!--begin::Progress-->
+                  <div
+                    class="h-4px w-100 bg-light mb-5"
+                    data-bs-toggle="tooltip"
+                    title="This project 60% completed"
+                  >
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="60"
+                      class="bg-info rounded h-4px"
+                      role="progressbar"
+                      style="width: 60%"
+                    ></div>
+                  </div>
+                  <!--end::Progress-->
+                  <!--begin::Users-->
+                  <div class="symbol-group symbol-hover">
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Nich Warden"
+                    >
+                      <span
+                        class="symbol-label bg-warning text-inverse-warning fw-bolder"
+                        >N</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Rob Otto"
+                    >
+                      <span
+                        class="symbol-label bg-success text-inverse-success fw-bolder"
+                        >R</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                  </div>
+                  <!--end::Users-->
+                </div>
+                <!--end:: Card body-->
+              </a>
+              <!--end::Card-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-md-6 col-xl-4">
+              <!--begin::Card-->
+              <a
+                class="card border border-2 border-gray-300 border-hover"
+                href="../../demo1/dist/pages/projects/project.html"
+              >
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-9">
+                  <!--begin::Card Title-->
+                  <div class="card-title m-0">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-50px w-50px bg-light">
+                      <img
+                        alt="image"
+                        class="p-3"
+                        src="assets/media/svg/brand-logos/xing-icon.svg"
+                      />
+                    </div>
+                    <!--end::Avatar-->
+                  </div>
+                  <!--end::Car Title-->
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <span
+                      class="badge badge-light-primary fw-bolder me-auto px-4 py-3"
+                      >In Progress</span
+                    >
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end:: Card header-->
+                <!--begin:: Card body-->
+                <div class="card-body p-9">
+                  <!--begin::Name-->
+                  <div class="fs-3 fw-bolder text-dark">9 Degree</div>
+                  <!--end::Name-->
+                  <!--begin::Description-->
+                  <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+                    CRM App application to HR efficiency
+                  </p>
+                  <!--end::Description-->
+                  <!--begin::Info-->
+                  <div class="d-flex flex-wrap mb-5">
+                    <!--begin::Due-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        Jun 24, 2021
+                      </div>
+                      <div class="fw-bold text-gray-400">Due Date</div>
+                    </div>
+                    <!--end::Due-->
+                    <!--begin::Budget-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        $284,900.00
+                      </div>
+                      <div class="fw-bold text-gray-400">Budget</div>
+                    </div>
+                    <!--end::Budget-->
+                  </div>
+                  <!--end::Info-->
+                  <!--begin::Progress-->
+                  <div
+                    class="h-4px w-100 bg-light mb-5"
+                    data-bs-toggle="tooltip"
+                    title="This project 40% completed"
+                  >
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="40"
+                      class="bg-primary rounded h-4px"
+                      role="progressbar"
+                      style="width: 40%"
+                    ></div>
+                  </div>
+                  <!--end::Progress-->
+                  <!--begin::Users-->
+                  <div class="symbol-group symbol-hover">
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Francis Mitcham"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-5.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Michelle Swanston"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-13.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Susan Redwood"
+                    >
+                      <span
+                        class="symbol-label bg-primary text-inverse-primary fw-bolder"
+                        >S</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                  </div>
+                  <!--end::Users-->
+                </div>
+                <!--end:: Card body-->
+              </a>
+              <!--end::Card-->
+            </div>
+            <!--end::Col-->
+            <!--begin::Col-->
+            <div class="col-md-6 col-xl-4">
+              <!--begin::Card-->
+              <a
+                class="card border border-2 border-gray-300 border-hover"
+                href="../../demo1/dist/pages/projects/project.html"
+              >
+                <!--begin::Card header-->
+                <div class="card-header border-0 pt-9">
+                  <!--begin::Card Title-->
+                  <div class="card-title m-0">
+                    <!--begin::Avatar-->
+                    <div class="symbol symbol-50px w-50px bg-light">
+                      <img
+                        alt="image"
+                        class="p-3"
+                        src="assets/media/svg/brand-logos/tvit.svg"
+                      />
+                    </div>
+                    <!--end::Avatar-->
+                  </div>
+                  <!--end::Car Title-->
+                  <!--begin::Card toolbar-->
+                  <div class="card-toolbar">
+                    <span
+                      class="badge badge-light-primary fw-bolder me-auto px-4 py-3"
+                      >In Progress</span
+                    >
+                  </div>
+                  <!--end::Card toolbar-->
+                </div>
+                <!--end:: Card header-->
+                <!--begin:: Card body-->
+                <div class="card-body p-9">
+                  <!--begin::Name-->
+                  <div class="fs-3 fw-bolder text-dark">GoPro App</div>
+                  <!--end::Name-->
+                  <!--begin::Description-->
+                  <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
+                    CRM App application to HR efficiency
+                  </p>
+                  <!--end::Description-->
+                  <!--begin::Info-->
+                  <div class="d-flex flex-wrap mb-5">
+                    <!--begin::Due-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        Feb 21, 2021
+                      </div>
+                      <div class="fw-bold text-gray-400">Due Date</div>
+                    </div>
+                    <!--end::Due-->
+                    <!--begin::Budget-->
+                    <div
+                      class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
+                    >
+                      <div class="fs-6 text-gray-800 fw-bolder">
+                        $284,900.00
+                      </div>
+                      <div class="fw-bold text-gray-400">Budget</div>
+                    </div>
+                    <!--end::Budget-->
+                  </div>
+                  <!--end::Info-->
+                  <!--begin::Progress-->
+                  <div
+                    class="h-4px w-100 bg-light mb-5"
+                    data-bs-toggle="tooltip"
+                    title="This project 70% completed"
+                  >
+                    <div
+                      aria-valuemax="100"
+                      aria-valuemin="0"
+                      aria-valuenow="70"
+                      class="bg-primary rounded h-4px"
+                      role="progressbar"
+                      style="width: 70%"
+                    ></div>
+                  </div>
+                  <!--end::Progress-->
+                  <!--begin::Users-->
+                  <div class="symbol-group symbol-hover">
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Melody Macy"
+                    >
+                      <img alt="Pic" src="assets/media/avatars/150-3.jpg" />
+                    </div>
+                    <!--begin::User-->
+                    <!--begin::User-->
+                    <div
+                      class="symbol symbol-35px symbol-circle"
+                      data-bs-toggle="tooltip"
+                      title="Robin Watterman"
+                    >
+                      <span
+                        class="symbol-label bg-success text-inverse-success fw-bolder"
+                        >R</span
+                      >
+                    </div>
+                    <!--begin::User-->
+                  </div>
+                  <!--end::Users-->
+                </div>
+                <!--end:: Card body-->
+              </a>
+              <!--end::Card-->
+            </div>
+            <!--end::Col-->
+          </div>
+          <!--end::Row-->
+        </div>
+        <!--end::Container-->
+      </div>
+      <!--end::Post-->
+    </div>
+    <!--end::Content-->
+    <!--end::Main-->
+    <script>
+      var hostUrl = "assets/";
+    </script>
+    <!--begin::Javascript-->
+
+    <script
+      th:src="@{/assets/js/custom/widgets.js}"
+      xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script
+      th:src="@{/assets/js/custom/pages/projects/list/list.js}"
+      xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <!--end::Javascript-->
+  </body>
 </html>
