@@ -2,8 +2,6 @@ package com.rgbmovie.dto;
 
 public class SeatDTO {
     private Integer pk;
-    private Integer row;
-    private Integer number;
     private Integer auditorium;
     private String seatName;
 
@@ -15,21 +13,6 @@ public class SeatDTO {
         this.pk = pk;
     }
 
-    public Integer getRow() {
-        return this.row;
-    }
-
-    public void setRow(Integer row) {
-        this.row = row;
-    }
-
-    public Integer getNumber() {
-        return this.number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
 
     public Integer getAuditorium() {
         return this.auditorium;

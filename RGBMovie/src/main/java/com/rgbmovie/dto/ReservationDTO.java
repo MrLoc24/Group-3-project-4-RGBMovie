@@ -1,5 +1,8 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class ReservationDTO {
     private Integer pk;
     private Integer user;

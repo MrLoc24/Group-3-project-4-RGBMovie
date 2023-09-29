@@ -16,8 +16,14 @@ public class AuditoriumModel {
     @Column(name = "name")
     private String name;
     @Basic
-    @Column(name = "seats_no")
-    private Integer seatsNo;
+    @Column(name = "row")
+    private Integer row;
+
+    @Basic
+    @Column(name = "column")
+    private Integer column;
+
+
     @Basic
     @Column(name = "theater")
     private Integer theater;
@@ -45,12 +51,12 @@ public class AuditoriumModel {
         this.name = name;
     }
 
-    public Integer getSeatsNo() {
-        return seatsNo;
+    public Integer getRow() {
+        return row;
     }
 
-    public void setSeatsNo(Integer seatsNo) {
-        this.seatsNo = seatsNo;
+    public void setRow(Integer seatsNo) {
+        this.row = seatsNo;
     }
 
     public Integer getTheater() {
@@ -61,17 +67,25 @@ public class AuditoriumModel {
         this.theater = theater;
     }
 
+    public Integer getColumn() {
+        return column;
+    }
+
+    public void setColumn(Integer column) {
+        this.column = column;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AuditoriumModel that = (AuditoriumModel) o;
-        return pk == that.pk && Objects.equals(name, that.name) && Objects.equals(seatsNo, that.seatsNo) && Objects.equals(theater, that.theater);
+        return pk == that.pk && Objects.equals(name, that.name) && Objects.equals(row, that.row) && Objects.equals(theater, that.theater);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pk, name, seatsNo, theater);
+        return Objects.hash(pk, name, row, theater);
     }
 
     public TheaterModel getTheaterByTheater() {

@@ -1,7 +1,10 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class ScreeningDTO {
     private Integer pk;
     private Integer movie;

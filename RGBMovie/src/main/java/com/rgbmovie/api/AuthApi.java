@@ -40,7 +40,6 @@ public class AuthApi {
                             loginModel.getUsername(), loginModel.getPassword())
             );
             UserDetails user = (UserDetails) authentication.getPrincipal();
-            System.out.println(user.getUsername());
             String accessToken = jwtUtil.generateToken(loginModel);
             AuthResponse response = new AuthResponse(user.getUsername(), accessToken);
             return ResponseEntity.ok().body(response);

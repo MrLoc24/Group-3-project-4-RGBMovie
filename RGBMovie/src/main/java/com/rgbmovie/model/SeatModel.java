@@ -13,12 +13,6 @@ public class SeatModel {
     @Column(name = "pk")
     private int pk;
     @Basic
-    @Column(name = "row")
-    private Integer row;
-    @Basic
-    @Column(name = "number")
-    private Integer number;
-    @Basic
     @Column(name = "auditorium")
     private Integer auditorium;
     @Basic
@@ -36,22 +30,6 @@ public class SeatModel {
 
     public void setPk(int pk) {
         this.pk = pk;
-    }
-
-    public Integer getRow() {
-        return row;
-    }
-
-    public void setRow(Integer row) {
-        this.row = row;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
     }
 
     public Integer getAuditorium() {
@@ -75,12 +53,12 @@ public class SeatModel {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SeatModel seatModel = (SeatModel) o;
-        return pk == seatModel.pk && Objects.equals(row, seatModel.row) && Objects.equals(number, seatModel.number) && Objects.equals(auditorium, seatModel.auditorium) && Objects.equals(seatName, seatModel.seatName);
+        return pk == seatModel.pk && Objects.equals(auditorium, seatModel.auditorium) && Objects.equals(seatName, seatModel.seatName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pk, row, number, auditorium, seatName);
+        return Objects.hash(pk, auditorium, seatName);
     }
 
     public Collection<ReservedSeatModel> getReservedSeatsByPk() {

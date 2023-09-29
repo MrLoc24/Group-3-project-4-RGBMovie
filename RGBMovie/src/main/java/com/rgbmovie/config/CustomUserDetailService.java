@@ -36,11 +36,8 @@ public class CustomUserDetailService extends UserModel implements UserDetails {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (RoleModel role : userModel.getRoles()) {
             SimpleGrantedAuthority simple = new SimpleGrantedAuthority(role.getName());
-            authorities.add(simple);
-            System.out.println("Role: " + simple);
-            
+            authorities.add(simple);            
         }
-        System.out.println(authorities);
         return authorities;
     }
 
