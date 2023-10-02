@@ -56,7 +56,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         //For request static and template file
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**").permitAll());
         //For request not require auth
-        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/signup", "/docs/**").permitAll());
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/movie/**", "/api/signup", "/docs/**").permitAll());
         // Filter for api only
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").authenticated())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

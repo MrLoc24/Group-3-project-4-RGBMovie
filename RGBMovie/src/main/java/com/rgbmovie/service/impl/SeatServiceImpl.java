@@ -1,5 +1,6 @@
 package com.rgbmovie.service.impl;
 
+import com.rgbmovie.model.AuditoriumModel;
 import com.rgbmovie.model.SeatModel;
 import com.rgbmovie.repository.SeatRepository;
 import com.rgbmovie.service.SeatService;
@@ -22,5 +23,24 @@ public class SeatServiceImpl implements SeatService {
     public int findBySeatNameAndAuditorium(int au, String seat) {
         return seatRepository.findBySeatNameAndAuditorium(seat, au).getPk();
     }
+
+    @Override
+    public List<SeatModel> findByAuditorium(int au) {
+        return seatRepository.findByAuditorium(au);
+    }
+
+    @Override
+    public void addNewSeat(AuditoriumModel auditoriumModel) {
+        //Add seat with number of row and column, name like row + column with row is chr and column is number
+        for (int r = 0; r < auditoriumModel.getRow(); r++) {
+            for (int c = 0; c < auditoriumModel.getColumn(); c++) {
+                SeatModel seatModel = new SeatModel();
+                seatModel.setSeatName(((char) ('A' + r) + Integer.toString(c + 1)));
+                seatModel.setAuditorium(auditoriumModel.getPk());
+                seatRepository.saveAndFlush(seatModel);
+            }
+        }
+    }
+
 
 }

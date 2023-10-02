@@ -7,5 +7,5 @@ import java.util.List;
 
 @Service
 public interface ScreeningService {
-    List<ScreeningModel> getAllActive();
+    List<ScreeningModel> getAllActiveByMovie(int id, int pk);
 }

@@ -31,6 +31,7 @@ public class ApiBookingController {
     @Autowired
     private ModelMapper modelMapper;
 
+
     @RequestMapping(value = "/book", method = RequestMethod.POST)
     public Object booking(@RequestParam("username") String username, @RequestParam("screening") int screening, @RequestParam("price") float price, @RequestParam("seatName") String[] seatName, @RequestParam("auditorium") int auditorium) {
         try {

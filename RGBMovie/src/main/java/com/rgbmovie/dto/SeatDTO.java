@@ -1,5 +1,8 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class SeatDTO {
     private Integer pk;
     private Integer auditorium;

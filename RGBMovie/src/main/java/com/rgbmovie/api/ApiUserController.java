@@ -27,6 +27,6 @@ public class ApiUserController {
         boolean result = userService.updateWithoutPassword(modelMapper.map(userDTO, UserModel.class));
         if (result) {
             return new ResponseEntity<String>("Change Success", HttpStatus.OK);
-        } else return new ResponseEntity<String>("Something wromg", HttpStatus.BAD_REQUEST);
+        } else return new ResponseEntity<String>("Something wrong", HttpStatus.BAD_REQUEST);
     }
 }

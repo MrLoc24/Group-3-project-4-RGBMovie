@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface ScreeningRepository extends JpaRepository<ScreeningModel, Integer> {
     //Get all screening for upcoming movie
-    @Query("SELECT s FROM ScreeningModel s WHERE s.time > :currentTime")
-    List<ScreeningModel> getActiveScreening(@Param("currentTime") Date currentTime);
+    @Query("SELECT s FROM ScreeningModel s WHERE s.time > :currentTime AND s.movie = :id AND s.theater = :pk")
+    List<ScreeningModel> getActiveScreening(@Param("currentTime") Date currentTime, @Param("id") int id, @Param("pk") int pk);
 }

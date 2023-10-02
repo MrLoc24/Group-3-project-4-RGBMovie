@@ -8,4 +8,8 @@ import java.util.List;
 @Service
 public interface TheaterService {
     List<TheaterModel> getAll();
+
+    TheaterModel getById(int pk);
+
+    int numberOfStaff(int pk);
 }

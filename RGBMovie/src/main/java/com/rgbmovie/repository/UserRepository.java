@@ -39,4 +39,8 @@ public interface UserRepository extends JpaRepository<UserModel, Integer> {
     @Query("UPDATE UserModel u SET u.enabled = :enabled WHERE u.pk = :pk")
     int setStatus(@Param("pk") Integer pk, @Param("enabled") boolean enabled);
 
+
+    //Show staff in theater
+    @Query("SELECT u FROM UserModel u JOIN WorkplaceModel w ON u.pk = w.userId WHERE w.theaterId = :pk")
+    List<UserModel> findByTheaterPk(@Param("pk") int pk);
 }

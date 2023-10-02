@@ -3,7 +3,9 @@ package com.rgbmovie.controller;
 import java.util.List;
 
 import com.rgbmovie.dto.TheaterDTO;
+import com.rgbmovie.service.AuditoriumService;
 import com.rgbmovie.service.TheaterService;
+import com.rgbmovie.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.rgbmovie.dto.RoleDTO;
@@ -24,6 +26,10 @@ public class TheaterController {
     private ModelMapper modelMapper;
     @Autowired
     private TheaterService theaterService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private AuditoriumService auditoriumService;
 
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
@@ -72,7 +78,11 @@ public class TheaterController {
     }
 
     @GetMapping("/{id}")
-    public String detail(@PathVariable("id") int id) {
+    public String detail(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, Model model) {
+        if (detail.equals("auditorium")) {
+            return "auditorium/index";
+        }
+        model.addAttribute("theater", modelMapper.map(theaterService.getById(id), TheaterDTO.class));
         return "theater/detail";
     }
 }

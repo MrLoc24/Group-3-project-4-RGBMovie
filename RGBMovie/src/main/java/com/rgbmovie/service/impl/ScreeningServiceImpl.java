@@ -15,7 +15,7 @@ public class ScreeningServiceImpl implements ScreeningService {
     private ScreeningRepository screeningRepository;
 
     @Override
-    public List<ScreeningModel> getAllActive() {
-        return screeningRepository.getActiveScreening(new Date());
+    public List<ScreeningModel> getAllActiveByMovie(int id, int pk) {
+        return screeningRepository.getActiveScreening(new Date(), id, pk);
     }
 }

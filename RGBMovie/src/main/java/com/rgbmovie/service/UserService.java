@@ -26,4 +26,6 @@ public interface UserService {
     public boolean updateEnable(int pk, boolean enable);
 
     public List<UserModel> getUserByRole(int number);
+
+    public List<UserModel> getByTheater(int id);
 }

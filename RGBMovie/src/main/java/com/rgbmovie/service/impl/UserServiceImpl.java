@@ -85,4 +85,9 @@ public class UserServiceImpl implements UserService {
         if (number == 1) return userRepository.findStaff();
         else return userRepository.findCustomer();
     }
+
+    @Override
+    public List<UserModel> getByTheater(int id) {
+        return userRepository.findByTheaterPk(id);
+    }
 }
