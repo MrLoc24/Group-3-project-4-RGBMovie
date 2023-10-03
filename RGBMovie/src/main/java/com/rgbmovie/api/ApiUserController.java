@@ -24,9 +24,6 @@ public class ApiUserController {
 
     @PostMapping("/edit")
     public Object editWithoutProfile(@RequestBody UserDTO userDTO) {
-        boolean result = userService.updateWithoutPassword(modelMapper.map(userDTO, UserModel.class));
-        if (result) {
-            return new ResponseEntity<String>("Change Success", HttpStatus.OK);
-        } else return new ResponseEntity<String>("Something wrong", HttpStatus.BAD_REQUEST);
+        return userService.updateWithoutPassword(modelMapper.map(userDTO, UserModel.class)) ? new ResponseEntity<String>("Change Success", HttpStatus.OK) : new ResponseEntity<String>("Something wrong", HttpStatus.BAD_REQUEST);
     }
 }

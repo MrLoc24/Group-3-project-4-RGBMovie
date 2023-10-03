@@ -2,6 +2,7 @@ package com.rgbmovie.controller;
 
 import java.util.List;
 
+import com.rgbmovie.dto.AuditoriumDTO;
 import com.rgbmovie.dto.TheaterDTO;
 import com.rgbmovie.service.AuditoriumService;
 import com.rgbmovie.service.TheaterService;
@@ -80,9 +81,14 @@ public class TheaterController {
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, Model model) {
         if (detail.equals("auditorium")) {
+            model.addAttribute("auditorium", auditoriumService.getByTheater(id).stream().map(m -> modelMapper.map(m, AuditoriumDTO.class)).toList());
+            model.addAttribute("theaterId", id);
+            //For modal add
+            model.addAttribute("audi", new AuditoriumDTO());
             return "auditorium/index";
         }
         model.addAttribute("theater", modelMapper.map(theaterService.getById(id), TheaterDTO.class));
         return "theater/detail";
     }
+
 }
