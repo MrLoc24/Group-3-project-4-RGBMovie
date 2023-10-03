@@ -12,4 +12,6 @@ public interface AuditoriumService {
     List<AuditoriumModel> getByTheater(int theater);
 
     AuditoriumModel getById(int id);
+
+    AuditoriumModel addNew(AuditoriumModel auditoriumModel);
 }

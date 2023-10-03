@@ -13,17 +13,15 @@ public class AuditoriumModel {
     @Column(name = "pk")
     private int pk;
     @Basic
-    @Column(name = "name")
+    @Column(name = "au_name")
     private String name;
     @Basic
-    @Column(name = "row")
+    @Column(name = "au_rows")
     private Integer row;
 
     @Basic
-    @Column(name = "column")
+    @Column(name = "au_columns")
     private Integer column;
-
-
     @Basic
     @Column(name = "theater")
     private Integer theater;

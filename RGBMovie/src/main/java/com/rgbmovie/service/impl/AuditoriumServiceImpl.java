@@ -27,4 +27,9 @@ public class AuditoriumServiceImpl implements AuditoriumService {
     public AuditoriumModel getById(int id) {
         return auditoriumRepository.getReferenceById(id);
     }
+
+    @Override
+    public AuditoriumModel addNew(AuditoriumModel auditoriumModel) {
+        return auditoriumRepository.saveAndFlush(auditoriumModel);
+    }
 }

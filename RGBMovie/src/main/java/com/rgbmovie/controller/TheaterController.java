@@ -4,13 +4,11 @@ import java.util.List;
 
 import com.rgbmovie.dto.AuditoriumDTO;
 import com.rgbmovie.dto.TheaterDTO;
-import com.rgbmovie.service.AuditoriumService;
-import com.rgbmovie.service.TheaterService;
-import com.rgbmovie.service.UserService;
+import com.rgbmovie.model.AuditoriumModel;
+import com.rgbmovie.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 import com.rgbmovie.dto.RoleDTO;
-import com.rgbmovie.service.RoleService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -31,6 +29,8 @@ public class TheaterController {
     private UserService userService;
     @Autowired
     private AuditoriumService auditoriumService;
+    @Autowired
+    private SeatService seatService;
 
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
@@ -89,6 +89,16 @@ public class TheaterController {
         }
         model.addAttribute("theater", modelMapper.map(theaterService.getById(id), TheaterDTO.class));
         return "theater/detail";
+    }
+
+    //Add new auditorium for each theater
+    @PostMapping("/{id}")
+    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO) {
+        auditoriumDTO.setName(auditoriumDTO.getName() + "_" + id);
+        auditoriumDTO.setTheater(id);
+        AuditoriumModel result = auditoriumService.addNew(modelMapper.map(auditoriumDTO, AuditoriumModel.class));
+        seatService.addNewSeat(result);
+        return "redirect:/theater/" + id + "?detail=auditorium";
     }
 
 }

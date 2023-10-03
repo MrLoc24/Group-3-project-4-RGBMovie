@@ -31,12 +31,16 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public void addNewSeat(AuditoriumModel auditoriumModel) {
+        StringBuilder seat = new StringBuilder();
+        SeatModel seatModel = new SeatModel();
+        seatModel.setAuditorium(auditoriumModel.getPk());
         //Add seat with number of row and column, name like row + column with row is chr and column is number
         for (int r = 0; r < auditoriumModel.getRow(); r++) {
             for (int c = 0; c < auditoriumModel.getColumn(); c++) {
-                SeatModel seatModel = new SeatModel();
-                seatModel.setSeatName(((char) ('A' + r) + Integer.toString(c + 1)));
-                seatModel.setAuditorium(auditoriumModel.getPk());
+                seat.setLength(0); // clear the StringBuilder
+                seat.append((char) ('A' + r));
+                seat.append(c + 1);
+                seatModel.setSeatName(seat.toString());
                 seatRepository.saveAndFlush(seatModel);
             }
         }
