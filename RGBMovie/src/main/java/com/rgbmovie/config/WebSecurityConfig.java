@@ -71,7 +71,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     }
 
     @Component
-    public class CorsConfig {
+    public static class CorsConfig {
         @Bean
         public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurer() {
