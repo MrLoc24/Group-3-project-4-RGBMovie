@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-const CUSTOMER_URL = "/api/customer";
+const CUSTOMER_URL = "/api";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,11 +8,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${CUSTOMER_URL}/auth`,
         method: "POST",
         body: data,
+        headers: {
+          "Content-type": "application/json",
+        },
       }),
     }),
     register: builder.mutation({
       query: (data) => ({
-        url: `${CUSTOMER_URL}`,
+        url: `${CUSTOMER_URL}/signup`,
         method: "POST",
         body: data,
       }),

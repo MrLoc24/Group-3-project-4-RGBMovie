@@ -15,28 +15,25 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../slices/authSlice";
-// import { useLoginMutation } from "../../slices/customersApiSlice";
+import { useLoginMutation } from "../../slices/customersApiSlice";
+import { useState } from "react";
 
 export default function SignIn() {
+  const [username, setUsername] = useState("");
+  const [password, SetPassword] = useState("");
+
   const dispatch = useDispatch();
-  // const [login, { isLoading }] = useLoginMutation();
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [login] = useLoginMutation();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
     try {
-      // const res = await login({ username, password }).unwrap();
+      const res = await login({
+        username,
+        password,
+      }).unwrap();
       toast.success("Login successfully!");
-      dispatch(
-        setCredentials({
-          username: "Elizabeth",
-          email: data.get("email"),
-          password: data.get("password"),
-        })
-      );
+
+      dispatch(setCredentials({ ...res }));
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -51,12 +48,7 @@ export default function SignIn() {
   };
 
   return (
-    <Grid
-      container
-      component="main"
-      sx={{ height: "fit-content" }}
-      className="neonBorder"
-    >
+    <Grid container component="main" sx={{ height: "fit-content" }}>
       <CssBaseline />
       <Grid
         item
@@ -101,11 +93,13 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -116,6 +110,8 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => SetPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

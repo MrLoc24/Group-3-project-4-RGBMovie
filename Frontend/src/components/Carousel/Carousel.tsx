@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
@@ -390,17 +391,32 @@ export default function App() {
   const dispatch = useDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [allMovies] = useFindAllMoviesMutation();
+  const [findAllMovies] = useFindAllMoviesMutation();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [findAllTheater] = useFindAllTheaterMutation();
 
   useEffect(() => {
     try {
-      // const getMovies = dispatch(allMovies());
-      // dispatch(addMovies(getMovies));
+      findAllMovies("").then((result) => {
+        console.log(result.data);
+        const movieList = result.data.map((item: any) => {
+          return {
+            id: item.pk,
+            title: item.title,
+            runningTime: item.durationMin,
+            content: item.description,
+            rated: item.age,
+            releaseDate: item.openingDate,
+            genres: item.genre,
+            image: item.mainImg,
+            price: item.price,
+          };
+        });
 
-      dispatch(addMovies(posters));
-      dispatch(addTheaters(locations));
+        dispatch(addMovies(movieList));
+        dispatch(addTheaters(locations));
+      });
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast(error?.data?.message || error.error);

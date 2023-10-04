@@ -5,17 +5,18 @@ export const moviesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     findAllMovies: builder.mutation({
       query: () => ({
-        url: `${MOVIE_URL}/`,
+        url: `${MOVIE_URL}`,
         method: "GET",
       }),
     }),
     findMoviesByName: builder.mutation({
-      query: (data) => ({
-        url: `${MOVIE_URL}/search?name=${data}`,
+      query: (id) => ({
+        url: `${MOVIE_URL}/${id}`,
         method: "GET",
       }),
     }),
   }),
 });
 
-export const { useFindMoviesByNameMutation, useFindAllMoviesMutation } = moviesApiSlice;
+export const { useFindMoviesByNameMutation, useFindAllMoviesMutation } =
+  moviesApiSlice;
