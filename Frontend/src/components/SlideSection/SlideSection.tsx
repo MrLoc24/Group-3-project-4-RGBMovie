@@ -33,6 +33,7 @@ export default function SlideSection() {
   const [status, setStatus] = useState("Now Showing");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies);
+  console.log(movies);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleStatusChange = (event: any) => {
