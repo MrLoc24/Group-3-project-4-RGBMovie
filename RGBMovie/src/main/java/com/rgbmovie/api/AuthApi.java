@@ -59,14 +59,14 @@ public class AuthApi {
             userRoleModel.setRoleId(2);
             UserModel userModel = userService.addNew(new ModelMapper().map(userDTO, UserModel.class));
             if (userModel == null) {
-                return new ResponseEntity<String>("Add failed", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Add failed", HttpStatus.BAD_REQUEST);
             } else {
                 userRoleModel.setUserId(userModel.getPk());
                 userRoleService.addNewUserRole(userRoleModel);
-                return new ResponseEntity<String>("Ok", HttpStatus.OK);
+                return new ResponseEntity<>("Ok", HttpStatus.OK);
             }
         } catch (Exception e) {
-                return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
 

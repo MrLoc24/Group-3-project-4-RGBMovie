@@ -294,38 +294,33 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <!--begin::Page Vendors Javascript(used by this page)-->
+    <script
+            defer
+            th:src="@{assets/plugins/custom/datatables/datatables.bundle.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <!--end::Page Vendors Javascript-->
+    <!--begin::Page Custom Javascript(used by this page)-->
+    <script
+            defer
+            th:src="@{assets/js/custom/apps/user-management/users/list/table.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script
+            defer
+            th:src="@{assets/js/custom/apps/user-management/users/list/add.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script
+            defer
+            th:src="@{assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <!--end::Page Custom Javascript-->
+
 </div>
 <!--end::Content-->
-<!--begin::Page Custom Javascript(used by this page)-->
-<script
-        th:src="@{assets/js/custom/apps/user-management/users/list/table.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<script
-        th:src="@{assets/js/custom/apps/user-management/users/list/export-users.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<script
-        th:src="@{assets/js/custom/apps/user-management/users/list/add.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<script
-        th:src="@{assets/js/custom/widgets.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<script
-        th:src="@{assets/js/custom/apps/chat/chat.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<script
-        th:src="@{assets/js/custom/modals/create-app.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<script
-        th:src="@{assets/js/custom/modals/upgrade-plan.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
-<!--end::Page Custom Javascript-->
 </body>
 </html>
 

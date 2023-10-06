@@ -1,7 +1,10 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
+@Data
 public class BankingDTO {
     private Integer pk;
     private LocalDateTime time;

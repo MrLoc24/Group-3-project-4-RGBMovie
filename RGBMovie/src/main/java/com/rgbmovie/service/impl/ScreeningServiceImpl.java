@@ -18,4 +18,14 @@ public class ScreeningServiceImpl implements ScreeningService {
     public List<ScreeningModel> getAllActiveByMovie(int id, int pk) {
         return screeningRepository.getActiveScreening(new Date(), id, pk);
     }
+
+    @Override
+    public List<ScreeningModel> getAllByTheater(int id) {
+        return screeningRepository.findByTheater(id);
+    }
+
+    @Override
+    public List<ScreeningModel> getAllByAuditorium(int id) {
+        return screeningRepository.findByAuditorium(id);
+    }
 }

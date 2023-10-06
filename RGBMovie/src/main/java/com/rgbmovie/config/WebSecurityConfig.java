@@ -1,6 +1,7 @@
 package com.rgbmovie.config;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,8 +61,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").authenticated())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         //For request require auth
-        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/users/**", "/theater/**", "/role/**", "/movie/**", "/director/**",
-                        "/casting/**", "/cast/**", "/home/**", "/customer/**")
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/users/**", "/theater/**", "/role/**", "/movie/**", "/director/**", "/casting/**", "/cast/**", "/home/**", "/customer/**")
                 .hasAnyRole("ADMIN").anyRequest().authenticated()).formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/auth/login").permitAll()
                 .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home", true)
                 .failureUrl("/auth/login?error=true")).rememberMe(rememberMe ->
@@ -76,7 +76,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurer() {
                 @Override
-                public void addCorsMappings(CorsRegistry registry) {
+                public void addCorsMappings(@NotNull CorsRegistry registry) {
                     registry.addMapping("/**")
                             .allowedMethods(CorsConfiguration.ALL)
                             .allowedHeaders(CorsConfiguration.ALL)
@@ -85,5 +85,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
             };
         }
     }
+
 
 }

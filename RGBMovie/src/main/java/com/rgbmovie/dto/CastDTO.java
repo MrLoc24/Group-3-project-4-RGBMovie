@@ -1,5 +1,8 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class CastDTO {
     private Integer pk;
     private String actor;

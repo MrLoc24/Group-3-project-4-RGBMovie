@@ -2,13 +2,12 @@ package com.rgbmovie.controller;
 
 import java.util.List;
 
-import com.rgbmovie.dto.AuditoriumDTO;
-import com.rgbmovie.dto.TheaterDTO;
+import com.rgbmovie.dto.*;
 import com.rgbmovie.model.AuditoriumModel;
+import com.rgbmovie.model.MovieModel;
 import com.rgbmovie.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 
-import com.rgbmovie.dto.RoleDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/theater")
 public class TheaterController {
     @Autowired
     private ModelMapper modelMapper;
@@ -31,9 +29,13 @@ public class TheaterController {
     private AuditoriumService auditoriumService;
     @Autowired
     private SeatService seatService;
+    @Autowired
+    private ScreeningService screeningService;
+    @Autowired
+    private MovieService movieService;
 
 
-    @RequestMapping(value = {""}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/theater"}, method = RequestMethod.GET)
     public String index(Model model, HttpServletRequest request, RedirectAttributes redirect) {
         request.getSession().setAttribute("theaterList", null);
         if (model.asMap().get("success") != null)
@@ -41,10 +43,8 @@ public class TheaterController {
         return "redirect:/theater/page/1";
     }
 
-    @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
-    public String showUserPage(HttpServletRequest request,
-
-                               @PathVariable int pageNumber, Model model) {
+    @RequestMapping(value = "/theater/page/{pageNumber}", method = RequestMethod.GET)
+    public String showUserPage(HttpServletRequest request, @PathVariable int pageNumber, Model model) {
         PagedListHolder<?> pages = (PagedListHolder<?>) request.getSession().getAttribute("theaterList");
         int pageSize = 10;
         List<TheaterDTO> list = theaterService.getAll().stream().map(m -> modelMapper.map(m, TheaterDTO.class)).toList();
@@ -78,21 +78,38 @@ public class TheaterController {
         return "theater/index";
     }
 
-    @GetMapping("/{id}")
-    public String detail(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, Model model) {
-        if (detail.equals("auditorium")) {
-            model.addAttribute("auditorium", auditoriumService.getByTheater(id).stream().map(m -> modelMapper.map(m, AuditoriumDTO.class)).toList());
-            model.addAttribute("theaterId", id);
-            //For modal add
-            model.addAttribute("audi", new AuditoriumDTO());
-            return "auditorium/index";
-        }
+    @RequestMapping(method = RequestMethod.GET, value = "/theater/{id}")
+    public String detail(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "auditorium", required = false, defaultValue = "") String audi, Model model) {
         model.addAttribute("theater", modelMapper.map(theaterService.getById(id), TheaterDTO.class));
-        return "theater/detail";
+        model.addAttribute("theaterId", id);
+        model.addAttribute("auditorium", auditoriumService.getByTheater(id).stream().map(m -> modelMapper.map(m, AuditoriumDTO.class)).toList());
+        model.addAttribute("screenings", screeningService.getAllByTheater(id).stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList());
+        model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)));
+        if (detail.isEmpty()) {
+            return "theater/detail";
+        } else {
+            if (detail.equals("auditorium")) {
+                //For modal add
+                model.addAttribute("audi", new AuditoriumDTO());
+                //Redirect to auditorium detail
+                if (!audi.isEmpty() && Integer.parseInt(audi) != 0) {
+                    model.addAttribute("auditor", modelMapper.map(auditoriumService.getById(Integer.parseInt(audi)), AuditoriumDTO.class));
+                    model.addAttribute("seats", seatService.findByAuditorium(Integer.parseInt(audi)).stream().map(m -> modelMapper.map(m, SeatDTO.class)).toList());
+                    return "seat/index";
+                }
+                return "auditorium/index";
+            }
+            if (detail.equals("screening")) {
+                model.addAttribute("screening", new ScreeningDTO());
+                return "screening/index";
+            }
+        }//Redirect to theater's auditorium
+        return "theater/index";
+
     }
 
     //Add new auditorium for each theater
-    @PostMapping("/{id}")
+    @PostMapping("/theater/{id}")
     public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO) {
         auditoriumDTO.setName(auditoriumDTO.getName() + "_" + id);
         auditoriumDTO.setTheater(id);

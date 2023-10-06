@@ -1,18 +1,12 @@
 <!DOCTYPE html>
-<html lang="en"
-      layout:decorate="~{layout/default}"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
+<html
+        layout:decorate="~{layout/default}"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
 >
 <head>
     <meta charset="UTF-8"/>
-    <title>Seat List</title>
-    <link
-            rel="stylesheet"
-            th:href="@{/assets/css/seat.css}"
-            xmlns:th="http://www.thymeleaf.org"
-
-    />
+    <title>Screening List</title>
 </head>
 <body>
 <!--begin::Content-->
@@ -47,11 +41,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a
-                                class="text-muted text-hover-primary"
-                                href="/home"
-                        >Home</a
-                        >
+                        <a class="text-muted text-hover-primary" href="/home">Home</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -76,7 +66,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Auditoriums List</li>
+                    <li class="breadcrumb-item text-dark">Screenings List</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -94,7 +84,6 @@
             <div class="card">
                 <!--begin::Card header-->
                 <div class="card-header border-0 pt-6">
-
                     <!--begin::Card toolbar-->
                     <div class="card-toolbar">
                         <!--begin::Toolbar-->
@@ -138,7 +127,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add New Auditorium
+                                <!--end::Svg Icon-->Add New Screening
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -157,7 +146,7 @@
                                     <!--begin::Modal header-->
                                     <div class="modal-header" id="kt_modal_add_user_header">
                                         <!--begin::Modal title-->
-                                        <h2 class="fw-bolder">Add Auditorium</h2>
+                                        <h2 class="fw-bolder">Add Screening</h2>
                                         <!--end::Modal title-->
                                         <!--begin::Close-->
                                         <div
@@ -207,7 +196,7 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{'/theater/' + ${theaterId} + '?detail=auditorium&add=true'}"
+                                                th:action="@{'/theater/' + ${theaterId} + '?detail=screening&add=true'}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -221,66 +210,69 @@
                                                     id="kt_modal_add_user_scroll"
                                             >
                                                 <!--begin::Input group-->
-                                                <div class="fv-row mb-7">
+                                                <input hidden name="theater" th:value="${screening.theater}">
+                                                <!--end::Input group-->
+                                                <!--begin::Input group-->
+                                                <div class="mb-7">
                                                     <!--begin::Label-->
-                                                    <label
-                                                            class="required fw-bold fs-6 mb-2"
-                                                            for="name"
-                                                    >Name</label
+                                                    <label class="required fw-bold fs-6 mb-5" for="movie"
+                                                    >Movie</label
                                                     >
                                                     <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input
-                                                            class="form-control form-control-solid mb-3 mb-lg-0"
-                                                            id="name"
-                                                            name="name"
-                                                            placeholder="Auditorium"
-                                                            th:value="${audi.name}"
-                                                            type="text"
-                                                    />
-                                                    <!--end::Input-->
+                                                    <!--begin::Roles-->
+                                                    <!--begin::Input row-->
+                                                    <div class="d-flex fv-row">
+                                                        <!--begin::Radio-->
+                                                        <div
+                                                                class="form-check form-check-custom form-check-solid"
+                                                        >
+                                                            <select class="form-control form-control-line" id="movie"
+                                                                    th:field="*{movie}"
+                                                                    th:object="${screening}">
+                                                                <option th:each="item : ${movies}"
+                                                                        th:text="${item.title}"
+                                                                        th:value="${item.pk}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <!--end::Radio-->
+                                                    </div>
+                                                    <!--end::Input row-->
+                                                    <div
+                                                            class="separator separator-dashed my-5"
+                                                    ></div>
+                                                    <!--end::Roles-->
                                                 </div>
                                                 <!--end::Input group-->
                                                 <!--begin::Input group-->
-                                                <div class="fv-row mb-7">
+                                                <div class="mb-7">
                                                     <!--begin::Label-->
-                                                    <label
-                                                            class="required fw-bold fs-6 mb-2"
-                                                            for="row"
-                                                    >Number of row</label
+                                                    <label class="required fw-bold fs-6 mb-5" for="auditorium"
+                                                    >Auditorium</label
                                                     >
                                                     <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input
-                                                            class="form-control form-control-solid mb-3 mb-lg-0"
-                                                            id="row"
-                                                            name="row"
-                                                            placeholder="123456789"
-                                                            th:value="${audi.row}"
-                                                            type="number"
-                                                    />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <!--end::Input group-->
-                                                <!--begin::Input group-->
-                                                <div class="fv-row mb-7">
-                                                    <!--begin::Label-->
-                                                    <label
-                                                            class="required fw-bold fs-6 mb-2"
-                                                            for="column"
-                                                    >Number of Column</label
-                                                    >
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input
-                                                            class="form-control form-control-solid mb-3 mb-lg-0"
-                                                            id="column"
-                                                            name="column"
-                                                            placeholder="123456789"
-                                                            th:value="${audi.column}"
-                                                            type="number"
-                                                    />
-                                                    <!--end::Input-->
+                                                    <!--begin::Roles-->
+                                                    <!--begin::Input row-->
+                                                    <div class="d-flex fv-row">
+                                                        <!--begin::Radio-->
+                                                        <div
+                                                                class="form-check form-check-custom form-check-solid"
+                                                        >
+                                                            <select class="form-control form-control-line"
+                                                                    id="auditorium"
+                                                                    th:field="*{auditorium}"
+                                                                    th:object="${screening}">
+                                                                <option th:each="item : ${auditorium}"
+                                                                        th:text="${item.name}"
+                                                                        th:value="${item.pk}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <!--end::Radio-->
+                                                    </div>
+                                                    <!--end::Input row-->
+                                                    <div
+                                                            class="separator separator-dashed my-5"
+                                                    ></div>
+                                                    <!--end::Roles-->
                                                 </div>
                                                 <!--end::Input group-->
                                             </div>
@@ -325,45 +317,102 @@
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
-                    <div class="movie-container">
-                        <label>Pick a Movie</label>
-                        <select id="movie">
-                            <option value="10">Avengers Endgame ($10)</option>
-                            <option value="12">Joker ($12)</option>
-                            <option value="8">Toy Story 4 ($8)</option>
-                            <option value="9">The Lion King ($9)</option>
-
-                        </select>
-                    </div>
-
-                    <ul class="seat-showcase">
-                        <li>
-                            <div class="seat selected"></div>
-                            <small>Selected</small>
-                        </li>
-                        <li>
-                            <div class="seat"></div>
-                            <small>N/A</small>
-                        </li>
-                        <li>
-                            <div class="seat occupied"></div>
-                            <small>Occupied</small>
-                        </li>
-
-                    </ul>
-
-                    <div class="seat-container">
-                        <div class="screen"></div>
-                        <div class="seat-row" th:each="row, rowStat : ${#numbers.sequence(1, auditor.row)}">
-                            <div class="seat" th:each="col, colStat : ${#numbers.sequence(1, auditor.column)}"
-                                 th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', rowStat.index, rowStat.index + 1)} + ${colStat.count}">
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <p class="text">You have selected <span id="count">0 </span> seats for a price of $<span id="total">0 </span>
-                    </p>
+                    <!--begin::Table-->
+                    <table
+                            class="table align-middle table-row-dashed fs-6 gy-5"
+                            id="kt_table_users"
+                    >
+                        <!--begin::Table head-->
+                        <thead>
+                        <!--begin::Table row-->
+                        <tr
+                                class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
+                        >
+                            <th class="min-w-125px">No.</th>
+                            <th class="min-w-125px">Auditorium</th>
+                            <th class="min-w-125px">Movie</th>
+                            <th class="text-end min-w-100px">Actions</th>
+                        </tr>
+                        <!--end::Table row-->
+                        </thead>
+                        <!--end::Table head-->
+                        <!--begin::Table body-->
+                        <tbody class="text-gray-600 fw-bold">
+                        <!--begin::If no data-->
+                        <tr th:if="${screenings.isEmpty()}">
+                            <td>No Data...</td>
+                        </tr>
+                        <!--end::If no data-->
+                        <!--begin::Table row-->
+                        <tr th:each="item : ${screenings}">
+                            <!--begin::Checkbox-->
+                            <td th:text="${item.pk}"></td>
+                            <!--end::Checkbox-->
+                            <!--begin::auditorium-->
+                            <td th:text="${item.auditorium}"></td>
+                            <!--end::auditorium-->
+                            <!--begin::movie-->
+                            <td th:text="${item.movie}"></td>
+                            <!--end::movie-->
+                            <!--begin::Action=-->
+                            <td class="text-end">
+                                <a
+                                        class="btn btn-light btn-active-light-primary btn-sm"
+                                        data-kt-menu-placement="bottom-end"
+                                        data-kt-menu-trigger="click"
+                                        href="#"
+                                >Actions
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+                                    <span class="svg-icon svg-icon-5 m-0">
+                          <svg
+                                  fill="none"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                                    d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                                    fill="black"
+                            />
+                          </svg>
+                        </span>
+                                    <!--end::Svg Icon--></a
+                                >
+                                <!--begin::Menu-->
+                                <div
+                                        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
+                                        data-kt-menu="true"
+                                >
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a
+                                                class="menu-link px-3"
+                                                th:href="@{'/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
+                                        >Details</a
+                                        >
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a
+                                                class="menu-link px-3"
+                                                data-kt-users-table-filter="delete_row"
+                                                th:href="@{'/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
+                                        >Delete</a
+                                        >
+                                    </div>
+                                    <!--end::Menu item-->
+                                </div>
+                                <!--end::Menu-->
+                            </td>
+                            <!--end::Action=-->
+                        </tr>
+                        <!--end::Table row-->
+                        </tbody>
+                        <!--end::Table body-->
+                    </table>
+                    <!--end::Table-->
                 </div>
                 <!--end::Card body-->
             </div>
@@ -375,21 +424,23 @@
     <!--begin::Page Vendors Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/plugins/custom/datatables/datatables.bundle.js}" xmlns:th="http://www.thymeleaf.org"
+            th:src="@{/assets/plugins/custom/datatables/datatables.bundle.js}"
+            xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Vendors Javascript-->
     <!--begin::Page Custom Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/table.js}" xmlns:th="http://www.thymeleaf.org"
+            th:src="@{/assets/js/custom/apps/user-management/users/list/table.js}"
+            xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script
-            defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/add.js}" xmlns:th="http://www.thymeleaf.org"
+    <script defer
+            th:src="@{/assets/js/custom/apps/user-management/users/list/add.js}"
+            xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script
-            defer
-            th:src="@{assets/js/custom/widgets.js}" xmlns:th="http://www.thymeleaf.org"
+    <script defer
+            th:src="@{/assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->
 </div>

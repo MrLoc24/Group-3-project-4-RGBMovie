@@ -11,205 +11,206 @@ Like: www.facebook.com/keenthemes
 License: For each use you must have a valid license purchased only from above link in order to legally use the theme for your project.
 -->
 <html
-  lang="en"
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        lang="en"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
 >
-  <!--begin::Head-->
-  <head>
-    <base href="" />
+<!--begin::Head-->
+<head>
+    <base href=""/>
     <title>
-      Metronic - the world's #1 selling Bootstrap Admin Theme Ecosystem for
-      HTML, Vue, React, Angular &amp; Laravel by Keenthemes
+        Metronic - the world's #1 selling Bootstrap Admin Theme Ecosystem for
+        HTML, Vue, React, Angular &amp; Laravel by Keenthemes
     </title>
     <meta
-      name="description"
-      content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free."
+            content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free."
+            name="description"
     />
     <meta
-      name="keywords"
-      content="Metronic, bootstrap, bootstrap 5, Angular, VueJs, React, Laravel, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon"
+            content="Metronic, bootstrap, bootstrap 5, Angular, VueJs, React, Laravel, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon"
+            name="keywords"
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="article" />
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta charset="utf-8"/>
+    <meta content="en_US" property="og:locale"/>
+    <meta content="article" property="og:type"/>
     <meta
-      property="og:title"
-      content="Metronic - Bootstrap 5 HTML, VueJS, React, Angular &amp; Laravel Admin Dashboard Theme"
+            content="Metronic - Bootstrap 5 HTML, VueJS, React, Angular &amp; Laravel Admin Dashboard Theme"
+            property="og:title"
     />
-    <meta property="og:url" content="https://keenthemes.com/metronic" />
-    <meta property="og:site_name" content="Keenthemes | Metronic" />
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+    <meta content="https://keenthemes.com/metronic" property="og:url"/>
+    <meta content="Keenthemes | Metronic" property="og:site_name"/>
+    <link href="https://preview.keenthemes.com/metronic8" rel="canonical"/>
+    <link href="assets/media/logos/favicon.ico" rel="shortcut icon"/>
     <!--begin::Fonts-->
     <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"
+            rel="stylesheet"
     />
     <!--end::Fonts-->
-    <th:block th:replace="~{fragment/styles}" />
-  </head>
-  <!--end::Head-->
-  <!--begin::Body-->
-  <body
-    id="kt_body"
-    class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed"
-    style="
+    <th:block th:replace="~{fragment/styles}"/>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body
+        class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed"
+        id="kt_body"
+        style="
       --kt-toolbar-height: 55px;
       --kt-toolbar-height-tablet-and-mobile: 55px;
     "
-  >
-    <!--begin::Main-->
-    <!--begin::Root-->
-    <div class="d-flex flex-column flex-root">
-      <!--begin::Page-->
-      <div class="page d-flex flex-row flex-column-fluid">
+>
+<!--begin::Main-->
+<!--begin::Root-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="page d-flex flex-row flex-column-fluid">
         <!-- SIDE BAR -->
         <div th:replace="~{fragment/sidebar :: sidebar}"></div>
         <!--begin::Wrapper-->
         <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
-          <!--begin::Header-->
-          <div id="kt_header" class="header align-items-stretch">
-            <!--begin::Container-->
-            <div
-              class="container-fluid d-flex align-items-stretch justify-content-between"
-            >
-              <!--begin::Wrapper-->
-              <!-- Navbar -->
-              <div
-                class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
-              >
-                <div th:replace="~{fragment/navbar :: navbar}"></div>
-              </div>
-              <!--end::Wrapper-->
-            </div>
-            <!--end::Container-->
-          </div>
-          <!--end::Header-->
-          <!--begin::Content-->
-          <div
-            class="content d-flex flex-column flex-column-fluid"
-            id="kt_content"
-          >
-            <!--begin::Post-->
-            <div class="post d-flex flex-column-fluid" id="kt_post">
-              <!--begin::Container-->
-              <!-- Content -->
-              <div id="kt_content_container" class="container-xxl">
-                <!--begin::Row-->
-
-                <!--end::Row-->
-                <div layout:fragment="content"></div>
-                <!--end::Row-->
-              </div>
-              <!--end::Container-->
-            </div>
-            <!--end::Post-->
-          </div>
-          <!--end::Content-->
-          <!--begin::Footer-->
-          <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
-            <!--begin::Container-->
-            <div
-              class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between"
-            >
-              <!--begin::Copyright-->
-              <div class="text-dark order-2 order-md-1">
-                <span class="text-muted fw-bold me-1">2021©</span>
-                <a
-                  href="https://keenthemes.com"
-                  target="_blank"
-                  class="text-gray-800 text-hover-primary"
-                  >Keenthemes</a
+            <!--begin::Header-->
+            <div class="header align-items-stretch" id="kt_header">
+                <!--begin::Container-->
+                <div
+                        class="container-fluid d-flex align-items-stretch justify-content-between"
                 >
-              </div>
-              <!--end::Copyright-->
-              <!--begin::Menu-->
-              <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
-                <li class="menu-item">
-                  <a
-                    href="https://keenthemes.com"
-                    target="_blank"
-                    class="menu-link px-2"
-                    >About</a
-                  >
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="https://keenthemes.com/support"
-                    target="_blank"
-                    class="menu-link px-2"
-                    >Support</a
-                  >
-                </li>
-                <li class="menu-item">
-                  <a
-                    href="https://1.envato.market/EA4JP"
-                    target="_blank"
-                    class="menu-link px-2"
-                    >Purchase</a
-                  >
-                </li>
-              </ul>
-              <!--end::Menu-->
+                    <!--begin::Wrapper-->
+                    <!-- Navbar -->
+                    <div
+                            class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
+                    >
+                        <div th:replace="~{fragment/navbar :: navbar}"></div>
+                    </div>
+                    <!--end::Wrapper-->
+                </div>
+                <!--end::Container-->
             </div>
-            <!--end::Container-->
-          </div>
-          <!--end::Footer-->
+            <!--end::Header-->
+            <!--begin::Content-->
+            <div
+                    class="content d-flex flex-column flex-column-fluid"
+                    id="kt_content"
+            >
+                <!--begin::Post-->
+                <div class="post d-flex flex-column-fluid" id="kt_post">
+                    <!--begin::Container-->
+                    <!-- Content -->
+                    <div class="container-xxl" id="kt_content_container">
+                        <!--begin::Row-->
+
+                        <!--end::Row-->
+                        <div layout:fragment="content"></div>
+                        <!--end::Row-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Post-->
+            </div>
+            <!--end::Content-->
+            <!--begin::Footer-->
+            <div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
+                <!--begin::Container-->
+                <div
+                        class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between"
+                >
+                    <!--begin::Copyright-->
+                    <div class="text-dark order-2 order-md-1">
+                        <span class="text-muted fw-bold me-1">2021©</span>
+                        <a
+                                class="text-gray-800 text-hover-primary"
+                                href="https://keenthemes.com"
+                                target="_blank"
+                        >Keenthemes</a
+                        >
+                    </div>
+                    <!--end::Copyright-->
+                    <!--begin::Menu-->
+                    <ul class="menu menu-gray-600 menu-hover-primary fw-bold order-1">
+                        <li class="menu-item">
+                            <a
+                                    class="menu-link px-2"
+                                    href="https://keenthemes.com"
+                                    target="_blank"
+                            >About</a
+                            >
+                        </li>
+                        <li class="menu-item">
+                            <a
+                                    class="menu-link px-2"
+                                    href="https://keenthemes.com/support"
+                                    target="_blank"
+                            >Support</a
+                            >
+                        </li>
+                        <li class="menu-item">
+                            <a
+                                    class="menu-link px-2"
+                                    href="https://1.envato.market/EA4JP"
+                                    target="_blank"
+                            >Purchase</a
+                            >
+                        </li>
+                    </ul>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::Footer-->
         </div>
         <!--end::Wrapper-->
-      </div>
-      <!--end::Page-->
     </div>
-    <!--end::Root-->
+    <!--end::Page-->
+</div>
+<!--end::Root-->
 
-    <!--begin::Scrolltop-->
-    <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
-      <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
-      <span class="svg-icon">
+<!--begin::Scrolltop-->
+<div class="scrolltop" data-kt-scrolltop="true" id="kt_scrolltop">
+    <!--begin::Svg Icon | path: icons/duotune/arrows/arr066.svg-->
+    <span class="svg-icon">
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
+                fill="none"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
         >
           <rect
-            opacity="0.5"
-            x="13"
-            y="6"
-            width="13"
-            height="2"
-            rx="1"
-            transform="rotate(90 13 6)"
-            fill="black"
+                  fill="black"
+                  height="2"
+                  opacity="0.5"
+                  rx="1"
+                  transform="rotate(90 13 6)"
+                  width="13"
+                  x="13"
+                  y="6"
           />
           <path
-            d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z"
-            fill="black"
+                  d="M12.5657 8.56569L16.75 12.75C17.1642 13.1642 17.8358 13.1642 18.25 12.75C18.6642 12.3358 18.6642 11.6642 18.25 11.25L12.7071 5.70711C12.3166 5.31658 11.6834 5.31658 11.2929 5.70711L5.75 11.25C5.33579 11.6642 5.33579 12.3358 5.75 12.75C6.16421 13.1642 6.83579 13.1642 7.25 12.75L11.4343 8.56569C11.7467 8.25327 12.2533 8.25327 12.5657 8.56569Z"
+                  fill="black"
           />
         </svg>
       </span>
-      <!--end::Svg Icon-->
-    </div>
-    <!--end::Scrolltop-->
-    <!--end::Main-->
-    <script>
-      var hostUrl = "assets/";
-    </script>
-    <!--begin::Javascript-->
-    <!--begin::Global Javascript Bundle(used by all pages)-->
-    <script
-      xmlns:th="http://www.thymeleaf.org"
-      th:src="@{/assets/plugins/global/plugins.bundle.js}"
-    ></script>
-    <script
-      xmlns:th="http://www.thymeleaf.org"
-      th:src="@{/assets/js/scripts.bundle.js}"
-    ></script>
-    <!--end::Global Javascript Bundle-->
-    <!--end::Javascript-->
-  </body>
-  <!--end::Body-->
+    <!--end::Svg Icon-->
+</div>
+<!--end::Scrolltop-->
+
+<!--end::Main-->
+<script>
+    var hostUrl = "assets/";
+</script>
+<!--begin::Javascript-->
+<!--begin::Global Javascript Bundle(used by all pages)-->
+<script
+        th:src="@{/assets/plugins/global/plugins.bundle.js}"
+        xmlns:th="http://www.thymeleaf.org"
+></script>
+<script
+        th:src="@{/assets/js/scripts.bundle.js}"
+        xmlns:th="http://www.thymeleaf.org"
+></script>
+<!--end::Global Javascript Bundle-->
+
+</body>
+<!--end::Body-->
 </html>

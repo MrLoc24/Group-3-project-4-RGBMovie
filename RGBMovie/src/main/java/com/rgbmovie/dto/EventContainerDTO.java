@@ -1,5 +1,8 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class EventContainerDTO {
     private Integer pk;
     private String eventName;

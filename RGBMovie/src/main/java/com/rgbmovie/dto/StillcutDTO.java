@@ -1,5 +1,8 @@
 package com.rgbmovie.dto;
 
+import lombok.Data;
+
+@Data
 public class StillcutDTO {
     private Integer pk;
     private Integer movie;
