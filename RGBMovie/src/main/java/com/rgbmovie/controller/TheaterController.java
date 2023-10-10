@@ -101,6 +101,7 @@ public class TheaterController {
             }
             if (detail.equals("screening")) {
                 model.addAttribute("screening", new ScreeningDTO());
+                model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
                 return "screening/index";
             }
         }//Redirect to theater's auditorium

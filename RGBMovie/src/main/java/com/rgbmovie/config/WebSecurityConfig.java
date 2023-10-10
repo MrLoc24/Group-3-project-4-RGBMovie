@@ -56,7 +56,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         //For request static and template file
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**").permitAll());
         //For request not require auth
-        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/movie/**", "/api/signup", "/docs/**").permitAll());
+        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/docs/**").permitAll());
         // Filter for api only
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").authenticated())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -76,8 +76,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurer() {
                 @Override
-                public void addCorsMappings(@NotNull CorsRegistry registry) {
-                    registry.addMapping("/**")
+                public void addCorsMappings(CorsRegistry registry) {
+                    registry.addMapping("/api/**")
                             .allowedMethods(CorsConfiguration.ALL)
                             .allowedHeaders(CorsConfiguration.ALL)
                             .allowedOriginPatterns(CorsConfiguration.ALL);
