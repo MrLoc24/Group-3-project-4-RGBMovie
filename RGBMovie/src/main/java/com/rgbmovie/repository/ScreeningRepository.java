@@ -18,4 +18,7 @@ public interface ScreeningRepository extends JpaRepository<ScreeningModel, Integ
     List<ScreeningModel> findByTheater(int id);
 
     List<ScreeningModel> findByAuditorium(int id);
+
+    @Query("SELECT s FROM ScreeningModel s JOIN MovieModel m ON s.movie = m.pk JOIN AuditoriumModel a ON s.auditorium = a.pk WHERE s.theater = :id")
+    List<Object> getDetail(@Param("id") int theater);
 }

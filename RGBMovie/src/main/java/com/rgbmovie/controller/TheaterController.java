@@ -5,6 +5,8 @@ import java.util.List;
 import com.rgbmovie.dto.*;
 import com.rgbmovie.model.AuditoriumModel;
 import com.rgbmovie.model.MovieModel;
+import com.rgbmovie.model.ScreeningModel;
+import com.rgbmovie.model.TheaterModel;
 import com.rgbmovie.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -75,6 +77,7 @@ public class TheaterController {
         model.addAttribute("totalPageCount", totalPageCount);
         model.addAttribute("baseUrl", baseUrl);
         model.addAttribute("theaters", pages);
+        model.addAttribute("theater", new TheaterModel());
         return "theater/index";
     }
 
@@ -84,6 +87,7 @@ public class TheaterController {
         model.addAttribute("theaterId", id);
         model.addAttribute("auditorium", auditoriumService.getByTheater(id).stream().map(m -> modelMapper.map(m, AuditoriumDTO.class)).toList());
         model.addAttribute("screenings", screeningService.getAllByTheater(id).stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList());
+
         model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)));
         if (detail.isEmpty()) {
             return "theater/detail";
@@ -99,6 +103,7 @@ public class TheaterController {
                 }
                 return "auditorium/index";
             }
+            //Screening of theater
             if (detail.equals("screening")) {
                 model.addAttribute("screening", new ScreeningDTO());
                 model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
@@ -111,7 +116,12 @@ public class TheaterController {
 
     //Add new auditorium for each theater
     @PostMapping("/theater/{id}")
-    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO) {
+    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO, ScreeningDTO screeningDTO) {
+        if (detail.equals("screening")) {
+            screeningDTO.setTheater(id);
+            screeningService.addNewScreening(modelMapper.map(screeningDTO, ScreeningModel.class));
+            return "redirect:/theater/" + id + "?detail=screening";
+        }
         auditoriumDTO.setName(auditoriumDTO.getName() + "_" + id);
         auditoriumDTO.setTheater(id);
         AuditoriumModel result = auditoriumService.addNew(modelMapper.map(auditoriumDTO, AuditoriumModel.class));
@@ -119,4 +129,14 @@ public class TheaterController {
         return "redirect:/theater/" + id + "?detail=auditorium";
     }
 
+    @PostMapping("/theater/add")
+    public String addNewTheater(Model model, TheaterDTO theaterDTO) {
+        TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
+        if (result != null) {
+            model.addAttribute("message", "Add Success");
+            return "redirect:/theater";
+        }
+        model.addAttribute("message", "Failed to add new");
+        return "redirect:/theater";
+    }
 }

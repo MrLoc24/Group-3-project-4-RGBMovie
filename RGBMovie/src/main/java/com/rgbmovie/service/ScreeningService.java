@@ -12,4 +12,10 @@ public interface ScreeningService {
     List<ScreeningModel> getAllByTheater(int id);
 
     List<ScreeningModel> getAllByAuditorium(int id);
+
+    List<ScreeningModel> getAll();
+
+    void addNewScreening(ScreeningModel screeningModel);
+
+    List<Object> getDetail(int id);
 }

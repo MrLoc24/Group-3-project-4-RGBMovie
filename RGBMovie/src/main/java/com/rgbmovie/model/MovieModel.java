@@ -57,8 +57,6 @@ public class MovieModel {
     private Collection<ScreeningModel> screeningsByPk;
     @OneToMany(mappedBy = "movieByMovie")
     private Collection<StillcutModel> stillcutsByPk;
-    @OneToMany(mappedBy = "movieByMovie")
-    private Collection<WebTrailerContainerModel> webTrailerContainersByPk;
 
     public int getPk() {
         return pk;
@@ -209,11 +207,5 @@ public class MovieModel {
         this.stillcutsByPk = stillcutsByPk;
     }
 
-    public Collection<WebTrailerContainerModel> getWebTrailerContainersByPk() {
-        return webTrailerContainersByPk;
-    }
 
-    public void setWebTrailerContainersByPk(Collection<WebTrailerContainerModel> webTrailerContainersByPk) {
-        this.webTrailerContainersByPk = webTrailerContainersByPk;
-    }
 }

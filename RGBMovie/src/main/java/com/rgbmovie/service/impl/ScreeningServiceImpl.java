@@ -28,4 +28,19 @@ public class ScreeningServiceImpl implements ScreeningService {
     public List<ScreeningModel> getAllByAuditorium(int id) {
         return screeningRepository.findByAuditorium(id);
     }
+
+    @Override
+    public List<ScreeningModel> getAll() {
+        return screeningRepository.findAll();
+    }
+
+    @Override
+    public void addNewScreening(ScreeningModel screeningModel) {
+        screeningRepository.saveAndFlush(screeningModel);
+    }
+
+    @Override
+    public List<Object> getDetail(int id) {
+        return screeningRepository.getDetail(id);
+    }
 }

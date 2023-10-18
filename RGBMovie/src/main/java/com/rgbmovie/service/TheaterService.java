@@ -12,4 +12,8 @@ public interface TheaterService {
     TheaterModel getById(int pk);
 
     int numberOfStaff(int pk);
+
+    TheaterModel addNew(TheaterModel theaterModel);
+
+    void deleteTheater(int id);
 }
