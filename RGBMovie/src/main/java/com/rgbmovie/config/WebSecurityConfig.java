@@ -58,8 +58,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         //For request not require auth
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/docs/**").permitAll());
         // Filter for api only
-        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").authenticated())
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").authenticated())
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable);
         //For request require auth
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/users/**", "/theater/**", "/role/**", "/movie/**", "/director/**", "/casting/**", "/cast/**", "/home/**", "/customer/**")
                 .hasAnyRole("ADMIN").anyRequest().authenticated()).formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/auth/login").permitAll()
@@ -76,11 +76,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         public WebMvcConfigurer corsConfigurer() {
             return new WebMvcConfigurer() {
                 @Override
-                public void addCorsMappings(CorsRegistry registry) {
+                public void addCorsMappings(@NotNull CorsRegistry registry) {
                     registry.addMapping("/api/**")
                             .allowedMethods(CorsConfiguration.ALL)
                             .allowedHeaders(CorsConfiguration.ALL)
-                            .allowedOriginPatterns(CorsConfiguration.ALL);
+                            .allowedOriginPatterns(CorsConfiguration.ALL).
+                            allowedOrigins("http://localhost:5173").allowCredentials(true);
                 }
             };
         }
