@@ -246,6 +246,33 @@
                                                 <!--begin::Input group-->
                                                 <div class="mb-7">
                                                     <!--begin::Label-->
+                                                    <label class="required fw-bold fs-6 mb-5" for="time"
+                                                    >Time</label
+                                                    >
+                                                    <!--end::Label-->
+                                                    <!--begin::Roles-->
+                                                    <!--begin::Input row-->
+                                                    <div class="d-flex fv-row">
+                                                        <!--begin::Radio-->
+
+                                                        <div
+                                                                class="form-check form-check-custom form-check-solid"
+                                                        >
+                                                            <input id="time" th:value="${screening.time}"
+                                                                   type="datetime-local">
+                                                        </div>
+                                                        <!--end::Radio-->
+                                                    </div>
+                                                    <!--end::Input row-->
+                                                    <div
+                                                            class="separator separator-dashed my-5"
+                                                    ></div>
+                                                    <!--end::Roles-->
+                                                </div>
+                                                <!--end::Input group-->
+                                                <!--begin::Input group-->
+                                                <div class="mb-7">
+                                                    <!--begin::Label-->
                                                     <label class="required fw-bold fs-6 mb-5" for="auditorium"
                                                     >Auditorium</label
                                                     >
@@ -331,6 +358,7 @@
                             <th class="min-w-125px">No.</th>
                             <th class="min-w-125px">Auditorium</th>
                             <th class="min-w-125px">Movie</th>
+                            <th class="min-w-125px">Time</th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
                         <!--end::Table row-->
@@ -349,10 +377,13 @@
                             <td th:text="${item.pk}"></td>
                             <!--end::Checkbox-->
                             <!--begin::auditorium-->
-                            <td th:text="${item.auditorium}"></td>
+                            <td th:text="${item.theater}"></td>
                             <!--end::auditorium-->
                             <!--begin::movie-->
                             <td th:text="${item.movie}"></td>
+                            <!--end::movie-->
+                            <!--begin::movie-->
+                            <td th:text="${item.time}"></td>
                             <!--end::movie-->
                             <!--begin::Action=-->
                             <td class="text-end">
