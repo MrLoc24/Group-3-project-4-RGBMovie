@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   MovieOutlined,
   TheatersOutlined,
@@ -22,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { useLogoutMutation } from "../../slices/customersApiSlice";
 import { logout } from "../../slices/authSlice";
 import { toast } from "react-toastify";
+import { useProfileMutation } from "../../slices/customersApiSlice";
 
 const NavigationBar = () => {
   // Handle auth
@@ -75,6 +77,18 @@ const NavigationBar = () => {
     setAnchorEl(null);
   };
 
+  const [profile] = useProfileMutation();
+
+  const handleProfile = async () => {
+    setAnchorEl(null);
+    try {
+      const profileDetail = await profile(customerInfo.username);
+      console.log(profileDetail);
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
+  };
+
   return (
     <Box alignContent={"center"}>
       <BottomNavigation
@@ -90,7 +104,7 @@ const NavigationBar = () => {
         }}
       >
         <Typography
-          className="neonImagePurple logoHover"
+          className=""
           variant="h2"
           noWrap
           component="a"
@@ -105,25 +119,25 @@ const NavigationBar = () => {
         </Typography>
         <BottomNavigationAction
           label="Movies"
-          className="neonText flicker"
+          className=" "
           icon={<MovieOutlined />}
           value="movie"
         />
         <BottomNavigationAction
           label="Theaters"
-          className="neonText"
+          className=""
           icon={<TheatersOutlined />}
           value="theater"
         />
         <BottomNavigationAction
           label="Events"
-          className="neonText"
+          className=""
           icon={<EventOutlined />}
         />
         {customerInfo ? (
           <BottomNavigationAction
             label={username}
-            className="neonText"
+            className=""
             icon={<AccountCircleOutlined />}
             aria-controls={openProfile ? "basic-menu" : undefined}
             aria-haspopup="true"
@@ -133,13 +147,13 @@ const NavigationBar = () => {
         ) : (
           <BottomNavigationAction
             label="Sign In"
-            className="neonText"
+            className=""
             icon={<LockOpenOutlined />}
             value="signin"
           />
         )}
         <Typography
-          className="logoHover neonImagePurple"
+          className=""
           variant="h2"
           noWrap
           component="a"
@@ -172,7 +186,7 @@ const NavigationBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleCloseProfile}>Profile</MenuItem>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={logoutHandler}>Logout</MenuItem>
       </Menu>
     </Box>

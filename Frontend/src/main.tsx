@@ -16,7 +16,7 @@ import {
   SignUp,
   PrivateRoute,
 } from "./components/index.ts";
-import { LoginScreen, SectionScreen } from "./screens";
+import { LoginScreen, ProfileScreen, SectionScreen } from "./screens";
 import { Provider } from "react-redux";
 import store from "./store.ts";
 
@@ -47,7 +47,7 @@ const router = createBrowserRouter(
       <Route path="/signup" element={<LoginScreen child={<SignUp />} />} />
       {/* Private Routes */}
       <Route path="" element={<PrivateRoute />}>
-        <Route path="/profile" />
+        <Route path="/profile" element={<ProfileScreen />} />
       </Route>
     </Route>
   )

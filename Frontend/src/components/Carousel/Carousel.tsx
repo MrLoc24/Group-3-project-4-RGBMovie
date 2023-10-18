@@ -398,7 +398,6 @@ export default function App() {
   useEffect(() => {
     try {
       findAllMovies("").then((result) => {
-        console.log(result.data);
         const movieList = result.data.map((item: any) => {
           return {
             id: item.pk,

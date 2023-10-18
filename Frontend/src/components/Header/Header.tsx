@@ -4,7 +4,7 @@ import { HeaderProps } from "../../interfaces/HeaderProps";
 const Header = ({children}: HeaderProps) => {
   return (
     <AppBar
-      position="static"
+      position="fixed"
       style={{
         backgroundColor: "transparent",
         justifyContent: "center",

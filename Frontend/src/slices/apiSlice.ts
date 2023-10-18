@@ -5,7 +5,10 @@ const baseQuery = fetchBaseQuery({
   credentials: "same-origin",
   mode: "cors",
   prepareHeaders: (headers) => {
-    headers.set("Access-Control-Allow-Origin", "*");
+    if (localStorage.getItem("customerInfo")) {
+      const token = JSON.parse(localStorage.getItem("customerInfo") ?? "");
+      headers.set("Authorization", `Bearer ${token.accessToken}`);
+    }
     // headers.set('Access-Control-Allow-Methods', 'GET') //
     // headers.set('Access-Control-Allow-Headers', '*') //
     return headers;

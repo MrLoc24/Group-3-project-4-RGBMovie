@@ -58,7 +58,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         //For request not require auth
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/docs/**").permitAll());
         // Filter for api only
-        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**").authenticated())
+        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**", "/api/profile/**").authenticated())
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         //For request require auth
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/users/**", "/theater/**", "/role/**", "/movie/**", "/director/**", "/casting/**", "/cast/**", "/home/**", "/customer/**")

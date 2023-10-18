@@ -15,10 +15,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000000;
-  background-image: url("./assets/wallbackgrond.jpg");
-  background-repeat: no-repeat;
-  background-position: top;
+  background: url('assets/wallbackgrond.jpg') top center no-repeat;
 }
 
 .neonText {
