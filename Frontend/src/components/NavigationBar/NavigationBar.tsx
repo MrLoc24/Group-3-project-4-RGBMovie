@@ -83,6 +83,7 @@ const NavigationBar = () => {
     setAnchorEl(null);
     try {
       const profileDetail = await profile(customerInfo.username);
+      navigate("/profile");
       console.log(profileDetail);
     } catch (error: any) {
       toast(error?.data?.message || error.error);
