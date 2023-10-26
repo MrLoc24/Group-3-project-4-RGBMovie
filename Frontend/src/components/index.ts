@@ -1,7 +1,7 @@
 import Carousel from "./Carousel/Carousel";
 import NavigationBar from "./NavigationBar/NavigationBar";
 import SlideSection from "./SlideSection/SlideSection";
-import Header from "./Header/Header";
+import Header from "./layout/Header/Header";
 import Theater from "./Theater/Theater";
 import ShowingTime from "./common/ShowingTime/ShowingTime";
 import SignIn from "./SignIn/SignIn";
@@ -19,6 +19,7 @@ import CustomContainer from "./common/Container/CustomContainer";
 import SelectInput from "./common/SelectInput/SelectInput";
 import Poster from "./common/Poster/Poster";
 import SeatsSelect from "./SeatsSelect/SeatsSelect";
+import Logo from "./common/Logo/Logo";
 
 export {
   Carousel,
@@ -42,4 +43,5 @@ export {
   Detail,
   Poster,
   SeatsSelect,
+  Logo,
 };

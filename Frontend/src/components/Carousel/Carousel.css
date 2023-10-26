@@ -15,8 +15,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 1rem var(--neonPurple),
-    0 0 0.8rem var(--neonPurple);
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 1rem black,
+    0 0 0.8rem rgb(90, 90, 90);
 }
 
 .swiper-slide img {

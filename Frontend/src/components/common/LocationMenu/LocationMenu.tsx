@@ -26,9 +26,9 @@ const LocationMenu = ({
         >
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {locationList
-            ? locationList.map(({ name }: any, index: any) => (
-                <MenuItem key={index} value={name}>
-                  {name}
+            ? locationList.map((item: any) => (
+                <MenuItem key={item} value={item}>
+                  {item}
                 </MenuItem>
               ))
             : null}
@@ -47,9 +47,9 @@ const LocationMenu = ({
           label="Theater"
         >
           {theaterList
-            ? theaterList.map(({ name }: any, index: any) => (
-                <MenuItem key={index} value={name}>
-                  {name}
+            ? theaterList.map((item: any) => (
+                <MenuItem key={item.pk} value={item.address}>
+                  {item.address}
                 </MenuItem>
               ))
             : null}

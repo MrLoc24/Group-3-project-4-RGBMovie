@@ -3,6 +3,7 @@ import authReducer from "./slices/authSlice";
 import { apiSlice } from "./slices/apiSlice";
 import movieReducer from "./slices/movieSlice";
 import theaterReducer from "./slices/theaterSlice";
+import profileReducer from "./slices/profileSlice";
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     movies: movieReducer,
     theaters: theaterReducer,
+    profile: profileReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

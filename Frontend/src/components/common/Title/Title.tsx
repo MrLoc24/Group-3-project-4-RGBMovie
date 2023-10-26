@@ -29,7 +29,7 @@ const Title = ({ label }: TitleProps) => {
     neonGlory(target);
   });
   // target.click = ({ target }) => neonGlory(target);
-  return <div className="sectionTitle neonImageBlue">{label}</div>;
+  return <div className="sectionTitle neonImagePurple">{label}</div>;
 };
 
 export default Title;

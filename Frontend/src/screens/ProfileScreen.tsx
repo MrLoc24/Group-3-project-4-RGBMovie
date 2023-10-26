@@ -9,10 +9,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUpdateCustomerMutation } from "../slices/customersApiSlice";
+import { useSelector } from "react-redux";
 
 const ProfileScreen = () => {
   const [username, setUsername] = useState("");
@@ -22,6 +23,16 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const { customerDetail } = useSelector((state: any) => state.profile);
+
+  useEffect(() => {
+    setUsername(customerDetail.data.username);
+    setFirstName(customerDetail.data.firstName);
+    setLastName(customerDetail.data.lastName);
+    setEmail(customerDetail.data.email);
+    setPhoneNumber(customerDetail.data.phoneNumber);
+  }, [customerDetail]);
 
   const [update] = useUpdateCustomerMutation();
 
@@ -71,7 +82,7 @@ const ProfileScreen = () => {
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}></Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Profile
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -168,7 +179,7 @@ const ProfileScreen = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Save
           </Button>
         </Box>
       </Box>

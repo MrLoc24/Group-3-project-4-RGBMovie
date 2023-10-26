@@ -397,7 +397,7 @@ export default function App() {
 
   useEffect(() => {
     try {
-      findAllMovies("").then((result) => {
+      findAllMovies("").then((result: any) => {
         const movieList = result.data.map((item: any) => {
           return {
             id: item.pk,
@@ -413,7 +413,11 @@ export default function App() {
         });
 
         dispatch(addMovies(movieList));
-        dispatch(addTheaters(locations));
+      });
+
+      findAllTheater("").then((result: any) => {
+        const theaters = result.data;
+        dispatch(addTheaters(theaters));
       });
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
