@@ -60,26 +60,30 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
   const movieList = useSelector((state: any) => state.movies.movies);
 
   useEffect(() => {
-    setLocations(theaterList.location);
+    const subLocation = theaterList.map((item: any) => {
+      return item.subLocation;
+    });
+    const uniqueLocation = new Set(subLocation);
+    setLocations(Array.from(uniqueLocation));
   }, []);
 
   const handleLocationSelect = (event: SelectChangeEvent) => {
     setLocation(event.target.value);
 
-    const index = locations.findIndex(
-      (item) => item.name == event.target.value
+    const listTheater = theaterList.filter(
+      (item: any) => item.subLocation == event.target.value
     );
 
-    setTheaters(locations[index].theaters);
+    setTheaters(listTheater);
   };
+  
   const handleTheaterSelect = (event: SelectChangeEvent) => {
     setTheater(event.target.value);
-    const index = theaters.findIndex((item) => item.name == event.target.value);
-    const filmList = theaters[index].films;
-    // setShowingTime(filmList.find((item: any) => item.id == movieId));
-    const film = filmList.find((item: any) => item.id == movieId);
-    console.log(film.format);
-    setShowingTime(film.format);
+    // const index = theaters.findIndex((item) => item.name == event.target.value);
+    // const filmList = theaters[index].films;
+    // // setShowingTime(filmList.find((item: any) => item.id == movieId));
+    // const film = filmList.find((item: any) => item.id == movieId);
+    // setShowingTime(film.format);
   };
 
   const handleMovieClick = (event: React.FormEvent<HTMLFormElement>) => {

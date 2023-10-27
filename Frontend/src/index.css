@@ -15,20 +15,33 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url('assets/wallbackgrond.jpg') top center no-repeat;
+  /* background: #0f0f0f top center no-repeat; */
+  background: url("assets/wallbackgrondDarker.jpg") top center no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .neonText {
-  color: var(--textPrimary);
-  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff,
-    0 0 42px var(--neonPurple), 0 0 82px var(--neonPurple),
-    0 0 92px var(--neonPurple), 0 0 102px var(--neonPurple),
-    0 0 151px var(--neonPurple);
+  text-shadow: var(--neonPink) 0px 0px 10px, var(--neonPink) 0px 0px 20px;
+  filter: drop-shadow(var(--neonPurple) 0px 0px 10px);
 }
 
 .flicker {
   font-size: 4.2rem;
   animation: flicker 1.5s infinite alternate;
+}
+
+.logo {
+  animation: flickerLogo 1.5s infinite alternate;
+}
+
+.logo:hover {
+  filter: contrast(150%) saturate(8);
+  animation: none;
+  text-shadow: #fff 0px 0px 10px, var(--neonPurple) 0px 0px 20px,
+    var(--neonCrimson) 0px 0px 30px;
 }
 
 /* Flickering animation */
@@ -54,7 +67,7 @@ body {
 }
 
 /* Flickering animation */
-@keyframes imageflicker {
+@keyframes flickerLogo {
   0%,
   18%,
   22%,
@@ -62,13 +75,14 @@ body {
   53%,
   57%,
   100% {
-    filter: drop-shadow(0 0 0.75rem var(--neonYellow));
+    text-shadow: #fff 0px 0px 10px, var(--neonPurple) 0px 0px 20px,
+      var(--neonCrimson) 0px 0px 30px;
   }
 
   20%,
   24%,
   55% {
-    filter: none;
+    text-shadow: none;
   }
 }
 
@@ -88,10 +102,6 @@ body {
 
 .neonImagePurple {
   filter: drop-shadow(0 0 0.75rem var(--neonPurple));
-}
-
-.logoHover:hover {
-  filter: contrast(200%) saturate(8) drop-shadow(0 0 0.75rem var(--neonYellow));
 }
 
 /* Neon effect on border */

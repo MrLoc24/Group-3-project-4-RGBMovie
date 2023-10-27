@@ -35,7 +35,6 @@ const DateSelect = () => {
     date: string | null
   ) => {
     setDate(date);
-    console.log(date);
   };
 
   return (

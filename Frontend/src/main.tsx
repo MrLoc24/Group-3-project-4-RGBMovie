@@ -16,7 +16,12 @@ import {
   SignUp,
   PrivateRoute,
 } from "./components/index.ts";
-import { LoginScreen, ProfileScreen, SectionScreen } from "./screens";
+import {
+  CartScreen,
+  LoginScreen,
+  ProfileScreen,
+  SectionScreen,
+} from "./screens";
 import { Provider } from "react-redux";
 import store from "./store.ts";
 
@@ -45,6 +50,7 @@ const router = createBrowserRouter(
       />
       <Route path="/signin" element={<LoginScreen child={<SignIn />} />} />
       <Route path="/signup" element={<LoginScreen child={<SignUp />} />} />
+      <Route path="/cart" element={<CartScreen />} />
       {/* Private Routes */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<ProfileScreen />} />
