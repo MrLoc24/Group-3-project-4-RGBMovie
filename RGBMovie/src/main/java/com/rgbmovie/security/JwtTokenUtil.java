@@ -17,33 +17,30 @@ import com.rgbmovie.repository.UserRepository;
 @Component
 public class JwtTokenUtil {
 
-	
-	@Value("${app.jwt.secret}")
-    private String JWT_SECRET;
-	@Autowired
-	UserRepository userRepository;
-	
-	
-	
-	public String generateToken(LoginModel loginModel) {
-		final long JWT_EXPIRATION = 864000000L;
-		Date now = new Date();
-		Date expiryDate = new Date(now.getTime()+JWT_EXPIRATION);
-		UserModel userDetails = userRepository.findUserModelByUsernameOrEmail(loginModel.getUsername());
 
-		String token = Jwts.builder().
-				setSubject(String.format("%s", userDetails.getUsername()))
-	            .setIssuer("Group_4")
-	            .claim("roles", userDetails.getRoles().toString())
-	            .setIssuedAt(new Date())
-	            .setExpiration(expiryDate)
-	            .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-				.compact();
-		return token;
-	}
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
+    @Autowired
+    UserRepository userRepository;
+    @Value("${app.jwt.secret}")
+    private String JWT_SECRET;
+
+    public String generateToken(LoginModel loginModel) {
+        final long JWT_EXPIRATION = 864000000L;
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+        UserModel userDetails = userRepository.findByUsernameOrEmail(loginModel.getUsername(), loginModel.getUsername());
+
+        String token = Jwts.builder().
+                setSubject(String.format("%s", userDetails.getUsername()))
+                .setIssuer("Group_4")
+                .claim("roles", userDetails.getRoles().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .compact();
+        return token;
+    }
+
     public boolean validateAccessToken(String token) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
@@ -59,19 +56,19 @@ public class JwtTokenUtil {
         } catch (SignatureException ex) {
             LOGGER.error("Signature validation failed");
         }
-         
+
         return false;
     }
-     
+
     public String getSubject(String token) {
         return parseClaims(token).getSubject();
     }
-     
+
     public Claims parseClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
     }
-	    
+
 }

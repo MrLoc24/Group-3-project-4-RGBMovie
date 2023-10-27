@@ -22,4 +22,9 @@ public class MovieServiceImpl implements MovieService {
     public MovieModel getById(int id) {
         return movieRepository.getReferenceById(id);
     }
+
+    @Override
+    public MovieModel addNew(MovieModel movieModel) {
+        return movieRepository.saveAndFlush(movieModel);
+    }
 }

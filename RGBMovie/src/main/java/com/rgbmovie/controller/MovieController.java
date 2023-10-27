@@ -1,9 +1,11 @@
 package com.rgbmovie.controller;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.rgbmovie.dto.CastDTO;
 import com.rgbmovie.dto.MovieDTO;
-import com.rgbmovie.dto.TheaterDTO;
+import com.rgbmovie.helpers.AppConstant;
 import com.rgbmovie.model.MovieModel;
-import com.rgbmovie.model.TheaterModel;
 import com.rgbmovie.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
@@ -11,29 +13,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
+    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", AppConstant.cloudinaryName,
+            "api_key", AppConstant.apiKey,
+            "api_secret", AppConstant.apiSecret,
+            "secure", AppConstant.secure));
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
     private MovieService movieService;
+    //    @Autowired
+//    private UserService userService;
+//    @Autowired
+//    private AuditoriumService auditoriumService;
+//    @Autowired
+//    private SeatService seatService;
+//    @Autowired
+//    private ScreeningService screeningService;
     @Autowired
-    private UserService userService;
+    private CastService castService;
     @Autowired
-    private AuditoriumService auditoriumService;
-    @Autowired
-    private SeatService seatService;
-    @Autowired
-    private ScreeningService screeningService;
+    private DirectorService directorService;
 
     @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String index(Model model, HttpServletRequest request, RedirectAttributes redirect) {
@@ -75,8 +86,16 @@ public class MovieController {
         model.addAttribute("totalPageCount", totalPageCount);
         model.addAttribute("baseUrl", baseUrl);
         model.addAttribute("movies", pages);
-        model.addAttribute("movie", new MovieModel());
+        model.addAttribute("movie", new MovieDTO());
+        model.addAttribute("cast", new CastDTO());
         return "movie/index";
     }
 
+    @PostMapping("/add")
+    public String addMovie(Model model, @ModelAttribute MovieDTO movieDTO, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+        var uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
+        movieDTO.setMainImg(uploadResult.get("url").toString());
+        movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
+        return "redirect:/movie";
+    }
 }

@@ -10,21 +10,22 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.Serial;
+
 
 @Service
 public class CustomUserDetailServiceImpl implements UserDetailsService {
-	
-	@Autowired
-	 private UserRepository userRepository;
-   
+    
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    		System.out.println(username);
-    		UserModel userModel = userRepository.findUserModelByUsernameOrEmail(username);
-    		if(userModel == null){
-                throw new UsernameNotFoundException("Ten dang nhap khong ton tai");
-            }
-    		return new CustomUserDetailService(userModel);		
+        System.out.println(username);
+        UserModel userModel = userRepository.findByUsernameOrEmail(username, username);
+        if (userModel == null) {
+            throw new UsernameNotFoundException("Ten dang nhap khong ton tai");
+        }
+        return new CustomUserDetailService(userModel);
     }
 }

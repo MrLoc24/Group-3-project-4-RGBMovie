@@ -1,8 +1,10 @@
 package com.rgbmovie.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+
 
 @Data
 public class ScreeningDTO {
@@ -10,7 +12,8 @@ public class ScreeningDTO {
     private Integer movie;
     private Integer theater;
     private Integer auditorium;
-    private LocalDateTime time;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date time;
 
     public Integer getPk() {
         return this.pk;
@@ -44,11 +47,11 @@ public class ScreeningDTO {
         this.auditorium = auditorium;
     }
 
-    public LocalDateTime getTime() {
+    public Date getTime() {
         return this.time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 }

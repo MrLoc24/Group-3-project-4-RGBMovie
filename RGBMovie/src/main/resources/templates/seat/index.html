@@ -37,7 +37,7 @@
             >
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                    Auditoriums List
+                    Seats List
                 </h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
@@ -76,7 +76,15 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Auditoriums List</li>
+                    <li class="breadcrumb-item text-muted">Auditoriums</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Seats</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -326,13 +334,10 @@
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
                     <div class="movie-container">
-                        <label>Pick a Movie</label>
+                        <label for="movie">Pick a Movie</label>
                         <select id="movie">
-                            <option value="10">Avengers Endgame ($10)</option>
-                            <option value="12">Joker ($12)</option>
-                            <option value="8">Toy Story 4 ($8)</option>
-                            <option value="9">The Lion King ($9)</option>
-
+                            <option th:each="movie : ${movies}" th:text="${movie.title}"
+                                    th:value="${movie.pk}"></option>
                         </select>
                     </div>
 
@@ -356,14 +361,11 @@
                         <div class="screen"></div>
                         <div class="seat-row" th:each="row, rowStat : ${#numbers.sequence(1, auditor.row)}">
                             <div class="seat" th:each="col, colStat : ${#numbers.sequence(1, auditor.column)}"
-                                 th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', rowStat.index, rowStat.index + 1)} + ${colStat.count}">
+                                 th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', rowStat.index,rowStat.index + 1)} + ${colStat.count}">
                             </div>
                         </div>
 
                     </div>
-
-                    <p class="text">You have selected <span id="count">0 </span> seats for a price of $<span id="total">0 </span>
-                    </p>
                 </div>
                 <!--end::Card body-->
             </div>
@@ -375,21 +377,21 @@
     <!--begin::Page Vendors Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/plugins/custom/datatables/datatables.bundle.js}" xmlns:th="http://www.thymeleaf.org"
+            th:src="@{/assets/plugins/custom/datatables/datatables.bundle.js}" xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Vendors Javascript-->
     <!--begin::Page Custom Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/table.js}" xmlns:th="http://www.thymeleaf.org"
+            th:src="@{/assets/js/custom/apps/user-management/users/list/table.js}" xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/add.js}" xmlns:th="http://www.thymeleaf.org"
+            th:src="@{/assets/js/custom/apps/user-management/users/list/add.js}" xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script
             defer
-            th:src="@{assets/js/custom/widgets.js}" xmlns:th="http://www.thymeleaf.org"
+            th:src="@{/assets/js/custom/widgets.js}" xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->
 </div>

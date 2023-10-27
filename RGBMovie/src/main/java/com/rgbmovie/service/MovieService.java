@@ -10,4 +10,6 @@ public interface MovieService {
     List<MovieModel> getAll();
 
     MovieModel getById(int id);
+
+    MovieModel addNew(MovieModel movieModel);
 }

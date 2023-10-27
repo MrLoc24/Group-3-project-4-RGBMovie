@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
-    @Query("SELECT e FROM UserModel e WHERE e.username LIKE :username OR e.email LIKE :username ")
-    UserModel findUserModelByUsernameOrEmail(@Param("username") String name);
+
+    UserModel findByUsernameOrEmail(String input1, String input2);
 
     @Query("SELECT u FROM UserModel u JOIN UserRoleModel ur ON u.pk = ur.userId JOIN RoleModel r ON ur.roleId = r.pk WHERE r.name NOT LIKE 'ROLE_CUSTOMER'")
     List<UserModel> findStaff();

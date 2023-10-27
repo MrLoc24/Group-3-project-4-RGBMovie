@@ -9,7 +9,6 @@ const baseQuery = fetchBaseQuery({
       const token = JSON.parse(localStorage.getItem("customerInfo") ?? "");
       headers.set("Authorization", `Bearer ${token.accessToken}`);
     }
-
     return headers;
   },
 });

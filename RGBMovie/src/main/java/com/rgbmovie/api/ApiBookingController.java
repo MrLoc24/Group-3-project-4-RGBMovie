@@ -1,6 +1,7 @@
 package com.rgbmovie.api;
 
 
+import com.rgbmovie.dto.ReservationDTO;
 import com.rgbmovie.dto.ReservedSeatDTO;
 import com.rgbmovie.model.ReservationModel;
 import com.rgbmovie.model.ReservedSeatModel;
@@ -15,6 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -51,4 +54,25 @@ public class ApiBookingController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/book/cancel/{id}")
+    public Object cancelSeat(@PathVariable("id") int id) {
+        reservedSeatService.cancelSeat(id);
+        return new ResponseEntity<>("Remove seat successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/book/history")
+    public Object orderHistory(@RequestParam("userId") int userId) {
+        List<ReservationDTO> reservationDTO = reservationService.getAllByUser(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
+        return reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/book/history/{id}")
+    public Object orderHistoryDetail(@PathVariable("id") int id) {
+        ReservationDTO reservationDTO = modelMapper.map(reservationService.getById(id), ReservationDTO.class);
+        List<ReservedSeatDTO> reservedSeatDTOs = reservedSeatService.findByReservationId(id).stream().map(m -> modelMapper.map(m, ReservedSeatDTO.class)).toList();
+        Map<String, Object> response = Map.of("Reservation", reservationDTO, "ReservedSeat", reservedSeatDTOs);
+        return response.isEmpty() ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
+    }
+
 }

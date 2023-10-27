@@ -6,6 +6,8 @@ import com.rgbmovie.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservationServiceImpl implements ReservationService {
     @Autowired
@@ -26,4 +28,22 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationModel update(ReservationModel reservationModel) {
         return reservationRepository.saveAndFlush(reservationModel);
     }
+
+    @Override
+    public List<ReservationModel> getAll() {
+        return reservationRepository.findAll();
+    }
+
+    @Override
+    public ReservationModel getById(int id) {
+        return reservationRepository.getReferenceById(id);
+    }
+
+
+    @Override
+    public List<ReservationModel> getAllByUser(int id) {
+        return reservationRepository.findByUser(id);
+    }
+
+
 }

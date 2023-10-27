@@ -258,7 +258,8 @@
                                                         <div
                                                                 class="form-check form-check-custom form-check-solid"
                                                         >
-                                                            <input id="time" th:value="${screening.time}"
+                                                            <input id="time" th:field="${screening.time}"
+                                                                   th:value="${screening.time}"
                                                                    type="datetime-local">
                                                         </div>
                                                         <!--end::Radio-->
@@ -372,15 +373,17 @@
                         </tr>
                         <!--end::If no data-->
                         <!--begin::Table row-->
-                        <tr th:each="item : ${screenings}">
+                        <tr th:each="item, stat : ${screenings}">
                             <!--begin::Checkbox-->
                             <td th:text="${item.pk}"></td>
                             <!--end::Checkbox-->
                             <!--begin::auditorium-->
-                            <td th:text="${item.theater}"></td>
+                            <td th:each="aud : ${auditorium}" th:if="${aud.pk == item.auditorium}"
+                                th:text="${aud.name}"></td>
                             <!--end::auditorium-->
                             <!--begin::movie-->
-                            <td th:text="${item.movie}"></td>
+                            <td th:each="movie : ${movies}" th:if="${movie.pk == item.movie}"
+                                th:text="${movie.title}"></td>
                             <!--end::movie-->
                             <!--begin::movie-->
                             <td th:text="${item.time}"></td>

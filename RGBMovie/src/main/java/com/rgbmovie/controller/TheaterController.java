@@ -34,6 +34,8 @@ public class TheaterController {
     @Autowired
     private ScreeningService screeningService;
     @Autowired
+    private WorkplaceService workplaceService;
+    @Autowired
     private MovieService movieService;
 
 
@@ -87,8 +89,8 @@ public class TheaterController {
         model.addAttribute("theaterId", id);
         model.addAttribute("auditorium", auditoriumService.getByTheater(id).stream().map(m -> modelMapper.map(m, AuditoriumDTO.class)).toList());
         model.addAttribute("screenings", screeningService.getAllByTheater(id).stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList());
-
-        model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)));
+        model.addAttribute("users", workplaceService.getAllByTheaterId(id).stream().map(m -> modelMapper.map(m, WorkplaceDTO.class)).toList());
+        model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
         if (detail.isEmpty()) {
             return "theater/detail";
         } else {
@@ -106,8 +108,11 @@ public class TheaterController {
             //Screening of theater
             if (detail.equals("screening")) {
                 model.addAttribute("screening", new ScreeningDTO());
-                model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
                 return "screening/index";
+            }
+            if (detail.equals("workplace")) {
+
+                return "redirect:/users?workplace=" + id;
             }
         }//Redirect to theater's auditorium
         return "theater/index";

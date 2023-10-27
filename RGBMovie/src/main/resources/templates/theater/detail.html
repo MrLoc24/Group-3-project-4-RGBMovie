@@ -78,30 +78,9 @@
             <div class="d-flex flex-wrap flex-stack my-5">
                 <!--begin::Heading-->
                 <h2 class="fs-2 fw-bold my-2">
-                    Projects <span class="fs-6 text-gray-400 ms-1">by Status</span>
+                    Theater <span class="fs-6 text-gray-400 ms-1" th:text="${theater.location}"></span>
                 </h2>
                 <!--end::Heading-->
-                <!--begin::Controls-->
-                <div class="d-flex flex-wrap my-1">
-                    <!--begin::Select wrapper-->
-                    <div class="m-0">
-                        <!--begin::Select-->
-                        <select
-                                class="form-select form-select-white form-select-sm fw-bolder w-125px"
-                                data-control="select2"
-                                data-hide-search="true"
-                                name="status"
-                        >
-                            <option selected="selected" value="Active">Active</option>
-                            <option value="Approved">In Progress</option>
-                            <option value="Declined">To Do</option>
-                            <option value="In Progress">Completed</option>
-                        </select>
-                        <!--end::Select-->
-                    </div>
-                    <!--end::Select wrapper-->
-                </div>
-                <!--end::Controls-->
             </div>
             <!--end::Toolbar-->
             <!--begin::Row-->
@@ -218,13 +197,13 @@
                     <!--end::Card-->
                 </div>
                 <!--end::Col-->
-                <!--begin::Screning-->
+                <!--begin::Work Place-->
                 <!--begin::Col-->
                 <div class="col-md-6 col-xl-4">
                     <!--begin::Card-->
                     <a
                             class="card border border-2 border-gray-300 border-hover"
-                            th:href="@{'/theater/' + ${theater.pk} + '?detail=screening'}"
+                            th:href="@{'/theater/' + ${theater.pk} + '?detail=workplace'}"
                     >
                         <!--begin::Card header-->
                         <div class="card-header border-0 pt-9">
@@ -235,30 +214,22 @@
                                     <img
                                             alt="image"
                                             class="p-3"
-                                            th:src="@{/assets/media/svg/brand-logos/figma-1.svg}"
+                                            th:src="@{/assets/media/svg/brand-logos/vodafone.svg}"
                                     />
                                 </div>
                                 <!--end::Avatar-->
                             </div>
                             <!--end::Car Title-->
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                    <span
-                            class="badge badge-light-success fw-bolder me-auto px-4 py-3"
-                    >Completed</span
-                    >
-                            </div>
-                            <!--end::Card toolbar-->
                         </div>
                         <!--end:: Card header-->
                         <!--begin:: Card body-->
                         <div class="card-body p-9">
                             <!--begin::Name-->
-                            <div class="fs-3 fw-bolder text-dark">Atica Banking</div>
+                            <div class="fs-3 fw-bolder text-dark">Staff</div>
                             <!--end::Name-->
                             <!--begin::Description-->
                             <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-                                CRM App application to HR efficiency
+                                Staff Management
                             </p>
                             <!--end::Description-->
                             <!--begin::Info-->
@@ -268,429 +239,20 @@
                                         class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
                                 >
                                     <div class="fs-6 text-gray-800 fw-bolder">
-                                        Mar 14, 2021
+                                        <span th:text="${users.size() + ' Employee'}"></span>
                                     </div>
-                                    <div class="fw-bold text-gray-400">Due Date</div>
+                                    <div class="fw-bold text-gray-400">Today</div>
                                 </div>
                                 <!--end::Due-->
-                                <!--begin::Budget-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        $605,100.00
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Budget</div>
-                                </div>
-                                <!--end::Budget-->
                             </div>
                             <!--end::Info-->
-                            <!--begin::Progress-->
-                            <div
-                                    class="h-4px w-100 bg-light mb-5"
-                                    data-bs-toggle="tooltip"
-                                    title="This project 100% completed"
-                            >
-                                <div
-                                        aria-valuemax="100"
-                                        aria-valuemin="0"
-                                        aria-valuenow="100"
-                                        class="bg-success rounded h-4px"
-                                        role="progressbar"
-                                        style="width: 100%"
-                                ></div>
-                            </div>
-                            <!--end::Progress-->
-                            <!--begin::Users-->
-                            <div class="symbol-group symbol-hover">
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Mad Macy"
-                                >
-                                    <img alt="Pic" src="assets/media/avatars/150-3.jpg"/>
-                                </div>
-                                <!--begin::User-->
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Cris Willson"
-                                >
-                                    <img alt="Pic" src="assets/media/avatars/150-8.jpg"/>
-                                </div>
-                                <!--begin::User-->
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Mike Garcie"
-                                >
-                      <span
-                              class="symbol-label bg-info text-inverse-info fw-bolder"
-                      >M</span
-                      >
-                                </div>
-                                <!--begin::User-->
-                            </div>
-                            <!--end::Users-->
                         </div>
                         <!--end:: Card body-->
                     </a>
                     <!--end::Card-->
                 </div>
                 <!--end::Col-->
-                <!--begin::Col-->
-                <div class="col-md-6 col-xl-4">
-                    <!--begin::Card-->
-                    <a
-                            class="card border border-2 border-gray-300 border-hover"
-                            href="../../demo1/dist/pages/projects/project.html"
-                    >
-                        <!--begin::Card header-->
-                        <div class="card-header border-0 pt-9">
-                            <!--begin::Card Title-->
-                            <div class="card-title m-0">
-                                <!--begin::Avatar-->
-                                <div class="symbol symbol-50px w-50px bg-light">
-                                    <img
-                                            alt="image"
-                                            class="p-3"
-                                            src="assets/media/svg/brand-logos/sentry-3.svg"
-                                    />
-                                </div>
-                                <!--end::Avatar-->
-                            </div>
-                            <!--end::Car Title-->
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                    <span class="badge badge-light fw-bolder me-auto px-4 py-3"
-                    >Pending</span
-                    >
-                            </div>
-                            <!--end::Card toolbar-->
-                        </div>
-                        <!--end:: Card header-->
-                        <!--begin:: Card body-->
-                        <div class="card-body p-9">
-                            <!--begin::Name-->
-                            <div class="fs-3 fw-bolder text-dark">Finance Dispatch</div>
-                            <!--end::Name-->
-                            <!--begin::Description-->
-                            <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-                                CRM App application to HR efficiency
-                            </p>
-                            <!--end::Description-->
-                            <!--begin::Info-->
-                            <div class="d-flex flex-wrap mb-5">
-                                <!--begin::Due-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        May 05, 2021
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Due Date</div>
-                                </div>
-                                <!--end::Due-->
-                                <!--begin::Budget-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        $284,900.00
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Budget</div>
-                                </div>
-                                <!--end::Budget-->
-                            </div>
-                            <!--end::Info-->
-                            <!--begin::Progress-->
-                            <div
-                                    class="h-4px w-100 bg-light mb-5"
-                                    data-bs-toggle="tooltip"
-                                    title="This project 60% completed"
-                            >
-                                <div
-                                        aria-valuemax="100"
-                                        aria-valuemin="0"
-                                        aria-valuenow="60"
-                                        class="bg-info rounded h-4px"
-                                        role="progressbar"
-                                        style="width: 60%"
-                                ></div>
-                            </div>
-                            <!--end::Progress-->
-                            <!--begin::Users-->
-                            <div class="symbol-group symbol-hover">
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Nich Warden"
-                                >
-                      <span
-                              class="symbol-label bg-warning text-inverse-warning fw-bolder"
-                      >N</span
-                      >
-                                </div>
-                                <!--begin::User-->
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Rob Otto"
-                                >
-                      <span
-                              class="symbol-label bg-success text-inverse-success fw-bolder"
-                      >R</span
-                      >
-                                </div>
-                                <!--begin::User-->
-                            </div>
-                            <!--end::Users-->
-                        </div>
-                        <!--end:: Card body-->
-                    </a>
-                    <!--end::Card-->
-                </div>
-                <!--end::Col-->
-                <!--begin::Col-->
-                <div class="col-md-6 col-xl-4">
-                    <!--begin::Card-->
-                    <a
-                            class="card border border-2 border-gray-300 border-hover"
-                            href="../../demo1/dist/pages/projects/project.html"
-                    >
-                        <!--begin::Card header-->
-                        <div class="card-header border-0 pt-9">
-                            <!--begin::Card Title-->
-                            <div class="card-title m-0">
-                                <!--begin::Avatar-->
-                                <div class="symbol symbol-50px w-50px bg-light">
-                                    <img
-                                            alt="image"
-                                            class="p-3"
-                                            src="assets/media/svg/brand-logos/xing-icon.svg"
-                                    />
-                                </div>
-                                <!--end::Avatar-->
-                            </div>
-                            <!--end::Car Title-->
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                    <span
-                            class="badge badge-light-primary fw-bolder me-auto px-4 py-3"
-                    >In Progress</span
-                    >
-                            </div>
-                            <!--end::Card toolbar-->
-                        </div>
-                        <!--end:: Card header-->
-                        <!--begin:: Card body-->
-                        <div class="card-body p-9">
-                            <!--begin::Name-->
-                            <div class="fs-3 fw-bolder text-dark">9 Degree</div>
-                            <!--end::Name-->
-                            <!--begin::Description-->
-                            <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-                                CRM App application to HR efficiency
-                            </p>
-                            <!--end::Description-->
-                            <!--begin::Info-->
-                            <div class="d-flex flex-wrap mb-5">
-                                <!--begin::Due-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        Jun 24, 2021
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Due Date</div>
-                                </div>
-                                <!--end::Due-->
-                                <!--begin::Budget-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        $284,900.00
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Budget</div>
-                                </div>
-                                <!--end::Budget-->
-                            </div>
-                            <!--end::Info-->
-                            <!--begin::Progress-->
-                            <div
-                                    class="h-4px w-100 bg-light mb-5"
-                                    data-bs-toggle="tooltip"
-                                    title="This project 40% completed"
-                            >
-                                <div
-                                        aria-valuemax="100"
-                                        aria-valuemin="0"
-                                        aria-valuenow="40"
-                                        class="bg-primary rounded h-4px"
-                                        role="progressbar"
-                                        style="width: 40%"
-                                ></div>
-                            </div>
-                            <!--end::Progress-->
-                            <!--begin::Users-->
-                            <div class="symbol-group symbol-hover">
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Francis Mitcham"
-                                >
-                                    <img alt="Pic" src="assets/media/avatars/150-5.jpg"/>
-                                </div>
-                                <!--begin::User-->
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Michelle Swanston"
-                                >
-                                    <img alt="Pic" src="assets/media/avatars/150-13.jpg"/>
-                                </div>
-                                <!--begin::User-->
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Susan Redwood"
-                                >
-                      <span
-                              class="symbol-label bg-primary text-inverse-primary fw-bolder"
-                      >S</span
-                      >
-                                </div>
-                                <!--begin::User-->
-                            </div>
-                            <!--end::Users-->
-                        </div>
-                        <!--end:: Card body-->
-                    </a>
-                    <!--end::Card-->
-                </div>
-                <!--end::Col-->
-                <!--begin::Col-->
-                <div class="col-md-6 col-xl-4">
-                    <!--begin::Card-->
-                    <a
-                            class="card border border-2 border-gray-300 border-hover"
-                            href="../../demo1/dist/pages/projects/project.html"
-                    >
-                        <!--begin::Card header-->
-                        <div class="card-header border-0 pt-9">
-                            <!--begin::Card Title-->
-                            <div class="card-title m-0">
-                                <!--begin::Avatar-->
-                                <div class="symbol symbol-50px w-50px bg-light">
-                                    <img
-                                            alt="image"
-                                            class="p-3"
-                                            src="assets/media/svg/brand-logos/tvit.svg"
-                                    />
-                                </div>
-                                <!--end::Avatar-->
-                            </div>
-                            <!--end::Car Title-->
-                            <!--begin::Card toolbar-->
-                            <div class="card-toolbar">
-                    <span
-                            class="badge badge-light-primary fw-bolder me-auto px-4 py-3"
-                    >In Progress</span
-                    >
-                            </div>
-                            <!--end::Card toolbar-->
-                        </div>
-                        <!--end:: Card header-->
-                        <!--begin:: Card body-->
-                        <div class="card-body p-9">
-                            <!--begin::Name-->
-                            <div class="fs-3 fw-bolder text-dark">GoPro App</div>
-                            <!--end::Name-->
-                            <!--begin::Description-->
-                            <p class="text-gray-400 fw-bold fs-5 mt-1 mb-7">
-                                CRM App application to HR efficiency
-                            </p>
-                            <!--end::Description-->
-                            <!--begin::Info-->
-                            <div class="d-flex flex-wrap mb-5">
-                                <!--begin::Due-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 me-7 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        Feb 21, 2021
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Due Date</div>
-                                </div>
-                                <!--end::Due-->
-                                <!--begin::Budget-->
-                                <div
-                                        class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3"
-                                >
-                                    <div class="fs-6 text-gray-800 fw-bolder">
-                                        $284,900.00
-                                    </div>
-                                    <div class="fw-bold text-gray-400">Budget</div>
-                                </div>
-                                <!--end::Budget-->
-                            </div>
-                            <!--end::Info-->
-                            <!--begin::Progress-->
-                            <div
-                                    class="h-4px w-100 bg-light mb-5"
-                                    data-bs-toggle="tooltip"
-                                    title="This project 70% completed"
-                            >
-                                <div
-                                        aria-valuemax="100"
-                                        aria-valuemin="0"
-                                        aria-valuenow="70"
-                                        class="bg-primary rounded h-4px"
-                                        role="progressbar"
-                                        style="width: 70%"
-                                ></div>
-                            </div>
-                            <!--end::Progress-->
-                            <!--begin::Users-->
-                            <div class="symbol-group symbol-hover">
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Melody Macy"
-                                >
-                                    <img alt="Pic" src="assets/media/avatars/150-3.jpg"/>
-                                </div>
-                                <!--begin::User-->
-                                <!--begin::User-->
-                                <div
-                                        class="symbol symbol-35px symbol-circle"
-                                        data-bs-toggle="tooltip"
-                                        title="Robin Watterman"
-                                >
-                      <span
-                              class="symbol-label bg-success text-inverse-success fw-bolder"
-                      >R</span
-                      >
-                                </div>
-                                <!--begin::User-->
-                            </div>
-                            <!--end::Users-->
-                        </div>
-                        <!--end:: Card body-->
-                    </a>
-                    <!--end::Card-->
-                </div>
-                <!--end::Col-->
+
             </div>
             <!--end::Row-->
         </div>

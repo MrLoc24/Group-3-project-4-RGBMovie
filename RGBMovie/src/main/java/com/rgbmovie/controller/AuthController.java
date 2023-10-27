@@ -12,10 +12,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("auth")
 public class AuthController {
     @GetMapping("/login")
-    public String login(@RequestParam(value = "error", defaultValue = "", required = false) String error, Model model){
-        if(!error.isEmpty()){
+    public String login(@RequestParam(value = "error", defaultValue = "", required = false) String error, Model model) {
+        if (!error.isEmpty()) {
             model.addAttribute("message", "Username or password incorrect");
         }
-        return "login/login";
+        return "auth/login";
+    }
+
+    @GetMapping("/recover")
+    public String recover(@RequestParam(value = "error", defaultValue = "", required = false) String error, Model model) {
+        if (!error.isEmpty()) {
+            model.addAttribute("message", "Email not valid");
+        }
+        return "auth/forgetPassword";
     }
 }

@@ -69,7 +69,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         //For request static and template file
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**").permitAll());
         //For request not require auth
-        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/docs/**").permitAll());
+        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/auth/recover", "/auth/changePassword", "/docs/**").permitAll());
         // Filter for api only
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**")).addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -82,40 +82,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http.logout(l -> l.logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login"));
         return http.build();
     }
-
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        final CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("*"));
-//        configuration.setAllowedMethods(Arrays.asList("HEAD",
-//                "GET", "POST", "PUT", "DELETE", "PATCH"));
-//        // setAllowCredentials(true) is important, otherwise:
-//        // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
-//        configuration.setAllowCredentials(true);
-//        // setAllowedHeaders is important! Without it, OPTIONS preflight request
-//        // will fail with 403 Invalid CORS request
-//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-//        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
-
-
-    //    @Component
-//    public static class CorsConfig {
-//        @Bean
-//        public WebMvcConfigurer corsConfigurer() {
-//            return new WebMvcConfigurer() {
-//                @Override
-//                public void addCorsMappings(@NotNull CorsRegistry registry) {
-//                    registry.addMapping("/**")
-//                            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-//                            .allowedOrigins("*")
-//                            .allowedHeaders("*").exposedHeaders("*");
-//                }
-//            };
-//        }
-//    }
+    
     @Component
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public static class CorsFilter extends OncePerRequestFilter {

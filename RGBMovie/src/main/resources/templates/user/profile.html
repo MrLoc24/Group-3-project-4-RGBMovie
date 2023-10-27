@@ -471,33 +471,35 @@
                             <!--begin::Edit-->
                             <div class="flex-row-fluid d-none" id="kt_signin_password_edit">
                                 <!--begin::Form-->
-                                <form class="form" id="kt_signin_change_password" novalidate="novalidate">
+                                <form class="form" id="kt_signin_change_password" th:action="@{/users/changePassword}"
+                                      th:method="post">
+                                    <input name="pk" th:value="${user.pk}" type="hidden">
                                     <div class="row mb-1">
                                         <div class="col-lg-4">
                                             <div class="fv-row mb-0">
-                                                <label class="form-label fs-6 fw-bolder mb-3" for="currentpassword">Current
+                                                <label class="form-label fs-6 fw-bolder mb-3" for="currentPassword">Current
                                                     Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
-                                                       id="currentpassword"
-                                                       name="currentpassword" type="password"/>
+                                                       id="currentPassword"
+                                                       name="currentPassword" type="password"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="fv-row mb-0">
-                                                <label class="form-label fs-6 fw-bolder mb-3" for="newpassword">New
+                                                <label class="form-label fs-6 fw-bolder mb-3" for="newPassword">New
                                                     Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
-                                                       id="newpassword"
-                                                       name="newpassword" type="password"/>
+                                                       id="newPassword"
+                                                       name="newPassword" type="password"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="fv-row mb-0">
-                                                <label class="form-label fs-6 fw-bolder mb-3" for="confirmpassword">Confirm
+                                                <label class="form-label fs-6 fw-bolder mb-3" for="confirmPassword">Confirm
                                                     New Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
-                                                       id="confirmpassword"
-                                                       name="confirmpassword" type="password"/>
+                                                       id="confirmPassword"
+                                                       name="confirmPassword" type="password"/>
                                             </div>
                                         </div>
                                     </div>
@@ -505,12 +507,12 @@
                                         symbols
                                     </div>
                                     <div class="d-flex">
-                                        <button class="btn btn-primary me-2 px-6" id="kt_password_submit" type="button">
+                                        <button class="btn btn-primary me-2 px-6" id="kt_password_submit" type="submit">
                                             Update Password
                                         </button>
                                         <button class="btn btn-color-gray-400 btn-active-light-primary px-6"
                                                 id="kt_password_cancel"
-                                                type="button">Cancel
+                                                type="reset">Cancel
                                         </button>
                                     </div>
                                 </form>

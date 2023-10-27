@@ -922,6 +922,37 @@
                                                     <!--end::Roles-->
                                                 </div>
                                                 <!--end::Input group-->
+                                                <!--begin::Input group-->
+                                                <div class="mb-7">
+                                                    <!--begin::Label-->
+                                                    <label class="required fw-bold fs-6 mb-5" for="workPlace"
+                                                    >Work Place</label
+                                                    >
+                                                    <!--end::Label-->
+                                                    <!--begin::Roles-->
+                                                    <!--begin::Input row-->
+                                                    <div class="d-flex fv-row">
+                                                        <!--begin::Radio-->
+                                                        <div
+                                                                class="form-check form-check-custom form-check-solid"
+                                                        >
+                                                            <select class="form-control form-control-line"
+                                                                    id="workPlace"
+                                                                    name="workPlace">
+                                                                <option th:each="item : ${theaters}"
+                                                                        th:text="${item.location}"
+                                                                        th:value="${item.pk}"></option>
+                                                            </select>
+                                                        </div>
+                                                        <!--end::Radio-->
+                                                    </div>
+                                                    <!--end::Input row-->
+                                                    <div
+                                                            class="separator separator-dashed my-5"
+                                                    ></div>
+                                                    <!--end::Roles-->
+                                                </div>
+                                                <!--end::Input group-->
                                             </div>
                                             <!--end::Scroll-->
                                             <!--begin::Actions-->

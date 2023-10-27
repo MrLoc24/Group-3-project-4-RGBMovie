@@ -1,9 +1,11 @@
 package com.rgbmovie.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -24,7 +26,8 @@ public class ScreeningModel {
     private Integer auditorium;
     @Basic
     @Column(name = "time")
-    private Timestamp time;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date time;
     @OneToMany(mappedBy = "screeningByScreening")
     private Collection<ReservationModel> reservationsByPk;
     @OneToMany(mappedBy = "screeningByScreening")
@@ -71,11 +74,11 @@ public class ScreeningModel {
         this.auditorium = auditorium;
     }
 
-    public Timestamp getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(Timestamp time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

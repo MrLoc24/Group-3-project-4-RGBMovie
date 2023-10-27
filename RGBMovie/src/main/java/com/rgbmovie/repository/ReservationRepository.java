@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReservationRepository extends JpaRepository<ReservationModel, Integer> {
     //Check if already have cart with the screening or not, if not, create new one, or add new seat with the same screening to the cart
@@ -14,4 +16,6 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
 
     @Query("SELECT r FROM ReservationModel r WHERE r.getPaid = 0 AND r.isActive = 1")
     ReservationModel inCartButNotPay();
+
+    List<ReservationModel> findByUser(int id);
 }

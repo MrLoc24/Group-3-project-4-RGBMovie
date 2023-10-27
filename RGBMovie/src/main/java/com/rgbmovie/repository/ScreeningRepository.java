@@ -13,7 +13,7 @@ import java.util.List;
 public interface ScreeningRepository extends JpaRepository<ScreeningModel, Integer> {
     //Get all screening for upcoming movie
     @Query("SELECT s FROM ScreeningModel s WHERE s.time > :currentTime AND s.movie = :id AND s.theater = :pk")
-    List<ScreeningModel> getActiveScreening(@Param("currentTime") Date currentTime, @Param("id") int id, @Param("pk") int pk);
+    List<ScreeningModel> getActiveScreeningByTheaterAndMovie(@Param("currentTime") Date currentTime, @Param("id") int id, @Param("pk") int pk);
 
     List<ScreeningModel> findByTheater(int id);
 
@@ -21,4 +21,7 @@ public interface ScreeningRepository extends JpaRepository<ScreeningModel, Integ
 
     @Query("SELECT s FROM ScreeningModel s JOIN MovieModel m ON s.movie = m.pk JOIN AuditoriumModel a ON s.auditorium = a.pk WHERE s.theater = :id")
     List<Object> getDetail(@Param("id") int theater);
+
+    @Query("SELECT s FROM ScreeningModel s WHERE s.time > :currentTime ")
+    List<ScreeningModel> getActiveScreening(@Param("currentTime") Date currentTime);
 }

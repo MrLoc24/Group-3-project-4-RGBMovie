@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserModel findByUsername(String name) {
         // TODO Auto-generated method stub
-        return userRepository.findUserModelByUsernameOrEmail(name);
+        return userRepository.findByUsernameOrEmail(name, name);
     }
 
     @Override
