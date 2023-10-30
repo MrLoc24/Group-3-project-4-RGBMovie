@@ -358,7 +358,6 @@
                             <th class="min-w-125px">No.</th>
                             <th class="min-w-125px">Auditorium</th>
                             <th class="min-w-125px">Movie</th>
-                            <th class="min-w-125px">Date</th>
                             <th class="min-w-125px">Time</th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
@@ -368,12 +367,12 @@
                         <!--begin::Table body-->
                         <tbody class="text-gray-600 fw-bold">
                         <!--begin::If no data-->
-                        <tr th:if="${scrList.isEmpty()}">
+                        <tr th:if="${scrDetail.isEmpty()}">
                             <td>No Data...</td>
                         </tr>
                         <!--end::If no data-->
                         <!--begin::Table row-->
-                        <tr th:each="item, stat : ${scrList}">
+                        <tr th:each="item, stat : ${scrDetail}">
                             <!--begin::Checkbox-->
                             <td th:text="${item.pk}"></td>
                             <!--end::Checkbox-->
@@ -386,13 +385,7 @@
                                 th:text="${movie.title}"></td>
                             <!--end::movie-->
                             <!--begin::movie-->
-                            <td th:text="${item.date}"></td>
-                            <!--end::movie-->
-                            <!--begin::movie-->
-                            <td>
-                                <button class="badge-info" th:each="ti : ${item.time}"
-                                        th:text="${ti}"></button>
-                            </td>
+                            <td th:text="${item.time}"></td>
                             <!--end::movie-->
                             <!--begin::Action=-->
                             <td class="text-end">
@@ -428,17 +421,8 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{'/theater/' + ${theaterId} + '?detail=screening&date=' +${item.date} + '&movie='+ ${item.movie}}"
-                                        >Details</a
-                                        >
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a
-                                                class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/theater/' + ${theaterId} + '?detail=screening&date=' +${item.date} + '&delete=true'}"
+                                                th:href="@{'/theater/' + ${theaterId} + '?detail=screening&delete=' + ${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
@@ -26,8 +27,7 @@ public class ScreeningModel {
     private Integer auditorium;
     @Basic
     @Column(name = "time")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    private Date time;
+    private LocalDateTime time;
     @OneToMany(mappedBy = "screeningByScreening")
     private Collection<ReservationModel> reservationsByPk;
     @OneToMany(mappedBy = "screeningByScreening")
@@ -74,11 +74,11 @@ public class ScreeningModel {
         this.auditorium = auditorium;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 

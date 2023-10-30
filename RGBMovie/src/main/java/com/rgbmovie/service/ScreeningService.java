@@ -3,6 +3,7 @@ package com.rgbmovie.service;
 import com.rgbmovie.model.ScreeningModel;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -17,5 +18,5 @@ public interface ScreeningService {
 
     void addNewScreening(ScreeningModel screeningModel);
 
-    List<Object> getDetail(int id);
+    List<ScreeningModel> getAllByTime(LocalDate time, int movie);
 }

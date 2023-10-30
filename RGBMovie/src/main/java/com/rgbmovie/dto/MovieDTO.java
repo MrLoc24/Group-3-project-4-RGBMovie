@@ -1,8 +1,10 @@
 package com.rgbmovie.dto;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 public class MovieDTO {
@@ -11,7 +13,8 @@ public class MovieDTO {
     private String engTitle;
     private Integer durationMin;
     private String age;
-    private LocalDate openingDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date openingDate;
     private String genre;
     private String description;
     private String trailer;
@@ -60,11 +63,11 @@ public class MovieDTO {
         this.age = age;
     }
 
-    public LocalDate getOpeningDate() {
+    public Date getOpeningDate() {
         return this.openingDate;
     }
 
-    public void setOpeningDate(LocalDate openingDate) {
+    public void setOpeningDate(Date openingDate) {
         this.openingDate = openingDate;
     }
 

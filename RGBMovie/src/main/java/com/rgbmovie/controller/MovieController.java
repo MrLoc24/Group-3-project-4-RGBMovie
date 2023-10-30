@@ -92,9 +92,11 @@ public class MovieController {
     }
 
     @PostMapping("/add")
-    public String addMovie(Model model, @ModelAttribute MovieDTO movieDTO, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-        var uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
-        movieDTO.setMainImg(uploadResult.get("url").toString());
+    public String addMovie(Model model, @ModelAttribute MovieDTO movieDTO, @RequestParam("main_Img") MultipartFile mainImg, @RequestParam("thumbnail_Img") MultipartFile thumbnailImg) throws IOException {
+        var mainResult = cloudinary.uploader().upload(mainImg.getBytes(), ObjectUtils.emptyMap());
+        var thumbnailResult = cloudinary.uploader().upload(thumbnailImg.getBytes(), ObjectUtils.emptyMap());
+        movieDTO.setThumbnailImg(thumbnailResult.get("url").toString());
+        movieDTO.setMainImg(mainResult.get("url").toString());
         movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
         return "redirect:/movie";
     }
