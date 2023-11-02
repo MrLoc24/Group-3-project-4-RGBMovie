@@ -7,6 +7,7 @@ import com.rgbmovie.repository.ScreeningRepository;
 import com.rgbmovie.service.ScreeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class ScreeningServiceImpl implements ScreeningService {
 
     @Override
     public List<ScreeningModel> getAllActiveByMovie(Integer id, Integer pk) {
-        return id != null && pk != null ? screeningRepository.getActiveScreeningByTheaterAndMovie(new Date(), id, pk) : screeningRepository.getActiveScreening(new Date());
+        return id != null && pk != null ? screeningRepository.getActiveScreeningByTheaterAndMovie(LocalDateTime.now(), id, pk) : screeningRepository.getActiveScreening(LocalDateTime.now());
     }
 
     @Override
@@ -70,5 +71,16 @@ public class ScreeningServiceImpl implements ScreeningService {
     @Override
     public List<ScreeningModel> getAllByTime(LocalDate time, int movie) {
         return screeningRepository.getAllByTime(time, movie);
+    }
+
+    @Override
+    public String delete(int id) {
+        try {
+            screeningRepository.deleteById(id);
+            return null;
+        } catch (DataAccessException e) {
+            // Handle exception here
+            return "Error occurred while deleting record";
+        }
     }
 }

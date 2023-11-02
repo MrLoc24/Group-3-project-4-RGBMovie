@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,18 +62,27 @@ public class ApiBookingController {
         return new ResponseEntity<>("Remove seat successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/book/history")
-    public Object orderHistory(@RequestParam("userId") int userId) {
+    @GetMapping("/book/{action}")
+    public Object order(@RequestParam("action") String action, @RequestParam("userId") int userId) {
         List<ReservationDTO> reservationDTO = reservationService.getAllByUser(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
-        return reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
+        return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/book/history/{id}")
-    public Object orderHistoryDetail(@PathVariable("id") int id) {
+    @GetMapping("/book/history/{Id}")
+    public Object orderHistoryDetail(@PathVariable("Id") String Id) {
+        int id = Integer.parseInt(Id);
         ReservationDTO reservationDTO = modelMapper.map(reservationService.getById(id), ReservationDTO.class);
+
         List<ReservedSeatDTO> reservedSeatDTOs = reservedSeatService.findByReservationId(id).stream().map(m -> modelMapper.map(m, ReservedSeatDTO.class)).toList();
-        Map<String, Object> response = Map.of("Reservation", reservationDTO, "ReservedSeat", reservedSeatDTOs);
-        return response.isEmpty() ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
+
+        Map<String, Object> response = new HashMap<>();
+        if (reservationDTO != null) {
+            response.put("Reservation", reservationDTO);
+        }
+        if (reservedSeatDTOs != null) {
+            response.put("ReservedSeat", reservedSeatDTOs);
+        }
+        return !response.isEmpty() ? new ResponseEntity<>(response, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.BAD_REQUEST);
     }
 
 }

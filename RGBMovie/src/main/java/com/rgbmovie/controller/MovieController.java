@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.io.IOException;
 import java.util.List;
@@ -99,5 +101,29 @@ public class MovieController {
         movieDTO.setMainImg(mainResult.get("url").toString());
         movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
         return "redirect:/movie";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") int id, Model model) {
+        MovieDTO movieDTO = modelMapper.map(movieService.getById(id), MovieDTO.class);
+        model.addAttribute("movie", movieDTO);
+        return "movie/detail";
+    }
+
+    @PutMapping("/edit/{id}")
+    public String edit(Model model, @RequestHeader String referer, @RequestParam("image") MultipartFile image, @RequestParam("thumb_image") MultipartFile thumb_image, MovieDTO movieDTO) throws IOException {
+        String name = StringUtils.cleanPath(image.getOriginalFilename());
+        String thumbName = StringUtils.cleanPath(thumb_image.getOriginalFilename());
+        if (!name.isEmpty()) {
+            var imageUpload = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
+            movieDTO.setMainImg(imageUpload);
+        }
+        if (!thumbName.isEmpty()) {
+            var thumbnailUpload = cloudinary.uploader().upload(thumb_image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
+            movieDTO.setThumbnailImg(thumbnailUpload);
+        }
+        movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
+        model.addAttribute("message", "Updated");
+        return "redirect:" + referer;
     }
 }

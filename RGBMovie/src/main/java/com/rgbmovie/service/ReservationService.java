@@ -18,4 +18,6 @@ public interface ReservationService {
 
     //    For Customer view order history
     List<ReservationModel> getAllByUser(int id);
+
+    List<ReservationModel> getAllByUserNotPay(int id);
 }

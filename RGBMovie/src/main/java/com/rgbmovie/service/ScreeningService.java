@@ -19,4 +19,6 @@ public interface ScreeningService {
     void addNewScreening(ScreeningModel screeningModel);
 
     List<ScreeningModel> getAllByTime(LocalDate time, int movie);
+
+    String delete(int id);
 }

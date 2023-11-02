@@ -2,6 +2,7 @@ package com.rgbmovie.service.impl;
 
 import com.rgbmovie.model.ReservationModel;
 import com.rgbmovie.repository.ReservationRepository;
+import com.rgbmovie.repository.UserRepository;
 import com.rgbmovie.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,9 @@ import java.util.List;
 @Service
 public class ReservationServiceImpl implements ReservationService {
     @Autowired
-    ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public ReservationModel checkExistIfNotCreateNew(int screening) {
@@ -42,6 +45,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationModel> getAllByUser(int id) {
+        return reservationRepository.findByUser(id);
+    }
+
+    @Override
+    public List<ReservationModel> getAllByUserNotPay(int id) {
         return reservationRepository.findByUser(id);
     }
 

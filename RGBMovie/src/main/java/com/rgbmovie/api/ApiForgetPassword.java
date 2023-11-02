@@ -1,5 +1,4 @@
-package com.rgbmovie.controller;
-
+package com.rgbmovie.api;
 
 import com.rgbmovie.model.PasswordResetTokenModel;
 import com.rgbmovie.model.UserModel;
@@ -7,25 +6,23 @@ import com.rgbmovie.service.PasswordResetService;
 import com.rgbmovie.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.UUID;
 
-
-@Controller
-@RequestMapping("/auth")
-public class PasswordResetController {
+@RestController
+@RequestMapping("/api/customer")
+public class ApiForgetPassword {
     @Autowired
     private UserService userService;
     @Autowired
@@ -38,11 +35,10 @@ public class PasswordResetController {
     private TemplateEngine templateEngine;
 
     @PostMapping("/recover")
-    public String resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail, Model model) {
+    public Object resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
         UserModel user = userService.findByUsername(userEmail);
         if (user == null) {
-            model.addAttribute("message", "Not found");
-            return "auth/forgetPassword";
+            return new ResponseEntity<>("Email not found", HttpStatus.NO_CONTENT);
         }
         String token = UUID.randomUUID().toString();
         System.out.println(token);
@@ -52,15 +48,14 @@ public class PasswordResetController {
         passwordResetTokenModel.setExpiryDate();
         System.out.println(passwordResetTokenModel.getToken() + passwordResetTokenModel.getUserId() + passwordResetTokenModel.getExpiryDate().toString());
         passwordResetService.createPasswordResetTokenForUser(passwordResetTokenModel);
-        mailSender.send(constructResetTokenEmail(request.getServerName() + ":" + request.getServerPort(),
+        mailSender.send(constructResetTokenEmail("localhost:5173",
                 token, user));
-        model.addAttribute("message", "Email with link contain password reset have been send to your email");
-        return "auth/forgetPassword";
+        return new ResponseEntity<>("Email with link contain password reset have been send to your email", HttpStatus.OK);
     }
 
     private MimeMessagePreparator constructResetTokenEmail(
             String contextPath, String token, UserModel user) {
-        String url = "http://" + contextPath + "/auth/changePassword?token=" + token;
+        String url = "http://" + contextPath + "/resetPassword?token=" + token;
         Context context = new Context();
         context.setVariable("url", url);
         String message = templateEngine.process("layout/email", context);
@@ -77,34 +72,26 @@ public class PasswordResetController {
         };
     }
 
-    @GetMapping("/changePassword")
-    public String showChangePasswordPage(Model model,
-                                         @RequestParam("token") String token) {
+    @GetMapping("/resetPassword")
+    public Object showChangePasswordPage(@RequestParam("token") String token) {
         String result = passwordResetService.validatePasswordResetToken(token);
         if (result.equals("Invalid") || result.equals("Expired")) {
-            model.addAttribute("message", "Token " + result);
-        } else {
-            model.addAttribute("token", token);
-            model.addAttribute("userId", result);
-            model.addAttribute("confirm", true);
+            new ResponseEntity<>("Token" + result, HttpStatus.BAD_REQUEST);
         }
-        return "auth/forgetPassword";
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/changePassword")
-    public String changePassword(@RequestParam("newPassword") String newPassword, @RequestParam("userId") String userId, @RequestParam("token") String token, Model model) {
+    public Object changePassword(@RequestParam("newPassword") String newPassword, @RequestParam("userId") String userId, @RequestParam("token") String token, Model model) {
         int uId = Integer.parseInt(userId);
         UserModel result = userService.findById(uId);
         if (result != null) {
             if (passwordEncoder.matches(newPassword, result.getPassword())) {
-                model.addAttribute("message", "New password can not be same as old password");
-                return "/auth/changePassword?token=" + token;
+                return new ResponseEntity<>("New password can not be same as old password", HttpStatus.BAD_REQUEST);
             } else {
                 userService.updatePassword(passwordEncoder.encode(newPassword), uId);
-                System.out.println(newPassword + " , " + passwordEncoder.encode(newPassword));
-                model.addAttribute("message", "Password change successfully");
             }
         }
-        return "auth/login";
+        return new ResponseEntity<>("Change password successfully", HttpStatus.OK);
     }
 }

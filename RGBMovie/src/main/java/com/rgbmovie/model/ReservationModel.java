@@ -20,13 +20,13 @@ public class ReservationModel {
     private Integer screening;
     @Basic
     @Column(name = "is_active")
-    private Integer isActive;
+    private Integer isActive = 1;
     @Basic
     @Column(name = "get_paid")
-    private Integer getPaid;
+    private Integer getPaid = 0;
     @Basic
     @Column(name = "total_cost")
-    private Double totalCost;
+    private Double totalCost = 0.0;
     @OneToMany(mappedBy = "reservationByReservationId")
     private Collection<BankingModel> bankingsByPk;
     @ManyToOne

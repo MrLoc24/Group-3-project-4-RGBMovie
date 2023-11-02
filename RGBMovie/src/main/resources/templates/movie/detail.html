@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html
+        layout:decorate="~{layout/default}"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Movie Detail</title>
+</head>
+
+<body>
+<!--begin::Content-->
+<div
+        class="content d-flex flex-column flex-column-fluid"
+        id="kt_content"
+        layout:fragment="content"
+>
+    <!--begin::Toolbar-->
+    <div class="toolbar" id="kt_toolbar">
+        <!--begin::Container-->
+        <div
+                class="container-fluid d-flex flex-stack"
+                id="kt_toolbar_container"
+        >
+            <!--begin::Page title-->
+            <div
+                    class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0"
+                    data-kt-swapper="true"
+                    data-kt-swapper-mode="prepend"
+                    data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}"
+            >
+                <!--begin::Title-->
+                <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
+                    Movie details
+                </h1>
+                <!--end::Title-->
+                <!--begin::Separator-->
+                <span class="h-20px border-gray-200 border-start mx-4"></span>
+                <!--end::Separator-->
+                <!--begin::Breadcrumb-->
+                <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a
+                                class="text-muted text-hover-primary"
+                                href="/home"
+                        >Home</a
+                        >
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">Theater Management</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Movie</li>
+                    <!--end::Item-->
+                </ul>
+                <!--end::Breadcrumb-->
+            </div>
+            <!--end::Page title-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Toolbar-->
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div class="container-xxl" id="kt_content_container">
+            <!--begin::Navbar-->
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-body p-lg-17">
+                    <!--begin::Details-->
+                    <div class="mb-18">
+                        <div class="mb-10"><!--begin::Overlay-->
+                            <div class="overlay" th:if="${movie.trailer == null}">
+                                <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen
+                                        class="w-100 card-rounded"
+                                        height="450"
+                                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=TJSqspiXKKK7AdYN&autoplay=1"
+                                        title="YouTube video player"
+                                ></iframe>
+                            </div>
+                            <div class="overlay" th:if="${movie.trailer != null}">
+                                <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen class="w-100 card-rounded" height="450"
+                                        th:src="@{${movie.trailer + '&autoplay=1'}}"
+                                        th:title="${movie.title}"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Details-->
+                </div>
+            </div>
+            <!--end::Navbar-->
+            <br>
+            <!--begin::Basic info-->
+            <div class="card mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div aria-controls="kt_account_profile_details" aria-expanded="true"
+                     class="card-header border-0 cursor-pointer"
+                     data-bs-target="#kt_account_profile_details" data-bs-toggle="collapse"
+                     role="button">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bolder m-0">Profile Details</h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Card header-->
+                <!--begin::Content-->
+                <div class="collapse show" id="kt_account_profile_details">
+                    <!--begin::Form-->
+                    <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
+                          th:action="@{'/movie/edit/' + ${movie.pk}}" th:method="put">
+                        <!--begin::Card body-->
+                        <div class="card-body border-top p-9">
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6">Main Image</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8">
+                                    <!--begin::Image input-->
+                                    <div class="image-input image-input-outline" data-kt-image-input="true"
+                                         th:style="'background-image : url(assets/media/avatars/blank.png)'">
+                                        <!--begin::Preview existing avatar-->
+                                        <div class="image-input-wrapper w-125px h-125px"
+                                             th:style="'background-image: url(' + ${movie.mainImg} + ')'"></div>
+                                        <!--end::Preview existing avatar-->
+                                        <!--begin::Label-->
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                               data-bs-toggle="tooltip" data-kt-image-input-action="change"
+                                               title="Change avatar">
+                                            <i class="bi bi-pencil-fill fs-7"></i>
+                                            <!--begin::Inputs-->
+                                            <input accept=".png, .jpg, .jpeg" name="image" type="file"/>
+                                            <input name="avatar_remove" type="hidden"/>
+                                            <input hidden th:field="${movie.mainImg}" th:value="${movie.mainImg}"
+                                                   type="text">
+                                            <input hidden th:field="${movie.pk}" th:value="${movie.pk}" type="number">
+                                            <!--end::Inputs-->
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Cancel-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                              data-bs-toggle="tooltip" data-kt-image-input-action="cancel"
+                                              title="Cancel avatar">
+																<i class="bi bi-x fs-2"></i>
+															</span>
+                                        <!--end::Cancel-->
+                                        <!--begin::Remove-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                              data-bs-toggle="tooltip" data-kt-image-input-action="remove"
+                                              title="Remove avatar">
+																<i class="bi bi-x fs-2"></i>
+															</span>
+                                        <!--end::Remove-->
+                                    </div>
+                                    <!--end::Image input-->
+                                    <!--begin::Hint-->
+                                    <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+                                    <!--end::Hint-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6">Thumbnail Image</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8">
+                                    <!--begin::Image input-->
+                                    <div class="image-input image-input-outline" data-kt-image-input="true"
+                                         th:style="'background-image : url(assets/media/avatars/blank.png)'">
+                                        <!--begin::Preview existing avatar-->
+                                        <div class="image-input-wrapper w-180px h-125px"
+                                             th:style="'background-image: url(' + ${movie.thumbnailImg} + ')'"></div>
+                                        <!--end::Preview existing avatar-->
+                                        <!--begin::Label-->
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                               data-bs-toggle="tooltip" data-kt-image-input-action="change"
+                                               title="Change avatar">
+                                            <i class="bi bi-pencil-fill fs-7"></i>
+                                            <!--begin::Inputs-->
+                                            <input accept=".png, .jpg, .jpeg" name="thumb_image" type="file"/>
+                                            <input name="avatar_remove" type="hidden"/>
+                                            <input hidden th:field="${movie.thumbnailImg}"
+                                                   th:value="${movie.thumbnailImg}" type="text">
+                                            <!--end::Inputs-->
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Cancel-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                              data-bs-toggle="tooltip" data-kt-image-input-action="cancel"
+                                              title="Cancel avatar">
+																<i class="bi bi-x fs-2"></i>
+															</span>
+                                        <!--end::Cancel-->
+                                        <!--begin::Remove-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                              data-bs-toggle="tooltip" data-kt-image-input-action="remove"
+                                              title="Remove avatar">
+																<i class="bi bi-x fs-2"></i>
+															</span>
+                                        <!--end::Remove-->
+                                    </div>
+                                    <!--end::Image input-->
+                                    <!--begin::Hint-->
+                                    <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+                                    <!--end::Hint-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Title</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="username"
+                                           th:field="${movie.title}"
+                                           th:value="${movie.title}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6" for="engTitle">English
+                                    Title</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="engTitle"
+                                           placeholder="Company name"
+                                           th:field="${movie.engTitle}"
+                                           th:value="${movie.engTitle}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                                       for="duration">Duration</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="duration"
+
+                                           th:field="${movie.durationMin}"
+                                           th:value="${movie.durationMin}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6" for="age">Rated</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <!--begin::Input-->
+                                    <select
+                                            class="form-control form-control-solid mb-3 mb-lg-0"
+                                            id="age" th:field="${movie.age}"
+                                            th:value="${movie.age}"
+
+                                    >
+                                        <option th:selected="${movie.age == 'r'}" value="r">R</option>
+                                        <option th:selected="${movie.age == 'pg-13'}" value="pg-13">PG-13</option>
+                                        <option th:selected="${movie.age == 'g'}" value="g">G</option>
+                                        <option th:selected="${movie.age == 'nc-17'}" value="nc-17">NC-17</option>
+                                    </select>
+                                    <!--end::Input-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                                       for="date">Opening date</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="date"
+
+                                           th:field="${movie.openingDate}"
+                                           th:value="${movie.openingDate}" type="date"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6" for="genre">Genre</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <select
+                                            class="form-control form-control-solid mb-3 mb-lg-0"
+                                            id="genre"
+                                            th:field="${movie.genre}"
+                                            th:value="${movie.genre}"
+
+                                    >
+                                        <option th:selected="${movie.genre == 'mystery'}" value="mystery">Mystery
+                                        </option>
+                                        <option th:selected="${movie.genre == 'horror'}" value="horror">Horror</option>
+                                        <option th:selected="${movie.genre == 'comedy'}" value="comedy">Comedy</option>
+                                        <option th:selected="${movie.genre == 'action'}" value="action">Action</option>
+                                        <option th:selected="${movie.genre == 'drama'}" value="drama">Drama</option>
+                                        <option th:selected="${movie.genre == 'history'}" value="history">History
+                                        </option>
+                                    </select>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label
+                                        class="required fw-bold fs-6 mb-2"
+                                        for="description"
+                                >Description</label
+                                >
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <textarea
+                                        class="form-control form-control-lg form-control-solid"
+                                        id="description"
+                                        th:field="${movie.description}"
+                                        th:value="${movie.description}"
+                                        type="text">
+
+                                                    </textarea>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                                       for="trailer">Trailer URL</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="trailer"
+
+                                           th:field="${movie.trailer}"
+                                           th:value="${movie.trailer}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="phone">
+                                    <span class="required">Price</span>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
+                                       title="Phone number must be active"></i>
+                                </label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="phone"
+                                           name="price"
+                                           th:value="${movie.price}" type="tel"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+
+                        </div>
+                        <!--end::Card body-->
+                        <!--begin::Actions-->
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button class="btn btn-light btn-active-light-primary me-2" type="reset">Discard</button>
+                            <button class="btn btn-primary" id="kt_account_profile_details_submit" type="submit">Save
+                                Changes
+                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Basic info-->
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Post-->
+</div>
+<!--end::Content-->
+</body>
+</html>

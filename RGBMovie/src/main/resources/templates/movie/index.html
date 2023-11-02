@@ -561,7 +561,7 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{'/movie/' + ${item.pk}}"
+                                                th:href="@{'/movie/detail/' + ${item.pk}}"
                                         >Details</a
                                         >
                                     </div>
@@ -571,7 +571,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{/movie/delete }"
+                                                th:href="@{'/movie/delete/' + ${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>
