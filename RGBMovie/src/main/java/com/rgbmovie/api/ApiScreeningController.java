@@ -22,9 +22,14 @@ public class ApiScreeningController {
     private ModelMapper modelMapper;
 
     @GetMapping("/screening")
-    public Object getAllByMovieAndTheater(@RequestParam("movie") int movie, @RequestParam("theater") int theater) {
-        return screeningService.getAllActiveByMovie(movie, theater) != null ?
-                new ResponseEntity<>(screeningService.getAllActiveByMovie(movie, theater).stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).collect(Collectors.toList()), HttpStatus.OK) : new ResponseEntity<>("No screening", HttpStatus.NO_CONTENT);
+    public Object getAllByMovieAndTheater(@RequestParam(value = "movie", defaultValue = "", required = false) Integer movie, @RequestParam("theater") Integer theater) {
+        if (movie == null) {
+            var result = screeningService.getAllToDay().stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList();
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        var result = screeningService.getAllActiveByMovieAndTheater(movie, theater).stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList();
+        return !result.isEmpty() ?
+                new ResponseEntity<>(result, HttpStatus.OK) : new ResponseEntity<>("No screening", HttpStatus.NO_CONTENT);
     }
 
 }

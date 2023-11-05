@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public interface ScreeningService {
-    List<ScreeningModel> getAllActiveByMovie(Integer id, Integer pk);
+    List<ScreeningModel> getAllActiveByMovieAndTheater(Integer id, Integer pk);
 
     List<ScreeningModel> getAllByTheater(int id);
 
@@ -21,4 +21,6 @@ public interface ScreeningService {
     List<ScreeningModel> getAllByTime(LocalDate time, int movie);
 
     String delete(int id);
+
+    List<ScreeningModel> getAllToDay();
 }

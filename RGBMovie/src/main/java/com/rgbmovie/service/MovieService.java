@@ -12,4 +12,6 @@ public interface MovieService {
     MovieModel getById(int id);
 
     MovieModel addNew(MovieModel movieModel);
+
+    List<MovieModel> getAllNotHaveDirector();
 }

@@ -27,4 +27,9 @@ public class MovieServiceImpl implements MovieService {
     public MovieModel addNew(MovieModel movieModel) {
         return movieRepository.saveAndFlush(movieModel);
     }
+
+    @Override
+    public List<MovieModel> getAllNotHaveDirector() {
+        return movieRepository.findAllNotHaveDirector();
+    }
 }

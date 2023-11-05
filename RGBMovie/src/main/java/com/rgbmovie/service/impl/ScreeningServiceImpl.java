@@ -25,7 +25,7 @@ public class ScreeningServiceImpl implements ScreeningService {
     private MovieRepository movieRepository;
 
     @Override
-    public List<ScreeningModel> getAllActiveByMovie(Integer id, Integer pk) {
+    public List<ScreeningModel> getAllActiveByMovieAndTheater(Integer id, Integer pk) {
         return id != null && pk != null ? screeningRepository.getActiveScreeningByTheaterAndMovie(LocalDateTime.now(), id, pk) : screeningRepository.getActiveScreening(LocalDateTime.now());
     }
 
@@ -82,5 +82,10 @@ public class ScreeningServiceImpl implements ScreeningService {
             // Handle exception here
             return "Error occurred while deleting record";
         }
+    }
+
+    @Override
+    public List<ScreeningModel> getAllToDay() {
+        return screeningRepository.getAllToDay();
     }
 }

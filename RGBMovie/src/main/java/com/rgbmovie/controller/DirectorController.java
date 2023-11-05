@@ -1,0 +1,122 @@
+package com.rgbmovie.controller;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.rgbmovie.dto.CastDTO;
+import com.rgbmovie.dto.DirectingDTO;
+import com.rgbmovie.dto.DirectorDTO;
+import com.rgbmovie.dto.MovieDTO;
+import com.rgbmovie.helpers.AppConstant;
+import com.rgbmovie.model.DirectingModel;
+import com.rgbmovie.model.DirectorModel;
+import com.rgbmovie.service.DirectorService;
+import com.rgbmovie.service.MovieService;
+import jakarta.servlet.http.HttpServletRequest;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+@RequestMapping("/director")
+public class DirectorController {
+    Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+            "cloud_name", AppConstant.cloudinaryName,
+            "api_key", AppConstant.apiKey,
+            "api_secret", AppConstant.apiSecret,
+            "secure", AppConstant.secure));
+    @Autowired
+    private DirectorService directorService;
+    @Autowired
+    private ModelMapper modelMapper;
+    @Autowired
+    private MovieService movieService;
+
+    @RequestMapping(value = {""}, method = RequestMethod.GET)
+    public String index(Model model, HttpServletRequest request, RedirectAttributes redirect) {
+        request.getSession().setAttribute("directorList", null);
+        if (model.asMap().get("success") != null)
+            redirect.addFlashAttribute("success", model.asMap().get("success").toString());
+        return "redirect:/director/page/1";
+    }
+
+    @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
+    public String showUserPage(HttpServletRequest request, @PathVariable int pageNumber, Model model) {
+        PagedListHolder<?> pages = (PagedListHolder<?>) request.getSession().getAttribute("directorList");
+        int pageSize = 10;
+        List<DirectorModel> list = directorService.getAllFilmDrirect();
+        if (pages == null) {
+            pages = new PagedListHolder<>(list);
+            pages.setPageSize(pageSize);
+        } else {
+            final int goToPage = pageNumber - 1;
+            if (goToPage <= pages.getPageCount() && goToPage >= 0) {
+                pages.setPage(goToPage);
+            }
+        }
+        request.getSession().setAttribute("directorList", pages);
+        int current = pages.getPage() + 1;
+        int begin = Math.max(1, current - list.size());
+        int end = Math.min(begin + 9, pages.getPageCount());
+        int totalPageCount = pages.getPageCount();
+        if (current >= end) {
+            current = pages.getPage() + 1;
+            begin = Math.max(current - end + 1, current - list.size());
+            end = Math.min(current, pages.getPageCount());
+            // totalPageCount = pages.getPageCount();
+        }
+        String baseUrl = "/director/page/";
+        model.addAttribute("beginIndex", begin);
+        model.addAttribute("endIndex", end);
+        model.addAttribute("currentIndex", current);
+        model.addAttribute("totalPageCount", totalPageCount);
+        model.addAttribute("baseUrl", baseUrl);
+        model.addAttribute("directors", pages);
+        model.addAttribute("movies", movieService.getAllNotHaveDirector().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        model.addAttribute("movie", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        model.addAttribute("director", new DirectorDTO());
+        return "director/index";
+    }
+
+    @PostMapping("/add")
+    public String addNew(@RequestParam("img") MultipartFile img, DirectorDTO directorDTO, @RequestParam("movie") List<Integer> directingDTOs) throws IOException {
+        System.out.println(directingDTOs);
+        directorDTO.setProfileImg(cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url").toString());
+        try {
+            directorService.addNew(modelMapper.map(directorDTO, DirectorModel.class), directingDTOs);
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+        return "redirect:/director";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") int id, Model model) {
+        model.addAttribute("director", directorService.getById(id));
+        model.addAttribute("movies", movieService.getAllNotHaveDirector().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        model.addAttribute("movie", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        return "director/profile";
+    }
+
+    @PutMapping("edit")
+    public String edit(DirectorModel directorModel, @RequestHeader String referer, @RequestParam("image") MultipartFile image) throws IOException {
+        String name = StringUtils.cleanPath(image.getOriginalFilename());
+        if (!name.isEmpty()) {
+            var imageUpload = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
+            directorModel.setProfileImg(name);
+        }
+        directorService.edit(directorModel);
+        return "redirect:" + referer;
+    }
+
+}
