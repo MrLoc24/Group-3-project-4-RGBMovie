@@ -22,7 +22,7 @@ public class ApiScreeningController {
     private ModelMapper modelMapper;
 
     @GetMapping("/screening")
-    public Object getAllByMovieAndTheater(@RequestParam(value = "movie", defaultValue = "", required = false) Integer movie, @RequestParam("theater") Integer theater) {
+    public Object getAllByMovieAndTheater(@RequestParam(value = "movie", defaultValue = "", required = false) Integer movie, @RequestParam(value = "theater", defaultValue = "", required = false) Integer theater) {
         if (movie == null) {
             var result = screeningService.getAllToDay().stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList();
             return new ResponseEntity<>(result, HttpStatus.OK);
