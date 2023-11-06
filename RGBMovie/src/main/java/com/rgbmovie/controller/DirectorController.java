@@ -119,4 +119,19 @@ public class DirectorController {
         return "redirect:" + referer;
     }
 
+    @GetMapping("/delete")
+    public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer) {
+        directorService.deleteMovie(id);
+        return "redirect:" + referer;
+    }
+
+    @PutMapping("/addMovie")
+    public String addNewMovie(@RequestHeader String referer, @RequestParam("movie") List<Integer> directingDTOs, @RequestParam("directorId") int id) {
+        try {
+            directorService.addNewMovie(id, directingDTOs);
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+        return "redirect:" + referer;
+    }
 }

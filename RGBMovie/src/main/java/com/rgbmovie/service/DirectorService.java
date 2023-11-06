@@ -18,4 +18,8 @@ public interface DirectorService {
     DirectorModel getById(int id);
 
     String edit(DirectorModel directorModel);
+
+    String deleteMovie(int id);
+
+    String addNewMovie(int id, List<Integer> movieId);
 }

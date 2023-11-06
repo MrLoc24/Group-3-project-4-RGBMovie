@@ -78,4 +78,33 @@ public class DirectorServiceImpl implements DirectorService {
             return e.toString();
         }
     }
+
+    @Override
+    public String deleteMovie(int id) {
+        try {
+            directingRepository.deleteById(id);
+            return "Delete Success";
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+    }
+
+    @Override
+    public String addNewMovie(int id, List<Integer> movieId) {
+        try {
+            List<DirectingModel> directingModels = new ArrayList<>();
+            for (Integer movie : movieId) {
+                DirectingModel directingModel = new DirectingModel();
+                directingModel.setDirector(id);
+                directingModel.setMovie(movie);
+                directingModels.add(directingModel);
+            }
+            directingRepository.saveAllAndFlush(directingModels);
+            return "Add success";
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+    }
+
+
 }

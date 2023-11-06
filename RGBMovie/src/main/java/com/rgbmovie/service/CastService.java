@@ -7,5 +7,9 @@ import java.util.List;
 
 @Service
 public interface CastService {
+    List<CastModel> getAllFilmCast();
+
     List<CastModel> getAll();
+
+
 }

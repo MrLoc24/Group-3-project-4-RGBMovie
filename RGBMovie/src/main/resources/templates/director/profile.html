@@ -228,7 +228,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add New Screening
+                                <!--end::Svg Icon-->Add Movie Direct
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -296,8 +296,8 @@
                                                 class="form"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
-                                                method="post"
-                                                th:action="@{/director/add}"
+                                                th:action="@{/director/addMovie}"
+                                                th:method="put"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -310,6 +310,9 @@
                                                     data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
                                                     id="kt_modal_add_user_scroll"
                                             >
+                                                <input name="directorId" th:value="${director.pk}"
+                                                       type="hidden">
+
                                                 <!--begin::Input group-->
                                                 <div class="fv-row mb-7">
                                                     <p class="required fw-bold fs-6 mb-2">Movie Director</p>
@@ -439,22 +442,14 @@
                                         class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
                                         data-kt-menu="true"
                                 >
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a
-                                                class="menu-link px-3"
-                                                href="../../demo1/dist/apps/user-management/users/view.html"
-                                        >Edit</a
-                                        >
-                                    </div>
-                                    <!--end::Menu item-->
+
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{/users/status(id=${item.pk})}"
-                                        >Change status</a
+                                                th:href="@{/director/delete(id=${item.pk})}"
+                                        >Delete</a
                                         >
                                     </div>
                                     <!--end::Menu item-->

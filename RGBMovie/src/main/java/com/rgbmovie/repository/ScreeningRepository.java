@@ -29,6 +29,6 @@ public interface ScreeningRepository extends JpaRepository<ScreeningModel, Integ
     @Query("SELECT s FROM ScreeningModel s WHERE DATE(s.time) = :time AND s.movie = :movie")
     List<ScreeningModel> getAllByTime(@Param("time") LocalDate time, @Param("movie") int movie);
 
-    @Query("SELECT s FROM ScreeningModel s WHERE DATE(s.time) = CURRENT_DATE ")
+    @Query("SELECT s FROM ScreeningModel s WHERE DATE(s.time) = CURRENT_DATE AND s.time > CURRENT_TIME")
     List<ScreeningModel> getAllToDay();
 }
