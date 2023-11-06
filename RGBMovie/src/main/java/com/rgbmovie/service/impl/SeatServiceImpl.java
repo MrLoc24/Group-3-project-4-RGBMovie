@@ -51,5 +51,15 @@ public class SeatServiceImpl implements SeatService {
         seatRepository.saveAllAndFlush(mapSeat);
     }
 
+    @Override
+    public List<String> seatPaid(int id) {
+        List<String> result = new ArrayList<>();
+        List<SeatModel> seatModels = seatRepository.seatOccupied(id);
+        for (SeatModel seat : seatModels) {
+            result.add(seat.getSeatName());
+        }
+        return result;
+    }
+
 
 }

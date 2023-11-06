@@ -3,12 +3,11 @@ package com.rgbmovie.api;
 
 import com.rgbmovie.dto.ReservationDTO;
 import com.rgbmovie.dto.ReservedSeatDTO;
+import com.rgbmovie.model.MovieModel;
 import com.rgbmovie.model.ReservationModel;
 import com.rgbmovie.model.ReservedSeatModel;
-import com.rgbmovie.service.ReservationService;
-import com.rgbmovie.service.ReservedSeatService;
-import com.rgbmovie.service.SeatService;
-import com.rgbmovie.service.UserService;
+import com.rgbmovie.model.ScreeningModel;
+import com.rgbmovie.service.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,14 +30,21 @@ public class ApiBookingController {
     private SeatService seatService;
     @Autowired
     private ReservedSeatService reservedSeatService;
+    @Autowired
+    private ScreeningService screeningService;
+    @Autowired
+    private MovieService movieService;
 
     @Autowired
     private ModelMapper modelMapper;
 
 
     @RequestMapping(value = "/book", method = RequestMethod.POST)
-    public Object booking(@RequestParam("username") String username, @RequestParam("screening") int screening, @RequestParam("price") float price, @RequestParam("seatName") String[] seatName, @RequestParam("auditorium") int auditorium) {
+    public Object booking(@RequestParam("username") String username, @RequestParam("screening") int screening, @RequestParam("seatName") String[] seatName, @RequestParam("auditorium") int auditorium) {
         try {
+            ScreeningModel screeningModel = screeningService.getbyId(screening);
+            MovieModel movieModel = movieService.getById(screeningModel.getMovie());
+            Double price = movieModel.getPrice() * seatName.length;
             ReservationModel reservationModel = reservationService.checkExistIfNotCreateNew(screening);
             reservationModel.setUser(userService.findByUsername(username).getPk());
             reservationModel.setTotalCost(reservationModel.getTotalCost() + price);

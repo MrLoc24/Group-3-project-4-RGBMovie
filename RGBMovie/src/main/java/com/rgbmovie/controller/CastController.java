@@ -50,7 +50,7 @@ public class CastController {
 
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
     public String showUserPage(HttpServletRequest request, @PathVariable int pageNumber, Model model) {
-        PagedListHolder<?> pages = (PagedListHolder<?>) request.getSession().getAttribute("directorList");
+        PagedListHolder<?> pages = (PagedListHolder<?>) request.getSession().getAttribute("castList");
         int pageSize = 10;
         List<CastModel> list = castService.getAllFilmCast();
         if (pages == null) {

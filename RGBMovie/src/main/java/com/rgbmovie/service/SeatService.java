@@ -17,4 +17,6 @@ public interface SeatService {
 
     //Using row and column to create seat
     void addNewSeat(AuditoriumModel auditoriumModel);
+
+    List<String> seatPaid(int id);
 }
