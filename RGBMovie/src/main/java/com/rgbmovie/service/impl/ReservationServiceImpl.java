@@ -44,8 +44,8 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public List<ReservationModel> getAllByUser(int id) {
-        return reservationRepository.findByUser(id);
+    public List<ReservationModel> getAllByUserHistory(int id) {
+        return reservationRepository.findByUserHistory(id);
     }
 
     @Override

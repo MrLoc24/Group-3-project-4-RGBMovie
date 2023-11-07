@@ -73,7 +73,7 @@ public class ApiBookingController {
             reservationDTO = reservationService.getAllByUserNotPay(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
         }
         if (action.equals("history")) {
-            reservationDTO = reservationService.getAllByUser(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
+            reservationDTO = reservationService.getAllByUserHistory(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
         }
         return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }

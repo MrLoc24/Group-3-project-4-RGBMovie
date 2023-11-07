@@ -17,7 +17,7 @@ public interface ReservationService {
     ReservationModel getById(int id);
 
     //    For Customer view cart
-    List<ReservationModel> getAllByUser(int id);
+    List<ReservationModel> getAllByUserHistory(int id);
 
     //  For Customer view order history
     List<ReservationModel> getAllByUserNotPay(int id);

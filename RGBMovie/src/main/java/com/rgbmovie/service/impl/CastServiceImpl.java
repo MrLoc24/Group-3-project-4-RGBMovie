@@ -71,9 +71,9 @@ public class CastServiceImpl implements CastService {
     }
 
     @Override
-    public String delete(int id) {
+    public String deleteMovie(int id) {
         try {
-            castRepository.deleteById(id);
+            castingRepository.deleteById(id);
             return "Deleted";
         } catch (DataAccessException e) {
             return e.toString();

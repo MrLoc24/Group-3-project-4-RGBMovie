@@ -122,4 +122,10 @@ public class CastController {
         }
 
     }
+
+    @GetMapping("/delete")
+    public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer) {
+        castService.deleteMovie(id);
+        return "redirect:" + referer;
+    }
 }
