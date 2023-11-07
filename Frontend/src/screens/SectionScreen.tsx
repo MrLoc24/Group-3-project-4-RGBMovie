@@ -14,7 +14,13 @@ const SectionScreen = (props: SectionProps) => {
     >
       {props.title ? <Title label={props.title || ""} /> : null}
 
-      <Container>{props.child}</Container>
+      <Container
+        sx={{
+          paddingBottom: "0.8rem",
+        }}
+      >
+        {props.child}
+      </Container>
     </Container>
   );
 };

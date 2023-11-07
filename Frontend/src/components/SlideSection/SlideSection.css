@@ -1,14 +1,16 @@
 .swiper {
   width: 100%;
-  padding-top: 10rem;
-  padding-bottom: 10rem;
+  /* padding-top: 10rem;
+  padding-bottom: 10rem; */
+  height: 70vh;
+  margin-bottom: 2rem !important;
 }
 
 .swiper-slide {
   background-position: center;
   background-size: cover;
   width: 300px;
-  height: fit-content;
+  height: auto;
 }
 
 .slideSection {

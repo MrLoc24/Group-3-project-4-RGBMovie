@@ -5,7 +5,6 @@ import "./Logo.css";
 // import { Logo as LogoYellow } from "../../../assets";
 
 const CustomeContainer = styled(Container)({
-  fontSize: "2rem",
   fontWeight: "lighter",
   display: "flex",
   flexDirection: "column",
@@ -22,15 +21,23 @@ const Logo = () => {
     <CustomeContainer>
       <Typography
         className="logo"
-        variant="h3"
-        sx={{ WebkitTextStroke: "2px var(--neonPink)" }}
+        sx={{
+          WebkitTextStroke: "2px var(--neonBlue)",
+          fontSize: { xs: "1rem", sm: "2rem", md: "3rem" },
+          margin: "0px",
+          padding: "0px",
+        }}
       >
         RGB
       </Typography>
       <Typography
-        variant="h5"
         sx={{
           textDecoration: "overline",
+          fontSize: {
+            xs: "0.5rem",
+            sm: "1rem",
+            md: "1.5rem",
+          },
         }}
       >
         Cinemas

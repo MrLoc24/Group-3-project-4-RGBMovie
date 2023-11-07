@@ -33,7 +33,10 @@ export default function SignIn() {
       }).unwrap();
       toast.success("Login successfully!");
 
-      dispatch(setCredentials({ ...res }));
+      const timestamp = new Date();
+      const timestampString = timestamp.toISOString();
+
+      dispatch(setCredentials({ ...res, timestamp: timestampString }));
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

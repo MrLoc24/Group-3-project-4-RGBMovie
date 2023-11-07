@@ -1,11 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { NavigationBar, QuickBooking } from "./components";
 import "react-toastify/dist/ReactToastify.css";
-import { Button, Container, Fab, Modal } from "@mui/material";
+import { Button, Container, Modal } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useFindAllMoviesMutation } from "./slices/moviesApiSlice";
+import { addMovies } from "./slices/movieSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { useFindAllTheaterMutation } from "./slices/theatersApiSlice";
+import { addTheaters } from "./slices/theaterSlice";
 
 const darkTheme = createTheme({
   palette: {
@@ -33,6 +41,44 @@ function App() {
     setOpen(true);
   };
 
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [findAllMovies] = useFindAllMoviesMutation();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [findAllTheater] = useFindAllTheaterMutation();
+
+  useEffect(() => {
+    try {
+      findAllMovies("").then((result: any) => {
+        const movieList = result.data.map((item: any) => {
+          return {
+            id: item.pk,
+            title: item.title,
+            runningTime: item.durationMin,
+            content: item.description,
+            rated: item.age,
+            releaseDate: item.openingDate,
+            genres: item.genre,
+            image: item.mainImg,
+            price: item.price,
+          };
+        });
+
+        dispatch(addMovies(movieList));
+      });
+
+      findAllTheater("").then((result: any) => {
+        const theaters = result.data;
+        dispatch(addTheaters(theaters));
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
       {/* <Header children={<NavigationBar />} /> */}
@@ -52,7 +98,9 @@ function App() {
       <Container
         sx={{
           marginTop: "3rem",
+          marginBottom: "3rem",
           height: "70vh",
+          width: "100%",
         }}
       >
         <Modal
@@ -67,25 +115,29 @@ function App() {
         <Button
           className="neonText"
           variant="outlined"
+          size="large"
           sx={{
             color: "white",
+            // background: "#191717",
+            background: "none",
             position: "fixed",
-            bottom: "0%",
-            right: "0%",
-            width: "15vw",
+            bottom: "2%",
+            right: "2%",
+            width: "8vw",
             padding: "0.7rem 0rem",
-            borderRadius: "25px 0 0 0",
-            borderRight: "none",
-            border: "white",
-            boxShadow:
-              "0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 1rem var(--neonPurple), 0 0 0.5rem var(--neonBlue)",
+            borderRadius: "15px",
+            border: "#555843 solid",
             "&:hover": {
-              borderRight: "none",
+              border: "#555843 solid",
+              background: "#191717",
+              boxShadow:
+                "0 0 0.1rem #fff, 0 0 1rem var(--neonPurple), 0 0 0.5rem var(--neonBlue)",
             },
+            zIndex: '999'
           }}
           onClick={handleOpen}
+          startIcon={<Add />}
         >
-          <Add />
           Book
         </Button>
       </Container>

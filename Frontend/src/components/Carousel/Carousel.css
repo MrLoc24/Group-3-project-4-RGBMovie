@@ -1,15 +1,14 @@
 .swiper {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 80vh;
 }
 
 .swiper-slide {
-  padding: 1rem 0rem;
-  height: -webkit-fill-available !important;
-  background: url('../../assets/Black.jpg') no-repeat center right !important;
+  /* padding: 1rem 0rem; */
+  background: url("../../assets/Black.jpg") no-repeat center right !important;
   text-align: center;
   font-size: 18px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 
   /* Center slide text vertically */
   display: flex;
@@ -23,16 +22,17 @@
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: fill;
+  
 }
 
 .swiper {
-  margin-left: auto;
-  margin-right: auto;
+  /* margin-left: auto;
+  margin-right: auto; */
 }
 
 .carousel {
-  height: 30rem;
+  /* height: 80vh; */
   padding-top: 3rem !important;
   padding-bottom: 3rem !important;
 }

@@ -1,50 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "./SeatsSelect.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
+import { Container } from "@mui/material";
 
-const movies = [
-  {
-    name: "Avenger",
-    price: 10,
-    occupied: [20, 21, 30, 1, 2, 8],
-  },
-  {
-    name: "Joker",
-    price: 12,
-    occupied: [9, 41, 35, 11, 65, 26],
-  },
-  {
-    name: "Toy story",
-    price: 8,
-    occupied: [37, 25, 44, 13, 2, 3],
-  },
-  {
-    name: "the lion king",
-    price: 9,
-    occupied: [10, 12, 50, 33, 28, 47],
-  },
-];
+export default function SeatsSelect({
+  auditorium,
+  price,
+  selectedSeats,
+  setSelectedSeats,
+}: any) {
+  const [seats, setSeats] = useState<string[]>();
 
-const seats = Array.from({ length: 8 * 8 }, (_, i) => i);
-
-export default function SeatsSelect() {
-  const [selectedMovie, setSelectedMovie] = useState(movies[0]);
-  const [selectedSeats, setSelectedSeats] = useState([]);
+  useEffect(() => {
+    const seatList = [];
+    for (let char = 65; char < auditorium.Audi.row + 65; char++) {
+      for (let num = 1; num <= auditorium.Audi.column; num++) {
+        seatList.push(String.fromCharCode(char) + num);
+      }
+    }
+    setSeats(seatList);
+  }, []);
 
   return (
     <div className="App">
-      <Movies
-        movie={selectedMovie}
-        onChange={(movie) => {
-          setSelectedSeats([]);
-          setSelectedMovie(movie);
-        }}
-      />
       <ShowCase />
       <Cinema
-        movie={selectedMovie}
+        column={auditorium.Audi.column}
+        seats={seats}
+        occupied={auditorium.Seat}
         selectedSeats={selectedSeats}
-        onSelectedSeatsChange={(selectedSeats) =>
+        onSelectedSeatsChange={(selectedSeats: any) =>
           setSelectedSeats(selectedSeats)
         }
       />
@@ -52,31 +38,8 @@ export default function SeatsSelect() {
       <p className="info">
         You have selected <span className="count">{selectedSeats.length}</span>{" "}
         seats for the price of{" "}
-        <span className="total">
-          {selectedSeats.length * selectedMovie.price}$
-        </span>
+        <span className="total">{selectedSeats.length * price}$</span>
       </p>
-    </div>
-  );
-}
-
-function Movies({ movie, onChange }) {
-  return (
-    <div className="Movies">
-      <label htmlFor="movie">Pick a movie</label>
-      <select
-        id="movie"
-        value={movie.name}
-        onChange={(e) => {
-          onChange(movies.find((movie) => movie.name === e.target.value));
-        }}
-      >
-        {movies.map((movie) => (
-          <option key={movie.name} value={movie.name}>
-            {movie.name} (${movie.price})
-          </option>
-        ))}
-      </select>
     </div>
   );
 }
@@ -97,12 +60,18 @@ function ShowCase() {
   );
 }
 
-function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
-  function handleSelectedState(seat) {
+function Cinema({
+  occupied,
+  selectedSeats,
+  onSelectedSeatsChange,
+  seats,
+  column,
+}: any) {
+  function handleSelectedState(seat: any) {
     const isSelected = selectedSeats.includes(seat);
     if (isSelected) {
       onSelectedSeatsChange(
-        selectedSeats.filter((selectedSeat) => selectedSeat !== seat)
+        selectedSeats.filter((selectedSeat: any) => selectedSeat !== seat)
       );
     } else {
       onSelectedSeatsChange([...selectedSeats, seat]);
@@ -113,33 +82,42 @@ function Cinema({ movie, selectedSeats, onSelectedSeatsChange }) {
     <div className="Cinema">
       <div className="screen" />
 
-      <div className="seats">
-        {seats.map((seat) => {
-          const isSelected = selectedSeats.includes(seat);
-          const isOccupied = movie.occupied.includes(seat);
-          return (
-            <span
-              tabIndex="0"
-              key={seat}
-              className={clsx(
-                "seat",
-                isSelected && "selected",
-                isOccupied && "occupied"
-              )}
-              onClick={isOccupied ? null : () => handleSelectedState(seat)}
-              onKeyPress={
-                isOccupied
-                  ? null
-                  : (e) => {
-                      if (e.key === "Enter") {
-                        handleSelectedState(seat);
-                      }
-                    }
-              }
-            />
-          );
-        })}
-      </div>
+      <Container
+        className="seats"
+        sx={{
+          gridTemplateColumns: `repeat(${column}, min-content)`,
+        }}
+      >
+        {seats
+          ? seats.map((seat: any) => {
+              const isSelected = selectedSeats.includes(seat);
+              const isOccupied = occupied.includes(seat);
+              return (
+                <span
+                  tabIndex={0}
+                  key={seat}
+                  className={clsx(
+                    "seat",
+                    isSelected && "selected",
+                    isOccupied && "occupied"
+                  )}
+                  onClick={isOccupied ? null : () => handleSelectedState(seat)}
+                  onKeyPress={
+                    isOccupied
+                      ? null
+                      : (e) => {
+                          if (e.key === "Enter") {
+                            handleSelectedState(seat);
+                          }
+                        }
+                  }
+                >
+                  {seat}
+                </span>
+              );
+            })
+          : null}
+      </Container>
     </div>
   );
 }
