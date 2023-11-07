@@ -32,4 +32,9 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieModel> getAllNotHaveDirector() {
         return movieRepository.findAllNotHaveDirector();
     }
+
+    @Override
+    public List<MovieModel> getAllNotCast() {
+        return movieRepository.findAllNotCast();
+    }
 }

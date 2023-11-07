@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html
-        lang="en"
         layout:decorate="~{layout/default}"
-        xmlns="http://www.w3.org/1999/html"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        xmlns:th="http://www.thymeleaf.org">
+        xmlns:th="http://www.thymeleaf.org"
+>
 <head>
     <meta charset="UTF-8"/>
-    <title>Casts</title>
+    <title>Cast</title>
 </head>
+
 <body>
 <!--begin::Content-->
 <div
@@ -32,7 +32,7 @@
             >
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                    Directors List
+                    Director Detail
                 </h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
@@ -42,7 +42,11 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a class="text-muted text-hover-primary" href="/home">Home</a>
+                        <a
+                                class="text-muted text-hover-primary"
+                                href="/home"
+                        >Home</a
+                        >
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -51,7 +55,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-muted">Theaters Management</li>
+                    <li class="breadcrumb-item text-muted">Theater Management</li>
                     <!--end::Item-->
                     <!--begin::Item-->
                     <li class="breadcrumb-item">
@@ -73,6 +77,110 @@
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
         <div class="container-xxl" id="kt_content_container">
+            <!--begin::Basic info-->
+            <div class="card mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div aria-controls="kt_account_profile_details" aria-expanded="true"
+                     class="card-header border-0 cursor-pointer"
+                     data-bs-target="#kt_account_profile_details" data-bs-toggle="collapse"
+                     role="button">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bolder m-0">Profile Details</h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Card header-->
+                <!--begin::Content-->
+                <div class="collapse show" id="kt_account_profile_details">
+                    <!--begin::Form-->
+                    <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
+                          th:action="@{/cast/edit}" th:method="put">
+                        <!--begin::Card body-->
+                        <div class="card-body border-top p-9">
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6">Avatar</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8">
+                                    <!--begin::Image input-->
+                                    <div class="image-input image-input-outline" data-kt-image-input="true"
+                                         th:style="'background-image : url(assets/media/avatars/blank.png)'">
+                                        <!--begin::Preview existing avatar-->
+                                        <div class="image-input-wrapper w-125px h-125px"
+                                             th:style="'background-image: url(' + ${cast.profileImg} + ')'"></div>
+                                        <!--end::Preview existing avatar-->
+                                        <!--begin::Label-->
+                                        <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                               data-bs-toggle="tooltip" data-kt-image-input-action="change"
+                                               title="Change avatar">
+                                            <i class="bi bi-pencil-fill fs-7"></i>
+                                            <!--begin::Inputs-->
+                                            <input accept=".png, .jpg, .jpeg" name="image" type="file"/>
+                                            <input name="avatar_remove" type="hidden"/>
+                                            <input hidden th:field="${cast.profileImg}"
+                                                   th:value="${cast.profileImg}" type="text">
+                                            <input hidden name="pk" th:value="${cast.pk}" type="text">
+                                            <!--end::Inputs-->
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Cancel-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                              data-bs-toggle="tooltip" data-kt-image-input-action="cancel"
+                                              title="Cancel avatar">
+																<i class="bi bi-x fs-2"></i>
+															</span>
+                                        <!--end::Cancel-->
+                                        <!--begin::Remove-->
+                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                                              data-bs-toggle="tooltip" data-kt-image-input-action="remove"
+                                              title="Remove avatar">
+																<i class="bi bi-x fs-2"></i>
+															</span>
+                                        <!--end::Remove-->
+                                    </div>
+                                    <!--end::Image input-->
+                                    <!--begin::Hint-->
+                                    <div class="form-text">Allowed file types: png, jpg, jpeg.</div>
+                                    <!--end::Hint-->
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Cast</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="username"
+                                           th:field="${cast.actor}"
+                                           th:value="${cast.actor}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+
+
+                        </div>
+                        <!--end::Card body-->
+                        <!--begin::Actions-->
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button class="btn btn-light btn-active-light-primary me-2" type="reset">Discard</button>
+                            <button class="btn btn-primary" id="kt_account_profile_details_submit" type="submit">Save
+                                Changes
+                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Basic info-->
             <!--begin::Card-->
             <div class="card">
                 <!--begin::Card header-->
@@ -120,7 +228,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add New Cast
+                                <!--end::Svg Icon-->Add Movie Direct
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -139,7 +247,7 @@
                                     <!--begin::Modal header-->
                                     <div class="modal-header" id="kt_modal_add_user_header">
                                         <!--begin::Modal title-->
-                                        <h2 class="fw-bolder">Add Cast</h2>
+                                        <h2 class="fw-bolder">Add Movie</h2>
                                         <!--end::Modal title-->
                                         <!--begin::Close-->
                                         <div
@@ -188,8 +296,8 @@
                                                 class="form"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
-                                                method="post"
-                                                th:action="@{/cast/add}"
+                                                th:action="@{/cast/addMovie}"
+                                                th:method="put"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -202,26 +310,9 @@
                                                     data-kt-scroll-wrappers="#kt_modal_add_user_scroll"
                                                     id="kt_modal_add_user_scroll"
                                             >
-                                                <!--begin::Input group-->
-                                                <div class="fv-row mb-7">
-                                                    <!--begin::Label-->
-                                                    <label
-                                                            class="required fw-bold fs-6 mb-2"
-                                                            for="title"
-                                                    >Name</label
-                                                    >
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input
-                                                            class="form-control form-control-solid mb-3 mb-lg-0"
-                                                            id="title"
-                                                            placeholder="Name"
-                                                            th:field="${cast.actor}"
-                                                            type="text"
-                                                    />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <!--end::Input group-->
+                                                <input name="castId" th:value="${cast.pk}"
+                                                       type="hidden">
+
                                                 <!--begin::Input group-->
                                                 <div class="fv-row mb-7">
                                                     <p class="required fw-bold fs-6 mb-2">Movie Cast</p>
@@ -244,26 +335,6 @@
                                                 </div>
                                                 <!--end::Input group-->
 
-                                                <!--begin::Input group-->
-                                                <div class="fv-row mb-7">
-                                                    <!--begin::Label-->
-                                                    <label
-                                                            class="required fw-bold fs-6 mb-2"
-                                                            for="img"
-                                                    >Image</label
-                                                    >
-                                                    <!--end::Label-->
-                                                    <!--begin::Input-->
-                                                    <input
-                                                            accept="image/*"
-                                                            class="form-control form-control-solid mb-3 mb-lg-0"
-                                                            id="img"
-                                                            name="img"
-                                                            type="file"
-                                                    />
-                                                    <!--end::Input-->
-                                                </div>
-                                                <!--end::Input group-->
                                             </div>
                                             <!--end::Scroll-->
                                             <!--begin::Actions-->
@@ -306,6 +377,7 @@
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
+                    <!--begin::Table-->
                     <table
                             class="table align-middle table-row-dashed fs-6 gy-5"
                             id="kt_table_users"
@@ -316,37 +388,29 @@
                         <tr
                                 class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
                         >
-                            <th class="min-w-125px">No.</th>
-                            <th class="min-w-125px">Image</th>
-                            <th class="min-w-125px">Name</th>
                             <th class="min-w-125px">Movie</th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
                         <!--end::Table row-->
                         </thead>
                         <!--end::Table head-->
-                        <tbody>
+                        <!--begin::Table body-->
+                        <tbody class="text-gray-600 fw-bold">
+                        <!--begin::If no data-->
                         <tr
-                                th:if="${casts.pageList== null || #lists.isEmpty(casts.pageList)}"
-                        >
-                            <td colspan="4">No data</td>
+                                th:if="${cast.castingsByPk.isEmpty()}">
+                            <td>No Data...</td>
                         </tr>
-                        <tr th:each="item,iterStat : ${casts.pageList}">
-                            <td th:text="${item.pk}"></td>
-                            <td th:if="${item.profileImg == null}">
-                                <img alt="" style="width: 64px; height: 80px; text-align: center"
-                                     th:src="@{/assets/media/avatars/no-user-image.png}"/>
-                            </td>
-                            <td th:if="${item.profileImg != null}">
-                                <img alt="" style="width: 64px; height: 80px" th:src="@{${item.profileImg}}">
-                            </td>
-                            <td th:text="${item.actor}"></td>
-                            <td>
-                                <div
-                                        th:each="di : ${item.castingsByPk}"
-                                ><span class="badge-info" th:each="mo : ${movies}"
-                                       th:if="${di.movie == mo.pk}"
-                                       th:text="${mo.title}"></span></div>
+                        <!--end::If no data-->
+                        <!--begin::Table row-->
+                        <tr th:each="item : ${cast.castingsByPk}">
+
+                            <!--begin::User=-->
+                            <!--begin::No-->
+                            <!--end::No-->
+                            <td class="badge-info" th:each="mo : ${movie}"
+                                th:if="${item.movie == mo.pk}"
+                                th:text="${mo.title}">
                             </td>
                             <!--begin::Action=-->
                             <td class="text-end">
@@ -358,19 +422,19 @@
                                 >Actions
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
                                     <span class="svg-icon svg-icon-5 m-0">
-                                          <svg
-                                                  fill="none"
-                                                  height="24"
-                                                  viewBox="0 0 24 24"
-                                                  width="24"
-                                                  xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                                    d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
-                                                    fill="black"
-                                            />
-                                          </svg>
-                                        </span>
+                          <svg
+                                  fill="none"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  width="24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                                    d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z"
+                                    fill="black"
+                            />
+                          </svg>
+                        </span>
                                     <!--end::Svg Icon--></a
                                 >
                                 <!--begin::Menu-->
@@ -378,21 +442,13 @@
                                         class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
                                         data-kt-menu="true"
                                 >
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a
-                                                class="menu-link px-3"
-                                                th:href="@{'/cast/detail/' + ${item.pk}}"
-                                        >Details</a
-                                        >
-                                    </div>
-                                    <!--end::Menu item-->
+
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/cast/delete/' + ${item.pk}}"
+                                                th:href="@{/cast/delete(id=${item.pk})}"
                                         >Delete</a
                                         >
                                     </div>
@@ -402,76 +458,44 @@
                             </td>
                             <!--end::Action=-->
                         </tr>
+                        <!--end::Table row-->
                         </tbody>
+                        <!--end::Table body-->
                     </table>
-                    <ul class="pagination">
-                        <li
-                                th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'"
-                        >
-                            <a class="page-link" th:href="@{/cast}">First</a>
-                        </li>
-                        <li
-                                th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' "
-                        >
-                            <a
-                                    aria-label="Previous"
-                                    class="page-link"
-                                    th:href="@{|${baseUrl}${currentIndex - 1}|}"
-                                    title="Go to previous page"
-                            ><span aria-hidden="true">«</span>
-                                <span class="sr-only">Previous</span></a
-                            >
-                        </li>
-
-                        <li
-                                th:class="${item == currentIndex ? 'page-item active' :'page-item' }"
-                                th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
-                        >
-                            <a class="page-link" th:href="@{|${baseUrl}${item}|}">
-                                <span th:text="${item}"></span>
-                            </a>
-                        </li>
-                        <li
-                                th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'"
-                        >
-                            <a
-                                    aria-label="Next"
-                                    class="page-link"
-                                    th:href="@{|${baseUrl}${currentIndex + 1}|}"
-                                    title="Go to next page"
-                            ><span aria-hidden="true">»</span>
-                                <span class="sr-only">Next</span></a
-                            >
-                        </li>
-                        <li
-                                th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'"
-                        >
-                            <a class="page-link" th:href="@{|${baseUrl}${totalPageCount}|}"
-                            >Last</a
-                            >
-                        </li>
-                    </ul>
+                    <!--end::Table-->
                 </div>
                 <!--end::Card body-->
             </div>
             <!--end::Card-->
         </div>
         <!--end::Container-->
+        <!--begin::Page Vendors Javascript(used by this page)-->
+        <script
+                defer
+                th:src="@{/assets/plugins/custom/datatables/datatables.bundle.js}"
+                xmlns:th="http://www.thymeleaf.org"
+        ></script>
+        <!--end::Page Vendors Javascript-->
+        <!--begin::Page Custom Javascript(used by this page)-->
+        <script
+                defer
+                th:src="@{/assets/js/custom/apps/user-management/users/list/table.js}"
+                xmlns:th="http://www.thymeleaf.org"
+        ></script>
+        <script
+                defer
+                th:src="@{/assets/js/custom/apps/user-management/users/list/add.js}"
+                xmlns:th="http://www.thymeleaf.org"
+        ></script>
+        <script
+                defer
+                th:src="@{/assets/js/custom/widgets.js}"
+                xmlns:th="http://www.thymeleaf.org"
+        ></script>
+        <!--end::Page Custom Javascript-->
     </div>
     <!--end::Post-->
-    <script defer
-            th:src="@{/assets/js/custom/apps/user-management/users/list/add.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
-    <script defer
-            th:src="@{/assets/js/custom/widgets.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
-    <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->
-
-
 </body>
 </html>
-

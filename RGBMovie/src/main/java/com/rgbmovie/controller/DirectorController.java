@@ -90,7 +90,6 @@ public class DirectorController {
 
     @PostMapping("/add")
     public String addNew(@RequestParam("img") MultipartFile img, DirectorDTO directorDTO, @RequestParam("movie") List<Integer> directingDTOs) throws IOException {
-        System.out.println(directingDTOs);
         directorDTO.setProfileImg(cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url").toString());
         try {
             directorService.addNew(modelMapper.map(directorDTO, DirectorModel.class), directingDTOs);

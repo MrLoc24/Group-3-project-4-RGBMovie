@@ -14,4 +14,6 @@ public interface MovieService {
     MovieModel addNew(MovieModel movieModel);
 
     List<MovieModel> getAllNotHaveDirector();
+
+    List<MovieModel> getAllNotCast();
 }

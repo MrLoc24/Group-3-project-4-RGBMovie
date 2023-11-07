@@ -11,5 +11,12 @@ public interface CastService {
 
     List<CastModel> getAll();
 
+    String addNew(CastModel castModel, List<Integer> movie);
+
+    CastModel getById(int id);
+
+    String edit(CastModel castModel);
+
+    String delete(int id);
 
 }

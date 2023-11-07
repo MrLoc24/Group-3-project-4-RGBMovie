@@ -15,13 +15,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -80,10 +82,44 @@ public class CastController {
         model.addAttribute("totalPageCount", totalPageCount);
         model.addAttribute("baseUrl", baseUrl);
         model.addAttribute("casts", pages);
-        model.addAttribute("movies", movieService.getAllNotHaveDirector().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        model.addAttribute("movies", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
         model.addAttribute("cast", new CastDTO());
         return "cast/index";
     }
 
+    @PostMapping("/add")
+    public String addNewCast(@RequestParam("img") MultipartFile img, CastDTO castDTO, @RequestParam("movie") List<Integer> movie, Model model) throws IOException {
+        castDTO.setProfileImg(cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url").toString());
+        try {
+            model.addAttribute("message", castService.addNew(modelMapper.map(castDTO, CastModel.class), movie));
+            return "redirect:/cast";
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+    }
 
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable("id") int id, Model model) {
+        model.addAttribute("cast", castService.getById(id));
+        model.addAttribute("movies", movieService.getAllNotCast().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        model.addAttribute("movie", movieService.getAll().stream().map(m -> modelMapper.map(m, MovieDTO.class)).toList());
+        return "cast/profile";
+    }
+
+    @PutMapping("edit")
+    public String edit(CastModel castModel, @RequestHeader String referer, @RequestParam("image") MultipartFile image, Model model) throws IOException {
+        String name = StringUtils.cleanPath(image.getOriginalFilename());
+        if (!name.isEmpty()) {
+            var imageUpload = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
+            castModel.setProfileImg(name);
+        }
+        try {
+            model.addAttribute("message", castService.edit(castModel));
+            return "redirect:" + referer;
+        } catch (DataAccessException e) {
+            model.addAttribute("message", e.toString());
+            return "redirect:" + referer;
+        }
+
+    }
 }

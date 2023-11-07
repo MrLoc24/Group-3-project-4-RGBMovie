@@ -12,4 +12,7 @@ public interface MovieRepository extends JpaRepository<MovieModel, Integer> {
 
     @Query("SELECT m FROM MovieModel m LEFT JOIN DirectingModel d ON m.pk = d.movie WHERE d.movie IS NULL ")
     List<MovieModel> findAllNotHaveDirector();
+
+    @Query("SELECT m FROM MovieModel m LEFT JOIN CastingModel c ON m.pk = c.movie WHERE c.movie IS NULL ")
+    List<MovieModel> findAllNotCast();
 }

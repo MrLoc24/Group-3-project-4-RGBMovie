@@ -14,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Path;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -69,8 +67,14 @@ public class ApiBookingController {
     }
 
     @GetMapping("/book/{action}")
-    public Object order(@RequestParam("action") String action, @RequestParam("userId") int userId) {
-        List<ReservationDTO> reservationDTO = reservationService.getAllByUser(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
+    public Object order(@RequestParam("userId") int userId, @PathVariable("action") String action) {
+        List<ReservationDTO> reservationDTO = new ArrayList<>();
+        if (action.equals("cart")) {
+            reservationDTO = reservationService.getAllByUserNotPay(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
+        }
+        if (action.equals("history")) {
+            reservationDTO = reservationService.getAllByUser(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
+        }
         return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }
 

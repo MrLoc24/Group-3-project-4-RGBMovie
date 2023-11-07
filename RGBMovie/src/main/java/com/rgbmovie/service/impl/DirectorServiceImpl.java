@@ -38,7 +38,6 @@ public class DirectorServiceImpl implements DirectorService {
                 directingModel.setMovie(movie);
                 directingModels.add(directingModel);
             }
-            System.out.println(directingModels);
             directingRepository.saveAllAndFlush(directingModels);
             return "Add success";
         } catch (DataAccessException e) {
@@ -49,7 +48,6 @@ public class DirectorServiceImpl implements DirectorService {
     @Override
     public List<DirectorModel> getAllFilmDrirect() {
         List<DirectorModel> result = directorRepository.findAll();
-        System.out.println(result);
         for (DirectorModel directorModel : result
         ) {
             List<DirectingModel> directingModelList = directingRepository.findByDirector(directorModel.getPk());

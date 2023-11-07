@@ -50,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<ReservationModel> getAllByUserNotPay(int id) {
-        return reservationRepository.findByUser(id);
+        return reservationRepository.findByUserNotPay(id);
     }
 
 
