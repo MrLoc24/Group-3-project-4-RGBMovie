@@ -2,7 +2,6 @@
 import { Grid } from "@mui/material";
 
 const Detail = ({
-  id,
   image,
   name,
   runningTime,
@@ -92,10 +91,10 @@ const Detail = ({
           {timeDate}
         </Grid>
         <Grid item md={12}>
-          {room ? room.name : null}
+          {room}
         </Grid>
         <Grid item md={12}>
-          {seats}
+          {seats ? seats.map((item: any) => item + ", ") : null}
         </Grid>
         <Grid item md={12}>
           $ {price}

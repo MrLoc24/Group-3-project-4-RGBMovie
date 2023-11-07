@@ -4,14 +4,18 @@ import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import { Container } from "@mui/material";
 
-export default function SeatsSelect({ occupied, price, row, column }) {
-  const [selectedSeats, setSelectedSeats] = useState([]);
+export default function SeatsSelect({
+  auditorium,
+  price,
+  selectedSeats,
+  setSelectedSeats,
+}: any) {
   const [seats, setSeats] = useState<string[]>();
 
   useEffect(() => {
     const seatList = [];
-    for (let char = 65; char < row + 65; char++) {
-      for (let num = 1; num <= column; num++) {
+    for (let char = 65; char < auditorium.Audi.row + 65; char++) {
+      for (let num = 1; num <= auditorium.Audi.column; num++) {
         seatList.push(String.fromCharCode(char) + num);
       }
     }
@@ -22,11 +26,11 @@ export default function SeatsSelect({ occupied, price, row, column }) {
     <div className="App">
       <ShowCase />
       <Cinema
-        column={column}
+        column={auditorium.Audi.column}
         seats={seats}
-        occupied={occupied}
+        occupied={auditorium.Seat}
         selectedSeats={selectedSeats}
-        onSelectedSeatsChange={(selectedSeats) =>
+        onSelectedSeatsChange={(selectedSeats: any) =>
           setSelectedSeats(selectedSeats)
         }
       />
@@ -62,12 +66,12 @@ function Cinema({
   onSelectedSeatsChange,
   seats,
   column,
-}) {
-  function handleSelectedState(seat) {
+}: any) {
+  function handleSelectedState(seat: any) {
     const isSelected = selectedSeats.includes(seat);
     if (isSelected) {
       onSelectedSeatsChange(
-        selectedSeats.filter((selectedSeat) => selectedSeat !== seat)
+        selectedSeats.filter((selectedSeat: any) => selectedSeat !== seat)
       );
     } else {
       onSelectedSeatsChange([...selectedSeats, seat]);
@@ -81,7 +85,7 @@ function Cinema({
       <Container
         className="seats"
         sx={{
-          gridTemplateColumns: `repeat(${column}, min-content)`
+          gridTemplateColumns: `repeat(${column}, min-content)`,
         }}
       >
         {seats

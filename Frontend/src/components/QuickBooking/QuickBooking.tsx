@@ -23,6 +23,8 @@ import { ArrowBackOutlined } from "@mui/icons-material";
 import { useFindScreeningByMovieAndTheaterMutation } from "../../slices/screeningApiSlice";
 import { toast } from "react-toastify";
 import { useGetRoomByIdMutation } from "../../slices/roomApiSlice";
+import { useBookingMutation } from "../../slices/bookingApiSlice";
+import { useNavigate } from "react-router-dom";
 
 const style = {
   display: "flex",
@@ -37,10 +39,11 @@ const style = {
   p: 4,
 };
 
-const occupiedList = ["A1", "B1", "B2", "B3", "C2"];
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const QuickBooking = forwardRef(({ handleClose }: any) => {
+  const { customerInfo } = useSelector((state: any) => state.auth);
+  const [username, setUsername] = useState("");
+
   // States of Location
   const [location, setLocation] = useState("");
   const [theater, setTheater] = useState("");
@@ -54,8 +57,8 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
   const [runningTime, setRunningTime] = useState("");
   const [timedate, setTimeDate] = useState("");
   const [room, setRoom] = useState(null);
-  const [seats, setSeats] = useState([]);
-  const [price, setPrice] = useState("");
+  // const [seats, setSeats] = useState([]);
+  const [price, setPrice] = useState(null);
   const [payment, setPayment] = useState("");
   const [showingTime, setShowingTime] = useState(null);
   const [date, setDate] = useState<string | null>(null);
@@ -63,14 +66,21 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
   const [showingTimeList, setShowingTimeList] = useState<any>([]);
   const [showingTimes, setShowingTimes] = useState<any>(null);
   const [dates, setDates] = useState<any>([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   const theaterList = useSelector((state: any) => state.theaters.theaters);
   const movieList = useSelector((state: any) => state.movies.movies);
 
   const [screenings] = useFindScreeningByMovieAndTheaterMutation();
   const [auditorium] = useGetRoomByIdMutation();
+  const [book] = useBookingMutation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (customerInfo) {
+      setUsername(customerInfo.username);
+    }
     const subLocation = theaterList.map((item: any) => {
       return item.subLocation;
     });
@@ -93,6 +103,7 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
     setMovieName(selectedMovie.title);
     setMovieImage(selectedMovie.image);
     setRunningTime(selectedMovie.runningTime);
+    setPrice(selectedMovie.price);
   };
 
   const handleLocationSelect = (event: SelectChangeEvent) => {
@@ -160,7 +171,7 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
     );
 
     try {
-      const auditorimInfo = await auditorium(selectedScreening.auditorium);
+      const auditorimInfo = await auditorium(selectedScreening.pk);
       setRoom(auditorimInfo.data);
     } catch (error: any) {
       toast(error?.data?.message || error.error);
@@ -171,22 +182,40 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
     setTimeDate(selectedScreening.time);
   };
 
+  const handleBookSubmit = async () => {
+    try {
+      const result = await book({
+        username: username,
+        screening: showingTime,
+        auditorium: room.Audi.pk,
+        seatName: selectedSeats,
+      });
+      toast.success("Add to Cart Successfully");
+      console.log(result);
+
+      navigate("/");
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
+  };
+
   const handleBack = () => {
     if (showingTime) {
       setShowingTime(null);
       setRoom(null);
+      setSelectedSeats([]);
     } else {
       setMovieId(null);
       setMovieName(null);
       setMovieImage(null);
+      setPrice(null);
       setLocation("");
       setTheater("");
       setRunningTime("");
-      setSeats([]);
       setTimeDate("");
       setRoom(null);
       setPayment("");
-      setPrice("");
+      setPrice(null);
       setShowingTimeList(null);
       setShowingTime(null);
       setShowingTimes(null);
@@ -299,10 +328,10 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
                 }}
               >
                 <SeatsSelect
-                  column={5}
-                  row={10}
-                  occupied={occupiedList}
+                  auditorium={room}
                   price={price}
+                  selectedSeats={selectedSeats}
+                  setSelectedSeats={setSelectedSeats}
                 />
               </Container>
             ) : null}
@@ -331,13 +360,13 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
               id={movieId}
               runningTime={runningTime}
               theater={theater}
-              seats={seats}
+              seats={selectedSeats}
               timeDate={timedate
                 .replace("T", " ")
                 .replace(":", "h")
                 .substring(0, 16)}
-              room={room}
-              price={price}
+              room={room ? room.Audi.name : null}
+              price={price ? price * selectedSeats.length : null}
               payment={payment}
             />
           </Card>
@@ -353,7 +382,16 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
               marginTop: "0.5rem",
             }}
           >
-            <Button variant="outlined" fullWidth>
+            <Button
+              variant="outlined"
+              disabled={
+                username && showingTime && room && selectedSeats.length != 0
+                  ? false
+                  : true
+              }
+              fullWidth
+              onClick={handleBookSubmit}
+            >
               Book
             </Button>
             <Button variant="outlined" fullWidth onClick={handleClose}>
