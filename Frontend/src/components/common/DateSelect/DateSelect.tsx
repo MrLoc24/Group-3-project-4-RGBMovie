@@ -1,9 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import React, { useEffect, useState } from "react";
 
-const DateSelect = () => {
-  const [date, setDate] = useState<string | null>("");
-  const [dates, setDates] = useState<Array<Date>>();
+const DateSelect = ({ handleDateSelect, date, dates }: any) => {
   const dayOfWeek = new Map<number, string>();
   dayOfWeek.set(0, "Sun");
   dayOfWeek.set(1, "Mon");
@@ -12,30 +10,6 @@ const DateSelect = () => {
   dayOfWeek.set(4, "Thu");
   dayOfWeek.set(5, "Fri");
   dayOfWeek.set(6, "Sat");
-
-  useEffect(() => {
-    const startDate = new Date();
-    const endDate = new Date();
-    endDate.setDate(startDate.getDate() + 14);
-    const dateList: Date[] = [];
-
-    for (
-      let date = startDate;
-      date < endDate;
-      date.setDate(date.getDate() + 1)
-    ) {
-      dateList.push(new Date(date));
-    }
-    setDates(dateList);
-    setDate(startDate.toISOString());
-  }, []);
-
-  const handleDateSelect = (
-    event: React.MouseEvent<HTMLElement>,
-    date: string | null
-  ) => {
-    setDate(date);
-  };
 
   return (
     <>
@@ -47,7 +21,7 @@ const DateSelect = () => {
         sx={{ display: "flex", flexWrap: "wrap" }}
       >
         {dates
-          ? dates.map((item) => (
+          ? dates.map((item:any) => (
               <ToggleButton
                 value={item.toISOString()}
                 key={item.toISOString()}

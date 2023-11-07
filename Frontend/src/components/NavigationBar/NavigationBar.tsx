@@ -25,9 +25,8 @@ import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useProfileMutation } from "../../slices/customersApiSlice";
 import { toast } from "react-toastify";
 import { setProfile } from "../../slices/profileSlice";
-import { Black } from "../../assets";
 
-const pages = ["Movie", "Theater", "Event"];
+const pages = ["Movie", "Theater", "Event", "Cart"];
 const settings = ["Profile", "Logout"];
 
 function NavigationBar() {
@@ -36,7 +35,13 @@ function NavigationBar() {
 
   useEffect(() => {
     if (customerInfo) {
-      setUsername(customerInfo.username);
+      const currentDate = new Date();
+      const loginDate = new Date(customerInfo.timestamp);
+      if ((currentDate - loginDate) / (1000 * 60 * 60 * 24) >= 10) {
+        localStorage.clear();
+      } else {
+        setUsername(customerInfo.username);
+      }
     }
   }, [customerInfo]);
 
@@ -59,7 +64,6 @@ function NavigationBar() {
 
   const handleNavClick = (e: any) => {
     setAnchorElNav(null);
-    console.log(e.target.value);
     switch (e.target.value) {
       case "Movie":
         navigate("/movie");
@@ -114,19 +118,22 @@ function NavigationBar() {
     <AppBar
       position="fixed"
       sx={{
-        top: "0%",
+        top: "3%",
         left: "50%",
         width: "100vw",
+        height: "8vh",
         transform: "translate(-50%, 0)",
+        padding: "0rem 10rem",
         // background: `url('${Black}')`,
-        background: "none",
-        borderRadius: "0px 0px 25px 25px",
-        // boxShadow: "10px 10px 5px 0px rgba(0,0,0,0.53)",
-        boxShadow:
-          "0 0 0.1rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--neonPurple), 0 0 0.5rem var(--neonBlue)",
-        borderBottom: "white",
+        background: "#191717",
+        // background: "none",
+        // borderRadius: "0px 0px 25px 25px",
+        // boxShadow: "0 0 0.1rem #F6F1EE, 0 0 1rem var(--neonBlue)",
+        border: "#555843 solid thin",
+        justifyContent: "center",
         "&:hover": {
-          borderBottom: "white solid",
+          boxShadow:
+            "0 0 0.1rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--neonBlue), 0 0 0.5rem var(--neonBlue)",
         },
       }}
     >
@@ -236,7 +243,7 @@ function NavigationBar() {
           >
             {pages.map((page) => (
               <BottomNavigationAction
-                className="neonText"
+                className="neonTextYellow"
                 label={page}
                 icon={<MovieOutlined />}
                 value={page}
@@ -286,13 +293,13 @@ function NavigationBar() {
             <Button
               size="large"
               sx={{
-                color: "var(--neonPurple)",
+                color: "white",
               }}
               value="Login"
               onClick={handleNavClick}
               startIcon={<LoginOutlined />}
             >
-              <Typography className="neonText">Login</Typography>
+              Login
             </Button>
           )}
         </Toolbar>

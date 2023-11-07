@@ -24,8 +24,24 @@ body {
 }
 
 .neonText {
-  text-shadow: var(--neonPink) 0px 0px 10px, var(--neonPink) 0px 0px 20px;
-  filter: drop-shadow(var(--neonPurple) 0px 0px 10px);
+  text-shadow: var(--neonPink) 0px 0px 5px, var(--neonPink) 0px 0px 10px;
+  filter: drop-shadow(var(--neonPurple) 0px 0px 5px);
+}
+
+.neonText:hover {
+  text-shadow: var(--neonPink) 0px 0px 20px, var(--neonPink) 0px 0px 30px;
+  filter: drop-shadow(var(--neonPurple) 0px 0px 20px);
+}
+
+.neonTextYellow {
+  text-shadow: var(--neonYellow) 0px 0px 5px, var(--neonYellow) 0px 0px 15px;
+  /* filter: drop-shadow(var(--neonYellow) 0px 0px 5px); */
+}
+
+.neonTextYellow:hover {
+  color: white;
+  text-shadow: var(--neonYellow) 0px 0px 20px, var(--neonYellow) 0px 0px 30px;
+  filter: drop-shadow(var(--neonYellow) 0px 0px 5px);
 }
 
 .flicker {
@@ -38,10 +54,11 @@ body {
 }
 
 .logo:hover {
-  filter: contrast(150%) saturate(8);
+  color: white;
+  filter: contrast(120%);
   animation: none;
-  text-shadow: #fff 0px 0px 10px, var(--neonPurple) 0px 0px 20px,
-    var(--neonCrimson) 0px 0px 30px;
+  text-shadow: #fff 0px 0px 10px, var(--neonBlue) 0px 0px 15px,
+    var(--neonBlue) 0px 0px 20px, var(--neonBlue) 0px 0px 30px;
 }
 
 /* Flickering animation */
@@ -75,8 +92,8 @@ body {
   53%,
   57%,
   100% {
-    text-shadow: #fff 0px 0px 10px, var(--neonPurple) 0px 0px 20px,
-      var(--neonCrimson) 0px 0px 30px;
+    text-shadow: #fff 0px 0px 10px, var(--neonBlue) 0px 0px 20px,
+      var(--neonBlue) 0px 0px 30px;
   }
 
   20%,

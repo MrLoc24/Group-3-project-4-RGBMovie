@@ -42,14 +42,30 @@ const Detail = ({
           justifyContent: "space-evenly",
         }}
       >
-        <Grid item md={12}>Name</Grid>
-        <Grid item md={12}>Running Time</Grid>
-        <Grid item md={12}>Theater</Grid>
-        <Grid item md={12}>Time & Date</Grid>
-        <Grid item md={12}>Room</Grid>
-        <Grid item md={12}>Seats</Grid>
-        <Grid item md={12}>Price</Grid>
-        <Grid item md={12}>Payment</Grid>
+        <Grid item md={12}>
+          Name
+        </Grid>
+        <Grid item md={12}>
+          Running Time
+        </Grid>
+        <Grid item md={12}>
+          Theater
+        </Grid>
+        <Grid item md={12}>
+          Date & Time
+        </Grid>
+        <Grid item md={12}>
+          Room
+        </Grid>
+        <Grid item md={12}>
+          Seats
+        </Grid>
+        <Grid item md={12}>
+          Price
+        </Grid>
+        <Grid item md={12}>
+          Payment
+        </Grid>
       </Grid>
 
       {/* Value  */}
@@ -63,14 +79,30 @@ const Detail = ({
           justifyContent: "space-evenly",
         }}
       >
-        <Grid item md={12}>{name}</Grid>
-        <Grid item md={12}>{runningTime}</Grid>
-        <Grid item md={12}>{theater}</Grid>
-        <Grid item md={12}>{timeDate}</Grid>
-        <Grid item md={12}>{room}</Grid>
-        <Grid item md={12}>{seats}</Grid>
-        <Grid item md={12}>{price}</Grid>
-        <Grid item md={12}>{payment}</Grid>
+        <Grid item md={12}>
+          {name}
+        </Grid>
+        <Grid item md={12}>
+          {runningTime} minutes
+        </Grid>
+        <Grid item md={12}>
+          {theater}
+        </Grid>
+        <Grid item md={12}>
+          {timeDate}
+        </Grid>
+        <Grid item md={12}>
+          {room ? room.name : null}
+        </Grid>
+        <Grid item md={12}>
+          {seats}
+        </Grid>
+        <Grid item md={12}>
+          $ {price}
+        </Grid>
+        <Grid item md={12}>
+          {payment}
+        </Grid>
       </Grid>
     </Grid>
   );

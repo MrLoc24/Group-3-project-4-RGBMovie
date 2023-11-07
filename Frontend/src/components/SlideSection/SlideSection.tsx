@@ -50,7 +50,7 @@ export default function SlideSection() {
   return (
     <>
       <Container
-        sx={{ marginBottom: "1rem", display: "flex", justifyContent: "center" }}
+        sx={{ marginBottom: "2rem", display: "flex", justifyContent: "center" }}
       >
         {/* Status Select */}
         <Paper

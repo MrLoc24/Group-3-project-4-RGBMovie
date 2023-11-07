@@ -62,8 +62,8 @@ public class ApiBookingController {
         return new ResponseEntity<>("Remove seat successfully", HttpStatus.OK);
     }
 
-    @GetMapping("/book/{action}")
-    public Object order(@RequestParam("action") String action, @RequestParam("userId") int userId) {
+    @GetMapping("/book/")
+    public Object order(@RequestParam("userId") int userId) {
         List<ReservationDTO> reservationDTO = reservationService.getAllByUser(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
         return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }

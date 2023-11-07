@@ -11,7 +11,6 @@ import "./QuickBooking.css";
 import {
   Detail,
   PaymentSelect,
-  ShowingTime,
   CustomContainer,
   LocationMenu,
   Poster,
@@ -21,6 +20,9 @@ import DateSelect from "../common/DateSelect/DateSelect";
 import { forwardRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ArrowBackOutlined } from "@mui/icons-material";
+import { useFindScreeningByMovieAndTheaterMutation } from "../../slices/screeningApiSlice";
+import { toast } from "react-toastify";
+import { useGetRoomByIdMutation } from "../../slices/roomApiSlice";
 
 const style = {
   display: "flex",
@@ -28,12 +30,14 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "70rem",
+  width: "100vw",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
+
+const occupiedList = ["A1", "B1", "B2", "B3", "C2"];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const QuickBooking = forwardRef(({ handleClose }: any) => {
@@ -49,15 +53,22 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
   const [movieImage, setMovieImage] = useState<any>("");
   const [runningTime, setRunningTime] = useState("");
   const [timedate, setTimeDate] = useState("");
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState(null);
   const [seats, setSeats] = useState([]);
   const [price, setPrice] = useState("");
   const [payment, setPayment] = useState("");
+  const [showingTime, setShowingTime] = useState(null);
+  const [date, setDate] = useState<string | null>(null);
 
-  const [showingTime, setShowingTime] = useState<any>();
+  const [showingTimeList, setShowingTimeList] = useState<any>([]);
+  const [showingTimes, setShowingTimes] = useState<any>(null);
+  const [dates, setDates] = useState<any>([]);
 
   const theaterList = useSelector((state: any) => state.theaters.theaters);
   const movieList = useSelector((state: any) => state.movies.movies);
+
+  const [screenings] = useFindScreeningByMovieAndTheaterMutation();
+  const [auditorium] = useGetRoomByIdMutation();
 
   useEffect(() => {
     const subLocation = theaterList.map((item: any) => {
@@ -65,7 +76,24 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
     });
     const uniqueLocation = new Set(subLocation);
     setLocations(Array.from(uniqueLocation));
+
+    // Set Start Date
+    const startDate = new Date();
+    setDate(startDate.toISOString());
   }, []);
+
+  const handleMovieClick = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    setMovieId(data.get("id"));
+    const selectedMovie = movieList.find(
+      (item: any) => item.id == data.get("id")
+    );
+
+    setMovieName(selectedMovie.title);
+    setMovieImage(selectedMovie.image);
+    setRunningTime(selectedMovie.runningTime);
+  };
 
   const handleLocationSelect = (event: SelectChangeEvent) => {
     setLocation(event.target.value);
@@ -76,37 +104,96 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
 
     setTheaters(listTheater);
   };
-  
-  const handleTheaterSelect = (event: SelectChangeEvent) => {
+
+  const handleTheaterSelect = async (event: SelectChangeEvent) => {
     setTheater(event.target.value);
-    // const index = theaters.findIndex((item) => item.name == event.target.value);
-    // const filmList = theaters[index].films;
-    // // setShowingTime(filmList.find((item: any) => item.id == movieId));
-    // const film = filmList.find((item: any) => item.id == movieId);
-    // setShowingTime(film.format);
+    try {
+      const selectedScreening = theaterList.find(
+        (item: any) => item.address === event.target.value
+      );
+
+      const listScreening = await screenings({
+        theater: selectedScreening.pk,
+        movie: movieId,
+      });
+
+      const dates = listScreening.data.map((item: any) =>
+        item.time.substring(0, 10)
+      );
+
+      const startDate = new Date();
+      const dateList: Date[] = [];
+      const setOfDates = Array.from(new Set(dates));
+      setOfDates.forEach((element: any) => {
+        const dateItem = new Date(element);
+        if (dateItem >= startDate) {
+          dateList.push(dateItem);
+        }
+      });
+      setDates(dateList);
+      setShowingTimeList(listScreening.data);
+      setShowingTimes(
+        listScreening.data.filter(
+          ({ time }: any) => time.substring(0, 10) === date?.substring(0, 10)
+        )
+      );
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
   };
 
-  const handleMovieClick = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.target);
-    setMovieId(data.get("id"));
-    setMovieName(data.get("title"));
-    setMovieImage(data.get("image"));
+  const handleDateSelect = (
+    event: React.MouseEvent<HTMLElement>,
+    date: string | null
+  ) => {
+    setDate(date);
+    setShowingTimes(
+      showingTimeList.filter(
+        ({ time }: any) => time.substring(0, 10) === date?.substring(0, 10)
+      )
+    );
+  };
+
+  const handleShowingTimeClick = async (e: any) => {
+    const selectedScreening = showingTimeList.find(
+      (item: any) => item.pk == e.target.value
+    );
+
+    try {
+      const auditorimInfo = await auditorium(selectedScreening.auditorium);
+      setRoom(auditorimInfo.data);
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
+
+    setShowingTime(e.target.value);
+
+    setTimeDate(selectedScreening.time);
   };
 
   const handleBack = () => {
-    setMovieId(null);
-    setMovieName(null);
-    setMovieImage(null);
-    setLocation("");
-    setTheater("");
-    setRunningTime("");
-    setSeats([]);
-    setTimeDate("");
-    setPayment("");
-    setPrice("");
-    setPrice("");
-    setShowingTime(null);
+    if (showingTime) {
+      setShowingTime(null);
+      setRoom(null);
+    } else {
+      setMovieId(null);
+      setMovieName(null);
+      setMovieImage(null);
+      setLocation("");
+      setTheater("");
+      setRunningTime("");
+      setSeats([]);
+      setTimeDate("");
+      setRoom(null);
+      setPayment("");
+      setPrice("");
+      setShowingTimeList(null);
+      setShowingTime(null);
+      setShowingTimes(null);
+      const startDate = new Date();
+      setDate(startDate.toISOString());
+      setDates(null);
+    }
   };
 
   return (
@@ -114,7 +201,17 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
       <Grid container spacing={2}>
         {/* Select Movies */}
         {movieName ? null : (
-          <Grid item xs={6} md={8}>
+          <Grid
+            item
+            xs={6}
+            md={8}
+            style={{
+              overflowY: "scroll",
+              maxHeight: "80vh",
+              maxWidth: "100%",
+              overflowX: "hidden",
+            }}
+          >
             <Grid container spacing={2}>
               {movieList.map((item: any) => (
                 <Grid item xs={4} md={4}>
@@ -130,7 +227,7 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
           </Grid>
         )}
 
-        {/* Select Showingtime */}
+        {/* Select Showingtime and Seats */}
         {movieName ? (
           <Grid
             item
@@ -141,41 +238,73 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
               flexDirection: "column",
               justifyContent: "space-around",
             }}
+            style={{}}
           >
-            {/* Location Select */}
-            <LocationMenu
-              location={location}
-              theater={theater}
-              handleTheaterSelect={handleTheaterSelect}
-              handleLocationSelect={handleLocationSelect}
-              locationList={locations}
-              theaterList={theaters}
-            />
-            {/* Theater Select */}
-            {theater ? (
+            {/* Location & Theater Select */}
+            {movieId && !showingTime ? (
+              <LocationMenu
+                location={location}
+                theater={theater}
+                handleTheaterSelect={handleTheaterSelect}
+                handleLocationSelect={handleLocationSelect}
+                locationList={locations}
+                theaterList={theaters}
+              />
+            ) : null}
+            {/* Date Select */}
+            {dates && !showingTime ? (
               <CustomContainer>
-                <DateSelect />
+                <DateSelect
+                  dates={dates}
+                  handleDateSelect={handleDateSelect}
+                  date={date}
+                />
               </CustomContainer>
             ) : null}
 
             {/* ShowingTimes Select */}
-            {movieId ? (
-              <CustomContainer>
-                <Container
-                  sx={{
-                    display: "block",
-                    justifyContent: "center",
-                    color: "var(--textPrimary)",
-                    paddingLeft: {
-                      md: "0rem",
-                    },
-                  }}
-                >
-                  {showingTime?.map(({ name, showingTimes }: any) => (
-                    <ShowingTime format={name} showingTime={showingTimes} />
-                  ))}
-                </Container>
-              </CustomContainer>
+            {theater && !showingTime ? (
+              <Container
+                sx={{
+                  display: "flex",
+                  justifyContent: "start",
+                  color: "var(--textPrimary)",
+                  paddingLeft: {
+                    md: "1rem",
+                  },
+                }}
+              >
+                {showingTimes?.map(({ pk, time }: any) => (
+                  <Container sx={{ display: "flex" }}>
+                    <Button
+                      variant="outlined"
+                      onClick={handleShowingTimeClick}
+                      value={pk}
+                    >
+                      {time.substr(11, 5)}
+                    </Button>
+                  </Container>
+                ))}
+              </Container>
+            ) : null}
+
+            {/* Select seats */}
+            {showingTime ? (
+              <Container
+                style={{
+                  overflowY: "scroll",
+                  maxHeight: "80vh",
+                  maxWidth: "100%",
+                  overflowX: "hidden",
+                }}
+              >
+                <SeatsSelect
+                  column={5}
+                  row={10}
+                  occupied={occupiedList}
+                  price={price}
+                />
+              </Container>
             ) : null}
             <Container
               sx={{
@@ -193,9 +322,6 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
           </Grid>
         ) : null}
 
-        {/* Select seats */}
-        {timedate ? <SeatsSelect /> : null}
-
         {/* Show Information and payment select */}
         <Grid item xs={6} md={4}>
           <Card sx={{ marginBottom: "0.5rem" }}>
@@ -206,7 +332,10 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
               runningTime={runningTime}
               theater={theater}
               seats={seats}
-              timedate={timedate}
+              timeDate={timedate
+                .replace("T", " ")
+                .replace(":", "h")
+                .substring(0, 16)}
               room={room}
               price={price}
               payment={payment}
