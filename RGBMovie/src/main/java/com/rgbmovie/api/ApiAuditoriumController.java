@@ -21,26 +21,26 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auditorium")
 public class ApiAuditoriumController {
-    @Autowired
-    private AuditoriumService auditoriumService;
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private ScreeningService screeningService;
-    @Autowired
-    private SeatService seatService;
+	@Autowired
+	private AuditoriumService auditoriumService;
+	@Autowired
+	private ModelMapper modelMapper;
+	@Autowired
+	private ScreeningService screeningService;
+	@Autowired
+	private SeatService seatService;
 
-    @GetMapping
+	@GetMapping("/{id}")
+	public Object getById(@PathVariable("id") int id) {
+		ScreeningModel screeningModel = screeningService.getbyId(id);
+		AuditoriumDTO auditoriumDTO = modelMapper.map(auditoriumService.getById(screeningModel.getAuditorium()),
+				AuditoriumDTO.class);
 
-    @GetMapping("/{id}")
-    public Object getById(@PathVariable("id") int id) {
-        ScreeningModel screeningModel = screeningService.getbyId(id);
-        AuditoriumDTO auditoriumDTO = modelMapper.map(auditoriumService.getById(screeningModel.getAuditorium()), AuditoriumDTO.class);
+		Map<String, Object> result = new HashMap<>();
+		result.put("Audi", auditoriumDTO);
+		result.put("Seat", seatService.seatPaid(id));
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("Audi", auditoriumDTO);
-        result.put("Seat", seatService.seatPaid(id));
-
-        return !result.isEmpty() ? new ResponseEntity<>(result, HttpStatus.OK) : new ResponseEntity<>("No Auditorium", HttpStatus.NO_CONTENT);
-    }
+		return !result.isEmpty() ? new ResponseEntity<>(result, HttpStatus.OK)
+				: new ResponseEntity<>("No Auditorium", HttpStatus.NO_CONTENT);
+	}
 }
