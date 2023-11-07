@@ -46,7 +46,7 @@ public class UserController {
     private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping
-    public String index(@RequestParam(value = "username", defaultValue = "", required = false) String username, @RequestParam(value = "workplace", defaultValue = "", required = false) String worlplace, Model model) {
+    public String index(@RequestParam(value = "username", defaultValue = "", required = false) String username, @RequestParam(value = "workplace", defaultValue = "0", required = false) String workplace, Model model) {
         if (!username.isEmpty()) {
             model.addAttribute("user", userService.findByUsername(username));
             return "user/profile";
@@ -60,8 +60,8 @@ public class UserController {
         model.addAttribute("theaters", theaterList);
         model.addAttribute("roles", roleList);
         //For staff of theater
-        if (Integer.parseInt(worlplace) != 0) {
-            model.addAttribute("users", userService.getByTheater(Integer.parseInt(worlplace)));
+        if (Integer.parseInt(workplace) != 0) {
+            model.addAttribute("users", userService.getByTheater(Integer.parseInt(workplace)));
             return "user/index";
         }
         //For user list

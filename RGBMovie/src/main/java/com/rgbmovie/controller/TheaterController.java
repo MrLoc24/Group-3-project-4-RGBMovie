@@ -169,7 +169,7 @@ public class TheaterController {
 
     //Add new auditorium for each theater
     @PostMapping("/theater/{id}")
-    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam("screeningTime") String time, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO, ScreeningDTO screeningDTO) {
+    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "screeningTime", required = false) String time, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO, ScreeningDTO screeningDTO) {
         if (detail.equals("screening")) {
             screeningDTO.setTheater(id);
             screeningDTO.setTime(convertStringToLocalDateTime(time));

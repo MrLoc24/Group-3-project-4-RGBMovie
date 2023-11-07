@@ -88,4 +88,9 @@ public class ScreeningServiceImpl implements ScreeningService {
     public List<ScreeningModel> getAllToDay() {
         return screeningRepository.getAllToDay();
     }
+
+    @Override
+    public ScreeningModel getbyId(int id) {
+        return screeningRepository.getReferenceById(id);
+    }
 }

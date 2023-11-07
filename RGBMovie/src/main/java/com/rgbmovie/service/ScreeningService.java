@@ -23,4 +23,6 @@ public interface ScreeningService {
     String delete(int id);
 
     List<ScreeningModel> getAllToDay();
+
+    ScreeningModel getbyId(int id);
 }
