@@ -66,8 +66,8 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public Map<Integer, Map<String, Object>> getAllByUser(int id, String action) {
-        Map<Integer, Map<String, Object>> finalList = new HashMap<>();
+    public List<Map<String, Object>> getAllByUser(int id, String action) {
+        List<Map<String, Object>> finalList = new ArrayList<>();
         List<ReservationModel> reservationModelList = new ArrayList<>();
         Map<String, Object> result = new HashMap<>();
         if (action.equals("cart")) {
@@ -78,10 +78,9 @@ public class ReservationServiceImpl implements ReservationService {
             reservationModelList = reservationRepository.findByUserHistory(id);
             System.out.println(reservationModelList);
         }
-        int count = 0;
+
         if (!reservationModelList.isEmpty()) {
             for (ReservationModel reservationModel : reservationModelList) {
-                count++;
                 List<String> seatName = new ArrayList<>();
                 result.put("Reservation", reservationModel);
                 ScreeningDTO screeningDTO = modelMapper.map(screeningRepository.getReferenceById(reservationModel.getScreening()), ScreeningDTO.class);
@@ -97,7 +96,7 @@ public class ReservationServiceImpl implements ReservationService {
                 result.put("Auditorium", modelMapper.map(auditoriumRepository.getReferenceById(screeningDTO.getAuditorium()), AuditoriumDTO.class));
                 result.put("Movie", modelMapper.map(movieRepository.getReferenceById(screeningDTO.getMovie()), MovieDTO.class));
                 System.out.println("result 3 " + result);
-                finalList.put(count, result);
+                finalList.add(result);
             }
             return finalList;
         }

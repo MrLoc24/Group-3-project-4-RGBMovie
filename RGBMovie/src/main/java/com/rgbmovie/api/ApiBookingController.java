@@ -72,7 +72,7 @@ public class ApiBookingController {
 
     @GetMapping("/book/{action}")
     public Object order(@RequestParam("userId") int userId, @PathVariable("action") String action) {
-        Map<Integer, Map<String, Object>> reservationDTO = reservationService.getAllByUser(userId, action);
+        List<Map<String, Object>> reservationDTO = reservationService.getAllByUser(userId, action);
         System.out.println("res" + reservationDTO);
         return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }
