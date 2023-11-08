@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface TheaterRepository extends JpaRepository<TheaterModel, Integer> {
     @Query("SELECT COUNT(*) FROM TheaterModel m JOIN WorkplaceModel w ON m.pk = w.theaterId WHERE m.pk = :pk")
     int countByWorkplacesByPk(int pk);
+
+
 }

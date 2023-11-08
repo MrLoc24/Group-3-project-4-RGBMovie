@@ -20,6 +20,6 @@ public interface ReservationRepository extends JpaRepository<ReservationModel, I
     @Query("SELECT r FROM ReservationModel r WHERE r.getPaid = 0 AND r.isActive = 1 AND r.user = :id")
     List<ReservationModel> findByUserNotPay(@Param("id") int id);
 
-    @Query("SELECT r FROM ReservationModel r WHERE r.getPaid = 1 OR (r.getPaid = 0 AND r.isActive = 0) AND r.user = :id")
+    @Query("SELECT r FROM ReservationModel r WHERE (r.getPaid = 1 OR (r.getPaid = 0 AND r.isActive = 0)) AND r.user = :id")
     List<ReservationModel> findByUserHistory(@Param("id") int id);
 }

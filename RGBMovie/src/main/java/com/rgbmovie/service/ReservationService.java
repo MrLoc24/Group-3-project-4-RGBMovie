@@ -4,6 +4,7 @@ import com.rgbmovie.model.ReservationModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface ReservationService {
@@ -16,9 +17,7 @@ public interface ReservationService {
 
     ReservationModel getById(int id);
 
-    //    For Customer view cart
-    List<ReservationModel> getAllByUserHistory(int id);
 
-    //  For Customer view order history
-    List<ReservationModel> getAllByUserNotPay(int id);
+    //  For Customer view order history or cart
+    List<Map<String, Object>> getAllByUser(int id, String action);
 }

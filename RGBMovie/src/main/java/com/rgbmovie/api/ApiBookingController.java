@@ -68,13 +68,7 @@ public class ApiBookingController {
 
     @GetMapping("/book/{action}")
     public Object order(@RequestParam("userId") int userId, @PathVariable("action") String action) {
-        List<ReservationDTO> reservationDTO = new ArrayList<>();
-        if (action.equals("cart")) {
-            reservationDTO = reservationService.getAllByUserNotPay(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
-        }
-        if (action.equals("history")) {
-            reservationDTO = reservationService.getAllByUserHistory(userId).stream().map(m -> modelMapper.map(m, ReservationDTO.class)).toList();
-        }
+        List<Map<String, Object>> reservationDTO = reservationService.getAllByUser(userId, action);
         return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }
 
