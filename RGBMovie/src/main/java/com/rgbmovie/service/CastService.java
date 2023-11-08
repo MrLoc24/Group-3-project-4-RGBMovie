@@ -19,4 +19,6 @@ public interface CastService {
 
     String deleteMovie(int id);
 
+    String delete(int id);
+
 }

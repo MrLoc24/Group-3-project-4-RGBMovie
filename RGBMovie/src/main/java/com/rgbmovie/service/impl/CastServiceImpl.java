@@ -79,4 +79,14 @@ public class CastServiceImpl implements CastService {
             return e.toString();
         }
     }
+
+    @Override
+    public String delete(int id) {
+        try {
+            castRepository.deleteById(id);
+            return "Deleted";
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+    }
 }

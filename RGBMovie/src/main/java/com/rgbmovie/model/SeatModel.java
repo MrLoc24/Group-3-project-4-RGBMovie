@@ -1,5 +1,6 @@
 package com.rgbmovie.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -21,6 +22,7 @@ public class SeatModel {
     @OneToMany(mappedBy = "seatBySeat")
     private Collection<ReservedSeatModel> reservedSeatsByPk;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "auditorium", referencedColumnName = "pk", insertable = false, updatable = false)
     private AuditoriumModel auditoriumByAuditorium;
 

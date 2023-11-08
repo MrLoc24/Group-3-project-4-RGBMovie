@@ -1,5 +1,6 @@
 package com.rgbmovie.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -22,12 +23,15 @@ public class ReservedSeatModel {
     private Integer reservation;
     @ManyToOne
     @JoinColumn(name = "screening", referencedColumnName = "pk", insertable = false, updatable = false)
+    @JsonIgnore
     private ScreeningModel screeningByScreening;
     @ManyToOne
     @JoinColumn(name = "seat", referencedColumnName = "pk", insertable = false, updatable = false)
+    @JsonIgnore
     private SeatModel seatBySeat;
     @ManyToOne
     @JoinColumn(name = "reservation", referencedColumnName = "pk", insertable = false, updatable = false)
+    @JsonIgnore
     private ReservationModel reservationByReservation;
 
     public int getPk() {

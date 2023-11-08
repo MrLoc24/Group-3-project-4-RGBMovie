@@ -1,6 +1,9 @@
 package com.rgbmovie.api;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rgbmovie.dto.ReservationDTO;
 import com.rgbmovie.dto.ReservedSeatDTO;
 import com.rgbmovie.model.MovieModel;
@@ -8,6 +11,7 @@ import com.rgbmovie.model.ReservationModel;
 import com.rgbmovie.model.ReservedSeatModel;
 import com.rgbmovie.model.ScreeningModel;
 import com.rgbmovie.service.*;
+import net.minidev.json.annotate.JsonIgnore;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,7 +72,8 @@ public class ApiBookingController {
 
     @GetMapping("/book/{action}")
     public Object order(@RequestParam("userId") int userId, @PathVariable("action") String action) {
-        List<Map<String, Object>> reservationDTO = reservationService.getAllByUser(userId, action);
+        Map<Integer, Map<String, Object>> reservationDTO = reservationService.getAllByUser(userId, action);
+        System.out.println("res" + reservationDTO);
         return !reservationDTO.isEmpty() ? new ResponseEntity<>(reservationDTO, HttpStatus.OK) : new ResponseEntity<>("No order history", HttpStatus.NO_CONTENT);
     }
 

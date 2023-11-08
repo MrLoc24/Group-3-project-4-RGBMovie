@@ -1,5 +1,6 @@
 package com.rgbmovie.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -34,12 +35,15 @@ public class ScreeningModel {
     private Collection<ReservedSeatModel> reservedSeatsByPk;
     @ManyToOne
     @JoinColumn(name = "movie", referencedColumnName = "pk", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private MovieModel movieByMovie;
     @ManyToOne
     @JoinColumn(name = "theater", referencedColumnName = "pk", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
     private TheaterModel theaterByTheater;
     @ManyToOne
     @JoinColumn(name = "auditorium", referencedColumnName = "pk", insertable = false, updatable = false)
+    @JsonIgnore
     private AuditoriumModel auditoriumByAuditorium;
 
     public int getPk() {
