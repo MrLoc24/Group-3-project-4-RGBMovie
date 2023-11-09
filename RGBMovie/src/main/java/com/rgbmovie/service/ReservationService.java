@@ -8,16 +8,17 @@ import java.util.Map;
 
 @Service
 public interface ReservationService {
-    ReservationModel checkExistIfNotCreateNew(int screening);
+	ReservationModel checkExistIfNotCreateNew(int screening);
 
-    ReservationModel update(ReservationModel reservationModel);
+	ReservationModel update(ReservationModel reservationModel);
 
-    //    For Admin to check all order
-    List<ReservationModel> getAll();
+	// For Admin to check all order
+	List<ReservationModel> getAll();
 
-    ReservationModel getById(int id);
+	ReservationModel getById(int id);
 
+	// For Customer view order history or cart
+	List<Map<String, Object>> getAllByUser(int id, String action);
 
-    //  For Customer view order history or cart
-    List<Map<String, Object>> getAllByUser(int id, String action);
+	void deleteReservation(int id);
 }

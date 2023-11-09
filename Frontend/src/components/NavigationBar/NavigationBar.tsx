@@ -22,9 +22,6 @@ import { useEffect, useState } from "react";
 import { logout } from "../../slices/authSlice";
 import { Logo } from "..";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
-import { useProfileMutation } from "../../slices/customersApiSlice";
-import { toast } from "react-toastify";
-import { setProfile } from "../../slices/profileSlice";
 
 const pages = ["Movie", "Theater", "Event", "Cart"];
 const settings = ["Profile", "Logout"];
@@ -82,8 +79,6 @@ function NavigationBar() {
     }
   };
 
-  const [profile] = useProfileMutation();
-
   const handleProfileclick = async (e: any) => {
     setAnchorElUser(null);
     const { myValue } = e.currentTarget.dataset;
@@ -91,18 +86,7 @@ function NavigationBar() {
 
     switch (myValue) {
       case "Profile":
-        try {
-          const profileDetail = await profile(customerInfo.username);
-          if (profileDetail.error) {
-            toast(profileDetail.error.error);
-            navigate("/profile");
-          } else {
-            dispatch(setProfile({ ...profileDetail }));
-            navigate("/profile");
-          }
-        } catch (error: any) {
-          toast(error?.data?.message || error.error);
-        }
+        navigate("/profile");
         break;
       case "Logout":
         dispatch(logout(""));

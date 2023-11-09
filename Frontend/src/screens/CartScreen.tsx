@@ -1,21 +1,62 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import List from "@mui/material/List";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useState } from "react";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container, Modal, Typography } from "@mui/material";
 import { CinemaBackground } from "../assets";
 import {
   EditOutlined,
   HighlightOffOutlined,
   ShoppingCartCheckoutOutlined,
 } from "@mui/icons-material";
+import { useGetCartorHistoryMutation } from "../slices/bookingApiSlice";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import { Checkout } from "../components";
 
 const CartScreen = () => {
   const [checked, setChecked] = useState([0]);
   const [listItem, setListItem] = useState<number[]>();
+  const [listCheckout, setListCheckout] = useState<any>();
+
+  const [open, setOpen] = useState(false);
+  const handleClose = (event: object, reason: string) => {
+    reason == "backdropClick" ? "" : setOpen(false);
+  };
+  const handleOpen = () => {
+    const records = listItem.map((item: any) => {
+      return {
+        title: item.Movie.title,
+        datetime: item.Screening.time
+          .replace("T", " ")
+          .replace(":", "h")
+          .substring(0, 16),
+        seats: item.Seat.map((item: any) => item + ", "),
+        address: item.Theater.address,
+        subtotal: item.Reservation.totalCost,
+      };
+    });
+    console.log(records);
+
+    setListCheckout(records);
+    setOpen(true);
+  };
+
+  const [getCartorHistory] = useGetCartorHistoryMutation();
+  const { customerDetail } = useSelector((state: any) => state.profile);
 
   useEffect(() => {
-    setListItem([0, 1, 2, 3]);
+    try {
+      getCartorHistory({
+        action: "cart",
+        id: customerDetail.data.pk,
+      }).then((result: any) => {
+        setListItem(result.data);
+      });
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
   }, []);
 
   const handleToggle = (value: number) => () => {
@@ -29,6 +70,19 @@ const CartScreen = () => {
     }
 
     setChecked(newChecked);
+  };
+
+  const handleCancel = async (pk: any) => {
+    try {
+      await getCartorHistory({
+        action: "cancel",
+        id: customerDetail.data.pk,
+        resId: pk,
+      });
+      toast.success("Remove Item Successfully");
+    } catch (error: any) {
+      toast(error?.data?.message || error.error);
+    }
   };
 
   return (
@@ -61,6 +115,7 @@ const CartScreen = () => {
                   minWidth: "50vw",
                   bgcolor: "background.paper",
                   gap: "0 0.5rem",
+                  boxShadow: "2px 2px 6px 6px rgba(62,66,66,0.15)",
                 }}
               >
                 <Checkbox
@@ -70,7 +125,7 @@ const CartScreen = () => {
                   tabIndex={-1}
                   disableRipple
                 />
-                <img src={CinemaBackground} width={120} />
+                <img src={value.Movie.mainImg} width={120} />
                 <Typography
                   sx={{
                     fontSize: {
@@ -87,16 +142,33 @@ const CartScreen = () => {
                     WebkitBoxOrient: "vertical",
                   }}
                 >
-                  Raven: The Final Chapter
+                  {value.Movie.title}
                 </Typography>
+
+                {/* Details */}
                 <Container
                   component={"div"}
                   sx={{
                     maxWidth: "20vw",
                   }}
                 >
-                  <Typography>Seats: 6</Typography>
-                  <Typography>Subtotal: $ 52.5</Typography>
+                  <Typography>
+                    Seats:{" "}
+                    {value.Seat ? value.Seat.map((item) => item + ", ") : null}
+                  </Typography>
+                  <Typography>
+                    Time & Date:
+                    {value.Screening
+                      ? " " +
+                        value.Screening.time
+                          .replace("T", " ")
+                          .replace(":", "h")
+                          .substring(0, 16)
+                      : null}
+                  </Typography>
+                  <Typography>
+                    Subtotal: $ {value.Reservation.totalCost}
+                  </Typography>
                   <Typography
                     sx={{
                       // whiteSpace: "nowrap",
@@ -107,8 +179,7 @@ const CartScreen = () => {
                       WebkitBoxOrient: "vertical",
                     }}
                   >
-                    Theater: RBG Ly Chinh Thang - Somewhere on Earth Lorem ipsum
-                    dolor sit amet consectetur adipisicing elit. At, tempora?
+                    Theater: RBG - {value.Theater.address}
                   </Typography>
                 </Container>
 
@@ -116,7 +187,11 @@ const CartScreen = () => {
                   <IconButton aria-label="edit" size="small">
                     <EditOutlined />
                   </IconButton>
-                  <IconButton aria-label="edit" size="small">
+                  <IconButton
+                    aria-label="cancel"
+                    size="small"
+                    onClick={() => handleCancel(value.Reservation.pk)}
+                  >
                     <HighlightOffOutlined />
                   </IconButton>
                 </div>
@@ -136,6 +211,7 @@ const CartScreen = () => {
           marginLeft: "1rem",
           padding: "1rem 0rem",
           bgcolor: "background.paper",
+          boxShadow: "2px 2px 6px 6px rgba(62,66,66,0.15)",
         }}
       >
         <Container
@@ -156,10 +232,20 @@ const CartScreen = () => {
           variant="outlined"
           fullWidth
           startIcon={<ShoppingCartCheckoutOutlined />}
+          onClick={handleOpen}
         >
           Checkout
         </Button>
       </Container>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Checkout listCheckout={listCheckout} handleClose={handleClose} />
+      </Modal>
     </Container>
   );
 };

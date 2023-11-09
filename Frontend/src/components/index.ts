@@ -20,6 +20,8 @@ import SelectInput from "./common/SelectInput/SelectInput";
 import Poster from "./common/Poster/Poster";
 import SeatsSelect from "./SeatsSelect/SeatsSelect";
 import Logo from "./common/Logo/Logo";
+import BasicTable from "./common/BasicTable/BasicTable";
+import Checkout from "./Checkout/Checkout";
 
 export {
   Carousel,
@@ -44,4 +46,6 @@ export {
   Poster,
   SeatsSelect,
   Logo,
+  BasicTable,
+  Checkout,
 };

@@ -15,8 +15,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../../slices/authSlice";
-import { useLoginMutation } from "../../slices/customersApiSlice";
+import {
+  useLoginMutation,
+  useProfileMutation,
+} from "../../slices/customersApiSlice";
 import { useState } from "react";
+import { setProfile } from "../../slices/profileSlice";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -24,6 +28,8 @@ export default function SignIn() {
 
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
+  const [profile] = useProfileMutation();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -32,11 +38,17 @@ export default function SignIn() {
         password,
       }).unwrap();
       toast.success("Login successfully!");
-
       const timestamp = new Date();
       const timestampString = timestamp.toISOString();
-
       dispatch(setCredentials({ ...res, timestamp: timestampString }));
+
+      const profileDetail = await profile(res.data.username);
+      if (profileDetail.error) {
+        toast(profileDetail.error.error);
+      } else {
+        dispatch(setProfile({ ...profileDetail }));
+      }
+
       navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

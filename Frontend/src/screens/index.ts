@@ -3,4 +3,10 @@ import SectionScreen from "./SectionScreen";
 import LoginScreen from "./LoginScreen";
 import ProfileScreen from "./ProfileScreen";
 import CartScreen from "./CartScreen";
-export { ImageBackground, SectionScreen, LoginScreen, ProfileScreen,CartScreen };
+export {
+  ImageBackground,
+  SectionScreen,
+  LoginScreen,
+  ProfileScreen,
+  CartScreen,
+};
