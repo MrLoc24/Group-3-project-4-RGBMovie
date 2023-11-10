@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { Checkout } from "../components";
 
 const CartScreen = () => {
+  const [refresh, setRefresh] = useState(false);
   const [checked, setChecked] = useState([0]);
   const [listItem, setListItem] = useState<number[]>();
   const [listCheckout, setListCheckout] = useState<any>();
@@ -57,7 +58,7 @@ const CartScreen = () => {
     } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
-  }, []);
+  }, [refresh]);
 
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
@@ -80,6 +81,7 @@ const CartScreen = () => {
         resId: pk,
       });
       toast.success("Remove Item Successfully");
+      setRefresh(!refresh);
     } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
@@ -98,8 +100,10 @@ const CartScreen = () => {
           display: "flex",
           flexDirection: "column",
           width: "100%",
+          minWidth: "50vw",
           gap: "2rem",
           padding: "0rem",
+          overflowY: "auto",
         }}
       >
         {listItem ? (
@@ -115,7 +119,6 @@ const CartScreen = () => {
                   minWidth: "50vw",
                   bgcolor: "background.paper",
                   gap: "0 0.5rem",
-                  boxShadow: "2px 2px 6px 6px rgba(62,66,66,0.15)",
                 }}
               >
                 <Checkbox
@@ -211,7 +214,7 @@ const CartScreen = () => {
           marginLeft: "1rem",
           padding: "1rem 0rem",
           bgcolor: "background.paper",
-          boxShadow: "2px 2px 6px 6px rgba(62,66,66,0.15)",
+          height: "80vh",
         }}
       >
         <Container

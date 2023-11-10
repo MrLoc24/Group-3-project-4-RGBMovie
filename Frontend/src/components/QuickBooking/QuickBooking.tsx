@@ -8,14 +8,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import "./QuickBooking.css";
-import {
-  Detail,
-  PaymentSelect,
-  CustomContainer,
-  LocationMenu,
-  Poster,
-  SeatsSelect,
-} from "..";
+import { Detail, CustomContainer, LocationMenu, Poster, SeatsSelect } from "..";
 import DateSelect from "../common/DateSelect/DateSelect";
 import { forwardRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -40,7 +33,7 @@ const style = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const QuickBooking = forwardRef(({ handleClose }: any) => {
+const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
   const { customerInfo } = useSelector((state: any) => state.auth);
   const [username, setUsername] = useState("");
 
@@ -59,7 +52,6 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
   const [room, setRoom] = useState(null);
   // const [seats, setSeats] = useState([]);
   const [price, setPrice] = useState(null);
-  const [payment, setPayment] = useState("");
   const [showingTime, setShowingTime] = useState(null);
   const [date, setDate] = useState<string | null>(null);
 
@@ -90,7 +82,16 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
     // Set Start Date
     const startDate = new Date();
     setDate(startDate.toISOString());
-  }, []);
+
+    if (movie) {
+      setMovieId(movie);
+      const selectedMovie = movieList.find((item: any) => item.id == movie);
+      setMovieName(selectedMovie.title);
+      setMovieImage(selectedMovie.image);
+      setRunningTime(selectedMovie.runningTime);
+      setPrice(selectedMovie.price);
+    }
+  }, [movie]);
 
   const handleMovieClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -184,16 +185,15 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
 
   const handleBookSubmit = async () => {
     try {
-      const result = await book({
+      await book({
         username: username,
         screening: showingTime,
         auditorium: room.Audi.pk,
         seatName: selectedSeats,
       });
       toast.success("Add to Cart Successfully");
-      console.log(result);
-
-      navigate("/");
+      navigate("/cart");
+      window.location.reload();
     } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
@@ -235,10 +235,10 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
             xs={6}
             md={8}
             style={{
-              overflowY: "scroll",
+              overflowY: "auto",
               maxHeight: "80vh",
               maxWidth: "100%",
-              overflowX: "hidden",
+              overflowX: "auto",
             }}
           >
             <Grid container spacing={2}>
@@ -321,10 +321,10 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
             {showingTime ? (
               <Container
                 style={{
-                  overflowY: "scroll",
+                  overflowY: "auto",
                   maxHeight: "80vh",
                   maxWidth: "100%",
-                  overflowX: "hidden",
+                  overflowX: "auto",
                 }}
               >
                 <SeatsSelect
@@ -367,10 +367,8 @@ const QuickBooking = forwardRef(({ handleClose }: any) => {
                 .substring(0, 16)}
               room={room ? room.Audi.name : null}
               price={price ? price * selectedSeats.length : null}
-              payment={payment}
             />
           </Card>
-          <PaymentSelect />
           <Container
             sx={{
               width: "-webkit-fill-available",

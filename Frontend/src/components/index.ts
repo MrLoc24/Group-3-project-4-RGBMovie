@@ -22,6 +22,7 @@ import SeatsSelect from "./SeatsSelect/SeatsSelect";
 import Logo from "./common/Logo/Logo";
 import BasicTable from "./common/BasicTable/BasicTable";
 import Checkout from "./Checkout/Checkout";
+import PaypalCheckoutButton from "./PaypalCheckoutButton/PaypalCheckoutButton";
 
 export {
   Carousel,
@@ -48,4 +49,5 @@ export {
   Logo,
   BasicTable,
   Checkout,
+  PaypalCheckoutButton,
 };
