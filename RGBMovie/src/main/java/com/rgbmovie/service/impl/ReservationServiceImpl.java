@@ -19,49 +19,54 @@ import java.util.Map;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
-	@Autowired
-	private ReservationRepository reservationRepository;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private ScreeningRepository screeningRepository;
-	@Autowired
-	private ReservedSeatRepository reservedSeatRepository;
-	@Autowired
-	private TheaterRepository theaterRepository;
-	@Autowired
-	private AuditoriumRepository auditoriumRepository;
-	@Autowired
-	private MovieRepository movieRepository;
-	@Autowired
-	private SeatRepository seatRepository;
-	@Autowired
-	private ModelMapper modelMapper;
+    @Autowired
+    private ReservationRepository reservationRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ScreeningRepository screeningRepository;
+    @Autowired
+    private ReservedSeatRepository reservedSeatRepository;
+    @Autowired
+    private TheaterRepository theaterRepository;
+    @Autowired
+    private AuditoriumRepository auditoriumRepository;
+    @Autowired
+    private MovieRepository movieRepository;
+    @Autowired
+    private SeatRepository seatRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-	@Override
-	public ReservationModel checkExistIfNotCreateNew(int screening) {
-		ReservationModel checkReservation = reservationRepository.checkExistOrNot(screening);
-		if (checkReservation == null) {
-			ReservationModel reservationModel = new ReservationModel();
-			reservationModel.setScreening(screening);
-			return reservationRepository.saveAndFlush(reservationModel);
-		}
-		return checkReservation;
-	}
+    @Override
+    public ReservationModel checkExistIfNotCreateNew(int screening) {
+        ReservationModel checkReservation = reservationRepository.checkExistOrNot(screening);
+        if (checkReservation == null) {
+            ReservationModel reservationModel = new ReservationModel();
+            reservationModel.setScreening(screening);
+            return reservationRepository.saveAndFlush(reservationModel);
+        }
+        return checkReservation;
+    }
 
-	@Override
-	public ReservationModel update(ReservationModel reservationModel) {
-		return reservationRepository.saveAndFlush(reservationModel);
-	}
+    @Override
+    public ReservationModel update(ReservationModel reservationModel) {
+        return reservationRepository.saveAndFlush(reservationModel);
+    }
 
-	@Override
-	public List<ReservationModel> getAll() {
-		return reservationRepository.findAll();
-	}
+    @Override
+    public List<ReservationModel> getAll() {
+        return reservationRepository.findAll();
+    }
 
     @Override
     public ReservationModel getById(int id) {
         return reservationRepository.getReferenceById(id);
+    }
+
+    @Override
+    public List<ReservationModel> getAllByUserId(int id) {
+        return reservationRepository.findByUser(id);
     }
 
 
@@ -69,7 +74,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Map<String, Object>> getAllByUser(int id, String action) {
         List<Map<String, Object>> finalList = new ArrayList<>();
         List<ReservationModel> reservationModelList = new ArrayList<>();
-        Map<String, Object> result = new HashMap<>();
+
         if (action.equals("cart")) {
             reservationModelList = reservationRepository.findByUserNotPay(id);
             System.out.println(reservationModelList);
@@ -81,6 +86,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         if (!reservationModelList.isEmpty()) {
             for (ReservationModel reservationModel : reservationModelList) {
+                Map<String, Object> result = new HashMap<>();
                 List<String> seatName = new ArrayList<>();
                 result.put("Reservation", reservationModel);
                 ScreeningDTO screeningDTO = modelMapper.map(screeningRepository.getReferenceById(reservationModel.getScreening()), ScreeningDTO.class);
@@ -102,7 +108,7 @@ public class ReservationServiceImpl implements ReservationService {
         }
         return null;
 
-	}
+    }
 
     @Override
     public Map<String, Object> getDetailByUserId(int id) {
@@ -123,12 +129,12 @@ public class ReservationServiceImpl implements ReservationService {
         return result;
     }
 
-	@Override
-	public void deleteReservation(int id) {
-		List<ReservedSeatModel> listSeat = reservedSeatRepository.findByReservation(id);
-		for(ReservedSeatModel seat: listSeat) {
-			reservedSeatRepository.deleteById(seat.getPk());
-		}
-		reservationRepository.deleteById(id);
-	}
+    @Override
+    public void deleteReservation(int id) {
+        List<ReservedSeatModel> listSeat = reservedSeatRepository.findByReservation(id);
+        for (ReservedSeatModel seat : listSeat) {
+            reservedSeatRepository.deleteById(seat.getPk());
+        }
+        reservationRepository.deleteById(id);
+    }
 }
