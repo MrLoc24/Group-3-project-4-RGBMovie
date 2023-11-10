@@ -88,6 +88,16 @@ public class DirectorServiceImpl implements DirectorService {
     }
 
     @Override
+    public String delete(int id) {
+        try {
+            directorRepository.deleteById(id);
+            return "Delete Success";
+        } catch (DataAccessException e) {
+            return e.toString();
+        }
+    }
+
+    @Override
     public String addNewMovie(int id, List<Integer> movieId) {
         try {
             List<DirectingModel> directingModels = new ArrayList<>();

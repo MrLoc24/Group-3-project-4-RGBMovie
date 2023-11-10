@@ -17,7 +17,10 @@ public interface ReservationService {
 
     ReservationModel getById(int id);
 
+    List<ReservationModel> getAllByUserId(int id);
 
     //  For Customer view order history or cart
     List<Map<String, Object>> getAllByUser(int id, String action);
+
+    Map<String, Object> getDetailByUserId(int id);
 }

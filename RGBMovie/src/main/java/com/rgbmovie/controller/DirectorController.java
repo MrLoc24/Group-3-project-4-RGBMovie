@@ -118,9 +118,15 @@ public class DirectorController {
         return "redirect:" + referer;
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/delete/movie")
     public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer) {
         directorService.deleteMovie(id);
+        return "redirect:" + referer;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id, @RequestHeader String referer, Model model) {
+        model.addAttribute("message", directorService.delete(id));
         return "redirect:" + referer;
     }
 

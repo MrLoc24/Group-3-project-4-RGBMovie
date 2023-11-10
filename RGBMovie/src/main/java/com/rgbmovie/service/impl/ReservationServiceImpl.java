@@ -64,12 +64,17 @@ public class ReservationServiceImpl implements ReservationService {
         return reservationRepository.getReferenceById(id);
     }
 
+    @Override
+    public List<ReservationModel> getAllByUserId(int id) {
+        return reservationRepository.findByUser(id);
+    }
+
 
     @Override
     public List<Map<String, Object>> getAllByUser(int id, String action) {
         List<Map<String, Object>> finalList = new ArrayList<>();
         List<ReservationModel> reservationModelList = new ArrayList<>();
-        Map<String, Object> result = new HashMap<>();
+
         if (action.equals("cart")) {
             reservationModelList = reservationRepository.findByUserNotPay(id);
             System.out.println(reservationModelList);
@@ -78,9 +83,9 @@ public class ReservationServiceImpl implements ReservationService {
             reservationModelList = reservationRepository.findByUserHistory(id);
             System.out.println(reservationModelList);
         }
-
         if (!reservationModelList.isEmpty()) {
             for (ReservationModel reservationModel : reservationModelList) {
+                Map<String, Object> result = new HashMap<>();
                 List<String> seatName = new ArrayList<>();
                 result.put("Reservation", reservationModel);
                 ScreeningDTO screeningDTO = modelMapper.map(screeningRepository.getReferenceById(reservationModel.getScreening()), ScreeningDTO.class);
@@ -102,6 +107,25 @@ public class ReservationServiceImpl implements ReservationService {
         }
         return null;
 
+    }
+
+    @Override
+    public Map<String, Object> getDetailByUserId(int id) {
+        ReservationModel reservationModel = reservationRepository.getReferenceById(id);
+        Map<String, Object> result = new HashMap<>();
+        List<String> seatName = new ArrayList<>();
+        result.put("Reservation", reservationModel);
+        ScreeningDTO screeningDTO = modelMapper.map(screeningRepository.getReferenceById(reservationModel.getScreening()), ScreeningDTO.class);
+        result.put("Screening", screeningDTO);
+        List<ReservedSeatDTO> reservedSeatModelList = reservedSeatRepository.findByReservation(reservationModel.getPk()).stream().map(m -> modelMapper.map(m, ReservedSeatDTO.class)).toList();
+        for (ReservedSeatDTO reservedSeatModel : reservedSeatModelList) {
+            seatName.add(seatRepository.getReferenceById(reservedSeatModel.getSeat()).getSeatName());
+        }
+        result.put("Seat", seatName);
+        result.put("Theater", modelMapper.map(theaterRepository.getReferenceById(screeningDTO.getTheater()), TheaterDTO.class));
+        result.put("Auditorium", modelMapper.map(auditoriumRepository.getReferenceById(screeningDTO.getAuditorium()), AuditoriumDTO.class));
+        result.put("Movie", modelMapper.map(movieRepository.getReferenceById(screeningDTO.getMovie()), MovieDTO.class));
+        return result;
     }
 
 

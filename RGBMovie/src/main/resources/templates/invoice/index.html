@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html
-        lang="en"
         layout:decorate="~{layout/default}"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
         xmlns:th="http://www.thymeleaf.org"
 >
 <head>
     <meta charset="UTF-8"/>
-    <title>Customer List</title>
+    <title>Invoice List</title>
 </head>
 <body>
+<!--begin::Content-->
 <div
         class="content d-flex flex-column flex-column-fluid"
         id="kt_content"
@@ -31,7 +31,7 @@
             >
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                    Customer List
+                    Users List
                 </h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
@@ -39,6 +39,15 @@
                 <!--end::Separator-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-muted">
+                        <a
+                                class="text-muted text-hover-primary"
+                                href="/home"
+                        >Home</a
+                        >
+                    </li>
+                    <!--end::Item-->
                     <!--begin::Item-->
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-200 w-5px h-2px"></span>
@@ -61,7 +70,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Users List</li>
+                    <li class="breadcrumb-item text-dark">Invoices List</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -90,11 +99,11 @@
                         <tr
                                 class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
                         >
-                            <th class="min-w-125px">No.</th>
-                            <th class="min-w-125px">User</th>
+                            <th class="min-w-125px">No</th>
+                            <th class="min-w-125px">Id</th>
                             <th class="min-w-125px">Active</th>
-                            <th class="min-w-125px">Full name</th>
-                            <th class="min-w-125px">Phone</th>
+                            <th class="min-w-125px">Payment</th>
+                            <th class="min-w-125px">Total Cost</th>
                             <th class="text-end min-w-100px">Actions</th>
                         </tr>
                         <!--end::Table row-->
@@ -104,78 +113,31 @@
                         <tbody class="text-gray-600 fw-bold">
                         <!--begin::If no data-->
                         <tr
-                                th:if="${users.pageList== null || #lists.isEmpty(users.pageList)}"
-                        >
-                            <td colspan="9">No Data...</td>
+                                th:if="${invoices.isEmpty()}">
+                            <td>No Data...</td>
                         </tr>
                         <!--end::If no data-->
                         <!--begin::Table row-->
-                        <tr th:each="item,iterStat : ${users.pageList}">
-                            <td th:text="${iterStat.count}"></td>
-                            <!--begin::User=-->
-                            <td class="d-flex align-items-center">
-                                <!--begin:: Avatar -->
-                                <div
-                                        class="symbol symbol-circle symbol-50px overflow-hidden me-3"
-                                >
-                                    <a
-                                            href="../../demo1/dist/apps/user-management/users/view.html"
-                                    >
-                                        <div
-                                                class="symbol-label"
-                                                th:if="${item.images != null}"
-                                        >
-                                            <img
-                                                    class="w-100"
-                                                    th:alt="${item.username}"
-                                                    th:src="@{${item.images}}"
-                                            />
-                                        </div>
-                                        <div
-                                                class="symbol-label"
-                                                th:if="${item.images == null}"
-                                        >
-                                            <img
-                                                    alt="logo"
-                                                    class="w-100"
-                                                    th:src="@{/assets/media/avatars/no-user-image.png}"
-                                            />
-                                        </div>
-                                    </a>
-                                </div>
-                                <!--end::Avatar-->
-                                <!--begin::User details-->
-                                <div class="d-flex flex-column">
-                        <span
-                                class="text-gray-800 text-hover-primary mb-1"
-                                th:text="${item.username}"
-                        ></span>
-                                    <span th:text="${item.email}"></span>
-                                </div>
-                                <!--End::User details-->
-                            </td>
-                            <!--begin::Active=-->
+                        <tr th:each="item, itemStat : ${invoices}">
+
+                            <td th:text="${itemStat.count}"></td>
+                            <td th:text="${item.pk}"></td>
+                            <!--begin::Active-->
                             <td>
-                                <div
-                                        class="badge badge-light fw-bolder"
-                                        th:if="${item.enabled == true}"
-                                >
-                                    Active
-                                </div>
-                                <div
-                                        class="badge badge-light fw-bolder"
-                                        th:if="${item.enabled == false}"
-                                >
-                                    Inactive
-                                </div>
+                                <div class="badge badge-light fw-bolder" th:if="${item.isActive == 1}">Active</div>
+                                <div class="badge badge-light fw-bolder" th:if="${item.isActive == 0}">Cancel</div>
+                                <div class="badge badge-light fw-bolder" th:if="${item.isActive == 2}">Completed</div>
                             </td>
-                            <!--end::Active=-->
+                            <!--end::Active-->
+                            <!--begin::Payment-->
+                            <td>
+                                <div class="badge badge-light fw-bolder" th:if="${item.getPaid == 1}">Paid</div>
+                                <div class="badge badge-light fw-bolder" th:if="${item.getPaid == 0}">Not Paid</div>
+                            </td>
+                            <!--end::Payment-->
                             <!--begin::Full name=-->
-                            <td th:text="${item.firstName + item.lastName}"></td>
+                            <td th:text="${item.totalCost + '$'}"></td>
                             <!--end::Full name=-->
-                            <!--begin::Phone-->
-                            <td th:text="${item.phoneNumber}"></td>
-                            <!--begin::Phone-->
                             <!--begin::Action=-->
                             <td class="text-end">
                                 <a
@@ -210,18 +172,9 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{/invoice(id=${item.pk})}"
-                                        >View Invoice</a
-                                        >
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a
-                                                class="menu-link px-3"
-                                                data-kt-users-table-filter="delete_row"
-                                                th:href="@{/users/status(id=${item.pk})}"
-                                        >Change status</a
+                                                data-kt-invoices-table-filter="delete_row"
+                                                th:href="@{/invoice(id=${item.user} ,pk=${item.pk})}"
+                                        >Detail</a
                                         >
                                     </div>
                                     <!--end::Menu item-->
@@ -235,57 +188,6 @@
                         <!--end::Table body-->
                     </table>
                     <!--end::Table-->
-                    <!--Begin::Pagination-->
-                    <ul class="pagination">
-                        <li
-                                th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'"
-                        >
-                            <a class="page-link" th:href="@{/user}">First</a>
-                        </li>
-                        <li
-                                th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' "
-                        >
-                            <a
-                                    aria-label="Previous"
-                                    class="page-link"
-                                    th:href="@{|${baseUrl}${currentIndex - 1}|}"
-                                    title="Go to previous page"
-                            ><span aria-hidden="true">«</span>
-                                <span class="sr-only">Previous</span></a
-                            >
-                        </li>
-
-                        <li
-                                th:class="${item == currentIndex ? 'page-item active' :'page-item' }"
-                                th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
-                        >
-                            <a class="page-link" th:href="@{|${baseUrl}${item}|}">
-                                <span th:text="${item}"></span>
-                            </a>
-                        </li>
-                        <li
-                                th:class="${currentIndex == totalPageCount}? 'page-item disabled': 'page-item'"
-                        >
-                            <a
-                                    aria-label="Next"
-                                    class="page-link"
-                                    th:href="@{|${baseUrl}${currentIndex + 1}|}"
-                                    title="Go to next page"
-                            ><span aria-hidden="true">»</span>
-                                <span class="sr-only">Next</span></a
-                            >
-                        </li>
-                        <li
-                                th:class="${currentIndex == totalPageCount}? 'page-item disabled':'page-item'"
-                        >
-                            <a
-                                    class="page-link"
-                                    th:href="@{|${baseUrl}${totalPageCount}|}"
-                            >Last</a
-                            >
-                        </li>
-                    </ul>
-                    <!--End::Pagination-->
                 </div>
                 <!--end::Card body-->
             </div>
@@ -294,6 +196,8 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <!--end::Content-->
+
     <!--begin::Page Vendors Javascript(used by this page)-->
     <script
             defer
@@ -304,12 +208,12 @@
     <!--begin::Page Custom Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/table.js}"
+            th:src="@{assets/js/custom/apps/user-management/invoices/list/table.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/add.js}"
+            th:src="@{assets/js/custom/apps/user-management/invoices/list/add.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script
@@ -318,9 +222,7 @@
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->
-
 </div>
-<!--end::Content-->
+
 </body>
 </html>
-

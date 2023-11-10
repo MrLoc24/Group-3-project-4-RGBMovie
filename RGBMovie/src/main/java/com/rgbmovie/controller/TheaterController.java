@@ -193,4 +193,15 @@ public class TheaterController {
         model.addAttribute("message", "Failed to add new");
         return "redirect:/theater";
     }
+
+    @PutMapping("/theater/edit")
+    public String edit(Model model, TheaterDTO theaterDTO, @RequestHeader String referer) {
+        TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
+        if (result != null) {
+            model.addAttribute("message", "Edit Success");
+            return "redirect:" + referer;
+        }
+        model.addAttribute("message", "Failed to add new");
+        return "redirect:" + referer;
+    }
 }
