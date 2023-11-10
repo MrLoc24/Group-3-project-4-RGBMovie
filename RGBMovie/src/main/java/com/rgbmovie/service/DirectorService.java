@@ -21,5 +21,7 @@ public interface DirectorService {
 
     String deleteMovie(int id);
 
+    String delete(int id);
+
     String addNewMovie(int id, List<Integer> movieId);
 }

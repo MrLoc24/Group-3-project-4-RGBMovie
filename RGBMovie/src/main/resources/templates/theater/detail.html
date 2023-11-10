@@ -83,6 +83,88 @@
                 <!--end::Heading-->
             </div>
             <!--end::Toolbar-->
+            <!--begin::Basic info-->
+            <div class="card mb-5 mb-xl-10">
+                <!--begin::Card header-->
+                <div aria-controls="kt_account_profile_details" aria-expanded="true"
+                     class="card-header border-0 cursor-pointer"
+                     data-bs-target="#kt_account_profile_details" data-bs-toggle="collapse"
+                     role="button">
+                    <!--begin::Card title-->
+                    <div class="card-title m-0">
+                        <h3 class="fw-bolder m-0">Theater Details</h3>
+                    </div>
+                    <!--end::Card title-->
+                </div>
+                <!--begin::Card header-->
+                <!--begin::Content-->
+                <div class="collapse show" id="kt_account_profile_details">
+                    <!--begin::Form-->
+                    <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
+                          th:action="@{/theater/edit}" th:method="put">
+                        <input th:field="${theater.pk}" th:value="${theater.pk}" type="hidden">
+                        <!--begin::Card body-->
+                        <div class="card-body border-top p-9">
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="address">Address</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="address"
+                                           th:field="${theater.address}"
+                                           th:value="${theater.address}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="location">Location</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="location"
+                                           th:field="${theater.location}"
+                                           th:value="${theater.location}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Input group-->
+                            <div class="row mb-6">
+                                <!--begin::Label-->
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Sub Location</label>
+                                <!--end::Label-->
+                                <!--begin::Col-->
+                                <div class="col-lg-8 fv-row">
+                                    <input class="form-control form-control-lg form-control-solid" id="username"
+                                           th:field="${theater.subLocation}"
+                                           th:value="${theater.subLocation}" type="text"/>
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                            <!--end::Input group-->
+
+
+                        </div>
+                        <!--end::Card body-->
+                        <!--begin::Actions-->
+                        <div class="card-footer d-flex justify-content-end py-6 px-9">
+                            <button class="btn btn-light btn-active-light-primary me-2" type="reset">Discard</button>
+                            <button class="btn btn-primary" id="kt_account_profile_details_submit" type="submit">Save
+                                Changes
+                            </button>
+                        </div>
+                        <!--end::Actions-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Content-->
+            </div>
+            <!--end::Basic info-->
             <!--begin::Row-->
             <div class="row g-6 g-xl-9">
                 <!--begin::Auditorium-->

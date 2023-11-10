@@ -131,9 +131,10 @@ public class CastController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteCast(@PathVariable("id") int id, Model model) {
-        String result = castService.deleteMovie(id);
+    public String delete(@PathVariable("id") int id, @RequestHeader String referer, Model model) {
+        String result = castService.delete(id);
         model.addAttribute("message", result);
         return "redirect:/cast";
     }
+
 }
