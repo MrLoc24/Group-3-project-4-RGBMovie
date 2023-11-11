@@ -81,7 +81,7 @@ const Detail = ({
           {name}
         </Grid>
         <Grid item md={12}>
-          {runningTime ? runningTime + "minutes" : null}
+          {runningTime ? runningTime + " minutes" : null}
         </Grid>
         <Grid item md={12}>
           {theater}

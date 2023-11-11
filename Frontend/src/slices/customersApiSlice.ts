@@ -39,6 +39,24 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    recoverPassword: builder.mutation({
+      query: (email) => ({
+        url: `${CUSTOMER_URL}/customer/recover?email=${email}`,
+        method: "POST",
+      }),
+    }),
+    showChangePasswordPage: builder.mutation({
+      query: (token) => ({
+        url: `${CUSTOMER_URL}/customer/resetPassword?token=${token}`,
+        method: "GET",
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: `${CUSTOMER_URL}/customer/changePassword?newPassword=${data.newPassword}&userId=${data.userId}&token=${data.token}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -48,4 +66,7 @@ export const {
   useRegisterMutation,
   useUpdateCustomerMutation,
   useProfileMutation,
+  useRecoverPasswordMutation,
+  useChangePasswordMutation,
+  useShowChangePasswordPageMutation,
 } = usersApiSlice;

@@ -81,7 +81,12 @@ function App() {
   }, []);
 
   return (
-    <PayPalScriptProvider options={{ clientId: "" }}>
+    <PayPalScriptProvider
+      options={{
+        clientId:
+          "AfhvgFWMucHa47s_kR3z6YG-4m2cVW3CGcr1rEMlCyZUEXnydt0IevhjjayttiDOmsRK74ptUMRpRoan",
+      }}
+    >
       <ThemeProvider theme={darkTheme}>
         {/* <Header children={<NavigationBar />} /> */}
         <NavigationBar />

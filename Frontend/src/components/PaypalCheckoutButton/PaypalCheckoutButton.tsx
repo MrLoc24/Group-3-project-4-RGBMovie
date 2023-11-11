@@ -2,11 +2,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import { useEffect, useState } from "react";
+import {
+  usePaypalCreateOrderMutation,
+  usePaypalOnApproveMutation,
+} from "../../slices/paypalApiSlice";
 
 const PaypalCheckoutButton = (props: any) => {
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState<any>(null);
-  const { product } = props;
+  const { id } = props;
+
+  const [paypalCreateOrder] = usePaypalCreateOrderMutation();
+  const [paypalOnApprove] = usePaypalOnApproveMutation();
 
   useEffect(() => {
     if (paidFor) {
@@ -22,29 +29,30 @@ const PaypalCheckoutButton = (props: any) => {
     setPaidFor(true);
   }
 
+  async function createOrder(): Promise<any> {
+    const orderId = await paypalCreateOrder(id)
+      .then((response) => response.data)
+      .then((order) => order.id);
+    return orderId;
+  }
+
+  async function onApprove(data): Promise<any> {
+    return await paypalOnApprove({ orderID: data.orderID, id: id })
+      .then((response) => response)
+      .then((orderData) => {
+        alert(`Transaction completed`);
+        window.location.reload();
+      });
+  }
+
   return (
     <PayPalButtons
       style={{
         shape: "pill",
         color: "silver",
       }}
-      createOrder={(data, actions) => {
-        return actions.order.create({
-          purchase_units: [
-            {
-              description: product.description,
-              amount: {
-                value: product.price,
-              },
-            },
-          ],
-        });
-      }}
-      onApprove={async (data, actions) => {
-        const order = await actions.order?.capture();
-        console.log("order", order);
-        handleApprove(data.orderID);
-      }}
+      createOrder={createOrder}
+      onApprove={onApprove}
       onError={(err) => {
         setError(err);
         console.error("Paypal Checkout onError", err);

@@ -3,10 +3,7 @@ import { Box, Button } from "@mui/material";
 import { BasicTable, PaypalCheckoutButton } from "..";
 
 const Checkout = ({ listCheckout, handleClose }: any) => {
-  const product = {
-    description: "RGB Ticket - Movie: Monster",
-    price: 4,
-  };
+  console.log(listCheckout[0].id);
   return (
     <Box
       sx={{
@@ -38,7 +35,7 @@ const Checkout = ({ listCheckout, handleClose }: any) => {
         }}
       >
         <div className="paypal-button-container">
-          <PaypalCheckoutButton product={product} />
+          <PaypalCheckoutButton id={listCheckout[0].id} />
         </div>
         <Button variant="outlined" fullWidth onClick={handleClose}>
           Cancel

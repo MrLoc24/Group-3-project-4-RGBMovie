@@ -9,13 +9,22 @@ const baseQuery = fetchBaseQuery({
       const token = JSON.parse(localStorage.getItem("customerInfo") ?? "");
       headers.set("Authorization", `Bearer ${token.accessToken}`);
     }
+    headers.set("Content-Type", "application/json");
     return headers;
   },
 });
 
 export const apiSlice = createApi({
   baseQuery,
-  tagTypes: ["Customer", "Movie", "Theater", "Screening", "Auditorium", "Booking"],
+  tagTypes: [
+    "Customer",
+    "Movie",
+    "Theater",
+    "Screening",
+    "Auditorium",
+    "Booking",
+    "Paypal",
+  ],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   endpoints: (builder) => ({}),
 });

@@ -81,10 +81,11 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                error={firstName.length > 30}
                 autoComplete="given-name"
                 name="firstName"
                 required
@@ -94,10 +95,12 @@ export default function SignUp() {
                 autoFocus
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
+                helperText={firstName.length > 30 ? "Maximum 30 letters" : ""}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+                error={lastName.length > 30}
                 required
                 fullWidth
                 id="lastName"
@@ -106,11 +109,13 @@ export default function SignUp() {
                 autoComplete="family-name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
+                helperText={lastName.length > 30 ? "Maximum 30 letters" : ""}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                required
+                error={!/^[a-z0-9_]+$/.test(username) && username.length != 0}
+                required={true}
                 fullWidth
                 id="username"
                 label="Username"
@@ -118,10 +123,19 @@ export default function SignUp() {
                 autoComplete="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                helperText={
+                  !/^[a-z0-9_]+$/.test(username) && username.length != 0
+                    ? "Only characters a-z, digits and '_' are  acceptable"
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={
+                  !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) &&
+                  email.length !== 0
+                }
                 required
                 fullWidth
                 id="email"
@@ -130,10 +144,19 @@ export default function SignUp() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                helperText={
+                  !/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(email) &&
+                  email.length !== 0
+                    ? "Invalid email address"
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={
+                  !/[0-9]{10,}/.test(phoneNumber) && phoneNumber.length !== 0
+                }
                 required
                 fullWidth
                 id="phone"
@@ -142,6 +165,11 @@ export default function SignUp() {
                 autoComplete="phone"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+                helperText={
+                  !/[0-9]{10,}/.test(phoneNumber) && phoneNumber.length !== 0
+                    ? "Invalid phone number (at least 10 digits)"
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12}>

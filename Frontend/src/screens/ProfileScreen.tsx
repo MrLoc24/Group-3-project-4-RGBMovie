@@ -10,12 +10,16 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUpdateCustomerMutation } from "../slices/customersApiSlice";
-import { useSelector } from "react-redux";
+import {
+  useProfileMutation,
+  useUpdateCustomerMutation,
+} from "../slices/customersApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setProfile } from "../slices/profileSlice";
 
 const ProfileScreen = () => {
+  const [pk, setPk] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -27,6 +31,7 @@ const ProfileScreen = () => {
   const { customerDetail } = useSelector((state: any) => state.profile);
 
   useEffect(() => {
+    setPk(customerDetail.data.pk);
     setUsername(customerDetail.data.username);
     setFirstName(customerDetail.data.firstName);
     setLastName(customerDetail.data.lastName);
@@ -35,8 +40,8 @@ const ProfileScreen = () => {
   }, [customerDetail]);
 
   const [update] = useUpdateCustomerMutation();
-
-  const navigate = useNavigate();
+  const [profile] = useProfileMutation();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,6 +50,7 @@ const ProfileScreen = () => {
     } else {
       try {
         await update({
+          pk,
           username,
           firstName,
           lastName,
@@ -52,7 +58,13 @@ const ProfileScreen = () => {
           email,
         });
         toast.success("Update successfully");
-        navigate("/profile");
+        const profileDetail = await profile(username);
+        if (profileDetail.error) {
+          toast(profileDetail.error.error);
+        } else {
+          dispatch(setProfile({ ...profileDetail }));
+        }
+        window.location.reload();
       } catch (error: any) {
         toast(error?.data?.message || error.error);
       }

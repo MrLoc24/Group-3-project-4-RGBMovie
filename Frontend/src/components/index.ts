@@ -23,6 +23,8 @@ import Logo from "./common/Logo/Logo";
 import BasicTable from "./common/BasicTable/BasicTable";
 import Checkout from "./Checkout/Checkout";
 import PaypalCheckoutButton from "./PaypalCheckoutButton/PaypalCheckoutButton";
+import ForgotPassword from "./ForgotPassword/ForgotPassword";
+import NewPassword from "./NewPassword/NewPassword";
 
 export {
   Carousel,
@@ -50,4 +52,6 @@ export {
   BasicTable,
   Checkout,
   PaypalCheckoutButton,
+  ForgotPassword,
+  NewPassword,
 };

@@ -4,7 +4,6 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import { useEffect, useState } from "react";
 import { Button, Container, Modal, Typography } from "@mui/material";
-import { CinemaBackground } from "../assets";
 import {
   EditOutlined,
   HighlightOffOutlined,
@@ -17,7 +16,7 @@ import { Checkout } from "../components";
 
 const CartScreen = () => {
   const [refresh, setRefresh] = useState(false);
-  const [checked, setChecked] = useState([0]);
+  const [checked, setChecked] = useState([]);
   const [listItem, setListItem] = useState<number[]>();
   const [listCheckout, setListCheckout] = useState<any>();
 
@@ -26,8 +25,9 @@ const CartScreen = () => {
     reason == "backdropClick" ? "" : setOpen(false);
   };
   const handleOpen = () => {
-    const records = listItem.map((item: any) => {
+    const records = checked.map((item: any) => {
       return {
+        id: item.Reservation.pk,
         title: item.Movie.title,
         datetime: item.Screening.time
           .replace("T", " ")
@@ -60,7 +60,7 @@ const CartScreen = () => {
     }
   }, [refresh]);
 
-  const handleToggle = (value: number) => () => {
+  const handleToggle = (value: any) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -71,6 +71,7 @@ const CartScreen = () => {
     }
 
     setChecked(newChecked);
+    console.log(newChecked);
   };
 
   const handleCancel = async (pk: any) => {
@@ -229,7 +230,15 @@ const CartScreen = () => {
           }}
         >
           <Typography>Total Price:</Typography>
-          <Typography>75$</Typography>
+          <Typography>
+            {checked
+              ? "$ " +
+                checked.reduce(
+                  (total, subtotal) => total + subtotal.Reservation.totalCost,
+                  0
+                )
+              : "0"}
+          </Typography>
         </Container>
         <Button
           variant="outlined"
