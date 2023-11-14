@@ -29,12 +29,25 @@ class _EditPageState extends State<EditPage> {
     getUserFuture = getUser();
   }
 
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    phoneNumberController.dispose();
+    super.dispose();
+  }
+
   Future<void> getUser() async {
     UserModel result = await UserApi().getUser(widget.username);
     setState(() {
       userModel = result;
       nameController.text = userModel?.username ?? '';
       emailController.text = userModel?.email ?? '';
+      firstNameController.text = userModel?.firstName ?? '';
+      lastNameController.text = userModel?.lastName ?? '';
+      phoneNumberController.text = userModel?.phoneNumber ?? '';
     });
   }
 
@@ -128,6 +141,51 @@ class _EditPageState extends State<EditPage> {
                               controller: nameController,
                             ),
                             AppTextFormField(
+                              labelText: 'Last Name',
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (value) =>
+                                  _formKey.currentState?.validate(),
+                              validator: (value) {
+                                return value!.isEmpty
+                                    ? 'Please, Enter Name '
+                                    : value.length < 4
+                                        ? 'Invalid Name'
+                                        : null;
+                              },
+                              controller: lastNameController,
+                            ),
+                            AppTextFormField(
+                              labelText: 'First Name',
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (value) =>
+                                  _formKey.currentState?.validate(),
+                              validator: (value) {
+                                return value!.isEmpty
+                                    ? 'Please, Enter Name '
+                                    : value.length < 4
+                                        ? 'Invalid Name'
+                                        : null;
+                              },
+                              controller: firstNameController,
+                            ),
+                            AppTextFormField(
+                              labelText: 'Phone',
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (value) =>
+                                  _formKey.currentState?.validate(),
+                              validator: (value) {
+                                return value!.isEmpty
+                                    ? 'Please, Enter Name '
+                                    : value.length < 4
+                                        ? 'Invalid Name'
+                                        : null;
+                              },
+                              controller: phoneNumberController,
+                            ),
+                            AppTextFormField(
                               labelText: 'Email',
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
@@ -164,39 +222,7 @@ class _EditPageState extends State<EditPage> {
                                       : Colors.grey.shade300,
                                 ),
                               ),
-                              child: const Text('Register'),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 25),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'I have an account?',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: Colors.black),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              style: Theme.of(context).textButtonTheme.style,
-                              child: Text(
-                                'Login',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                              ),
+                              child: const Text('Edit Profile'),
                             ),
                           ],
                         ),
