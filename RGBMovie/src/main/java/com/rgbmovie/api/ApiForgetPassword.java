@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -49,13 +51,16 @@ public class ApiForgetPassword {
         System.out.println(passwordResetTokenModel.getToken() + passwordResetTokenModel.getUserId() + passwordResetTokenModel.getExpiryDate().toString());
         passwordResetService.createPasswordResetTokenForUser(passwordResetTokenModel);
         mailSender.send(constructResetTokenEmail("localhost:5173",
-                token, user));
-        return new ResponseEntity<>("Email with link contain password reset have been send to your email", HttpStatus.OK);
+                user));
+        Map<String, String> result = new HashMap<>();
+        result.put("message", "Email with link contain password reset have been send to your email");
+        result.put("token", token);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     private MimeMessagePreparator constructResetTokenEmail(
-            String contextPath, String token, UserModel user) {
-        String url = "http://" + contextPath + "/resetPassword?token=" + token;
+            String contextPath, UserModel user) {
+        String url = "http://" + contextPath + "/resetPassword";
         Context context = new Context();
         context.setVariable("url", url);
         String message = templateEngine.process("layout/email", context);
@@ -72,17 +77,17 @@ public class ApiForgetPassword {
         };
     }
 
-    @GetMapping("/resetPassword")
+    @GetMapping("/reset")
     public Object showChangePasswordPage(@RequestParam("token") String token) {
         String result = passwordResetService.validatePasswordResetToken(token);
         if (result.equals("Invalid") || result.equals("Expired")) {
-            new ResponseEntity<>("Token" + result, HttpStatus.BAD_REQUEST);
+            new ResponseEntity<>("Token:" + result, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/changePassword")
-    public Object changePassword(@RequestParam("newPassword") String newPassword, @RequestParam("userId") String userId, @RequestParam("token") String token, Model model) {
+    public Object changePassword(@RequestParam("newPassword") String newPassword, @RequestParam("userId") String userId) {
         int uId = Integer.parseInt(userId);
         UserModel result = userService.findById(uId);
         if (result != null) {

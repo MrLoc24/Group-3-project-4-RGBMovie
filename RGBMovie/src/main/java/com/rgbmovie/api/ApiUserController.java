@@ -29,9 +29,23 @@ public class ApiUserController {
         return userService.updateWithoutPassword(modelMapper.map(userDTO, UserModel.class)) ? new ResponseEntity<String>("Change Success", HttpStatus.OK) : new ResponseEntity<String>("Something wrong", HttpStatus.BAD_REQUEST);
     }
 
+    private boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     @GetMapping("/profile/{username}")
     public Object getProfile(@PathVariable("username") String username) {
-        UserDTO userDTO = modelMapper.map(userService.findByUsername(username), UserDTO.class);
+        UserDTO userDTO = new UserDTO();
+        if (isInteger("usernanme")) {
+            userDTO = modelMapper.map(userService.findById(Integer.parseInt(username)), UserDTO.class);
+        } else {
+            userDTO = modelMapper.map(userService.findByUsername(username), UserDTO.class);
+        }
         return userDTO != null ? new ResponseEntity<>(userDTO, HttpStatus.OK) : new ResponseEntity<>("Something Wrong", HttpStatus.NO_CONTENT);
     }
 
