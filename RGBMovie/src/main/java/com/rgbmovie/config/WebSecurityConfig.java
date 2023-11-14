@@ -69,6 +69,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         //For request static and template file
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**").permitAll());
         //For request not require auth
+        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup","/api/screening", "/auth/recover", "/auth/changePassword", "/docs/**", "/api/customer/recover", "/api/customer/resetPassword", "/api/customer/changePassword").permitAll());
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/orders", "/api/movie/**", "/api/signup", "/api/screening", "/auth/recover", "/auth/changePassword", "/docs/**").permitAll());
         // Filter for api only
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**")).addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)

@@ -36,20 +36,25 @@ export default function SignIn() {
       const res = await login({
         username,
         password,
-      }).unwrap();
-      toast.success("Login successfully!");
-      const timestamp = new Date();
-      const timestampString = timestamp.toISOString();
-      dispatch(setCredentials({ ...res, timestamp: timestampString }));
+      });
+      if (!res.error) {
+        toast.success("Login successfully!");
+        const timestamp = new Date();
+        const timestampString = timestamp.toISOString();
+        dispatch(setCredentials({ ...res.data, timestamp: timestampString }));
 
-      const profileDetail = await profile(res.data.username);
-      if (profileDetail.error) {
-        toast(profileDetail.error.error);
+        const profileDetail = await profile(res.data.username);
+        if (profileDetail.error) {
+          toast(profileDetail.error.error);
+        } else {
+          dispatch(setProfile({ ...profileDetail }));
+        }
+
+        navigate("/");
       } else {
-        dispatch(setProfile({ ...profileDetail }));
+        toast.error("Invalid username or password");
       }
 
-      navigate("/");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast(error?.data?.message || error.error);
@@ -60,6 +65,10 @@ export default function SignIn() {
 
   const handleNavigate = () => {
     navigate("/signup");
+  };
+
+  const handleForgotPassword = () => {
+    navigate("/forgot");
   };
 
   return (
@@ -98,12 +107,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -142,7 +146,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" onClick={handleForgotPassword}>
                   Forgot password?
                 </Link>
               </Grid>

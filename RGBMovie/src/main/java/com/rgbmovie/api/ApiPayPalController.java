@@ -1,5 +1,6 @@
 package com.rgbmovie.api;
 
+import com.rgbmovie.model.ReservationModel;
 import com.rgbmovie.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -88,7 +89,9 @@ public class ApiPayPalController {
 
         if (response.getStatusCode() == HttpStatus.CREATED) {
             LOGGER.log(Level.INFO, "ORDER CAPTURE");
+            System.out.print(response.getBody());
             return response.getBody();
+            
         } else {
             LOGGER.log(Level.INFO, "FAILED CAPTURING ORDER");
             return "Unavailable to get CAPTURE ORDER, STATUS CODE " + response.getStatusCode();
@@ -97,7 +100,8 @@ public class ApiPayPalController {
 
     @RequestMapping(value = "/orders/{orderId}/capture", method = RequestMethod.POST)
     @CrossOrigin
-    public Object capturePayment(@PathVariable("orderId") String orderId) {
+    public Object capturePayment(@PathVariable("orderId") String orderId, @RequestParam("id") String id) {
+    	System.out.print(orderId);
         String accessToken = generateAccessToken();
         HttpHeaders headers = new HttpHeaders();
         RestTemplate restTemplate = new RestTemplate();
@@ -116,8 +120,12 @@ public class ApiPayPalController {
                 Object.class
         );
 
+        System.out.print(response.getStatusCode());
         if (response.getStatusCode() == HttpStatus.CREATED) {
             LOGGER.log(Level.INFO, "ORDER CREATED");
+            ReservationModel result = reservationService.getById(Integer.parseInt(id));
+            result.setGetPaid(1);
+           reservationService.update(result);
             return response.getBody();
         } else {
             LOGGER.log(Level.INFO, "FAILED CREATING ORDER");

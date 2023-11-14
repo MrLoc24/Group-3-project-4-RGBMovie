@@ -4,13 +4,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Card, Container, styled } from "@mui/material";
-import { DetailProps } from "../../interfaces";
-import {
-  CreditCardOutlined,
-  HighlightOffOutlined,
-  InfoOutlined,
-} from "@mui/icons-material";
-
+import { HighlightOffOutlined, InfoOutlined } from "@mui/icons-material";
+import { CardProps } from "../../interfaces";
 const style = {
   display: "flex",
   position: "absolute",
@@ -29,7 +24,7 @@ const ButtonStyled = styled(Button)({
   width: "7.5rem",
 });
 
-const MovieDetail = ({ image, title, description }: DetailProps) => {
+const MovieDetail = (props: CardProps) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -50,8 +45,10 @@ const MovieDetail = ({ image, title, description }: DetailProps) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Container sx={{ justifyContent: "center", display: "flex" }}>
-            {image ? (
+          <Container
+            sx={{ justifyContent: "center", display: "flex", gap: "0.5rem" }}
+          >
+            {props.image ? (
               <Card
                 className="movieCard"
                 sx={{
@@ -60,27 +57,36 @@ const MovieDetail = ({ image, title, description }: DetailProps) => {
                   },
                 }}
               >
-                <img src={image} alt="raven" width={300} />
+                <img src={props.image} alt="raven" width={300} />
               </Card>
             ) : null}
           </Container>
-          <Container>
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}
+          >
             <Typography variant="h4" color={"white"}>
-              {title}
+              {props.title}
             </Typography>
-            <Typography color={"white"}>{description}</Typography>
-            <Container>
-              <Button variant="outlined" startIcon={<CreditCardOutlined />}>
-                Book
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<HighlightOffOutlined />}
-                onClick={handleClose}
-              >
-                Close
-              </Button>
-            </Container>
+            <Typography>Release Date: {props.releaseDate}</Typography>
+            <Typography>
+              Running Times: {props.runningTime + " minutes"}
+            </Typography>
+            <Typography>Rated: {props.rated}</Typography>
+            <Typography>Genres: {props.genres}</Typography>
+            <Typography color={"white"}>
+              Description: {props.content}
+            </Typography>
+            <Button
+              variant="outlined"
+              startIcon={<HighlightOffOutlined />}
+              onClick={handleClose}
+            >
+              Close
+            </Button>
           </Container>
         </Box>
       </Modal>

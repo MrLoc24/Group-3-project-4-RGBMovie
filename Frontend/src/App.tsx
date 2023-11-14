@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { useFindAllTheaterMutation } from "./slices/theatersApiSlice";
 import { addTheaters } from "./slices/theaterSlice";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 const darkTheme = createTheme({
   palette: {
@@ -80,68 +81,75 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      {/* <Header children={<NavigationBar />} /> */}
-      <NavigationBar />
-      <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      <Container
-        sx={{
-          marginTop: "3rem",
-          marginBottom: "3rem",
-          height: "70vh",
-          width: "100%",
-        }}
-      >
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <QuickBooking handleClose={handleClose} />
-        </Modal>
-        <Outlet />
-        <Button
-          className="neonText"
-          variant="outlined"
-          size="large"
+    <PayPalScriptProvider
+      options={{
+        clientId:
+          "AfhvgFWMucHa47s_kR3z6YG-4m2cVW3CGcr1rEMlCyZUEXnydt0IevhjjayttiDOmsRK74ptUMRpRoan",
+      }}
+    >
+      <ThemeProvider theme={darkTheme}>
+        {/* <Header children={<NavigationBar />} /> */}
+        <NavigationBar />
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
+        <Container
           sx={{
-            color: "white",
-            // background: "#191717",
-            background: "none",
-            position: "fixed",
-            bottom: "2%",
-            right: "2%",
-            width: "8vw",
-            padding: "0.7rem 0rem",
-            borderRadius: "15px",
-            border: "#555843 solid",
-            "&:hover": {
-              border: "#555843 solid",
-              background: "#191717",
-              boxShadow:
-                "0 0 0.1rem #fff, 0 0 1rem var(--neonPurple), 0 0 0.5rem var(--neonBlue)",
-            },
-            zIndex: '999'
+            marginTop: "3rem",
+            marginBottom: "3rem",
+            height: "70vh",
+            width: "100%",
           }}
-          onClick={handleOpen}
-          startIcon={<Add />}
         >
-          Book
-        </Button>
-      </Container>
-    </ThemeProvider>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <QuickBooking handleClose={handleClose} />
+          </Modal>
+          <Outlet />
+          <Button
+            className="neonText"
+            variant="outlined"
+            size="large"
+            sx={{
+              color: "white",
+              // background: "#191717",
+              background: "none",
+              position: "fixed",
+              bottom: "2%",
+              right: "2%",
+              width: "8vw",
+              padding: "0.7rem 0rem",
+              borderRadius: "15px",
+              border: "#555843 solid",
+              "&:hover": {
+                border: "#555843 solid",
+                background: "#191717",
+                boxShadow:
+                  "0 0 0.1rem #fff, 0 0 1rem var(--neonPurple), 0 0 0.5rem var(--neonBlue)",
+              },
+              zIndex: "999",
+            }}
+            onClick={handleOpen}
+            startIcon={<Add />}
+          >
+            Book
+          </Button>
+        </Container>
+      </ThemeProvider>
+    </PayPalScriptProvider>
   );
 }
 

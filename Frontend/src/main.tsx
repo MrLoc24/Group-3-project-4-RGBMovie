@@ -15,6 +15,8 @@ import {
   Theater,
   SignUp,
   PrivateRoute,
+  ForgotPassword,
+  NewPassword,
 } from "./components/index.ts";
 import {
   CartScreen,
@@ -50,9 +52,12 @@ const router = createBrowserRouter(
       />
       <Route path="/signin" element={<LoginScreen child={<SignIn />} />} />
       <Route path="/signup" element={<LoginScreen child={<SignUp />} />} />
-      <Route path="/cart" element={<CartScreen />} />
+      <Route path="/forgot" element={<ForgotPassword />} />
+      <Route path="/newPassword/resetPassword" element={<NewPassword />} />
+
       {/* Private Routes */}
       <Route path="" element={<PrivateRoute />}>
+        <Route path="/cart" element={<CartScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
       </Route>
     </Route>

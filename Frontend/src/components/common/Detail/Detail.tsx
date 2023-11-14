@@ -10,7 +10,6 @@ const Detail = ({
   room,
   seats,
   price,
-  payment,
   handleFinalSubmit,
 }: any) => {
   return (
@@ -82,7 +81,7 @@ const Detail = ({
           {name}
         </Grid>
         <Grid item md={12}>
-          {runningTime} minutes
+          {runningTime ? runningTime + " minutes" : null}
         </Grid>
         <Grid item md={12}>
           {theater}
@@ -97,10 +96,7 @@ const Detail = ({
           {seats ? seats.map((item: any) => item + ", ") : null}
         </Grid>
         <Grid item md={12}>
-          $ {price}
-        </Grid>
-        <Grid item md={12}>
-          {payment}
+          {price ? "$" + price : null}
         </Grid>
       </Grid>
     </Grid>

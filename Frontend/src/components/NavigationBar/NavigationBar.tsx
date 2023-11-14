@@ -108,17 +108,13 @@ function NavigationBar() {
         height: "8vh",
         transform: "translate(-50%, 0)",
         padding: "0rem 10rem",
-        // background: `url('${Black}')`,
         background: "#191717",
-        // background: "none",
-        // borderRadius: "0px 0px 25px 25px",
-        // boxShadow: "0 0 0.1rem #F6F1EE, 0 0 1rem var(--neonBlue)",
         border: "#555843 solid thin",
         justifyContent: "center",
-        "&:hover": {
-          boxShadow:
-            "0 0 0.1rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--neonBlue), 0 0 0.5rem var(--neonBlue)",
-        },
+        // "&:hover": {
+        //   boxShadow:
+        //     "0 0 0.1rem #fff, 0 0 0.2rem #fff, 0 0 2rem var(--neonBlue), 0 0 0.5rem var(--neonBlue)",
+        // },
       }}
     >
       <Container

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Container } from "@mui/material";
-import { BasicTable } from "..";
+import { Box, Button } from "@mui/material";
+import { BasicTable, PaypalCheckoutButton } from "..";
 
 const Checkout = ({ listCheckout, handleClose }: any) => {
+  console.log(listCheckout[0].id);
   return (
     <Box
       sx={{
@@ -17,20 +18,25 @@ const Checkout = ({ listCheckout, handleClose }: any) => {
         border: "2px solid #000",
         boxShadow: 24,
         p: 4,
+        overflowY: "auto",
+        maxHeight: "80vh",
       }}
     >
       <BasicTable rows={listCheckout} />
       <div
         style={{
           display: "flex",
-          justifyContent: "space-around",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          gap: "1rem",
+          alignItems: "center",
           margin: "1rem 0rem 0rem 0rem",
           padding: "0px !important",
         }}
       >
-        <Button variant="outlined" fullWidth>
-          Payment
-        </Button>
+        <div className="paypal-button-container">
+          <PaypalCheckoutButton id={listCheckout[0].id} />
+        </div>
         <Button variant="outlined" fullWidth onClick={handleClose}>
           Cancel
         </Button>

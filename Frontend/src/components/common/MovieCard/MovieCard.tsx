@@ -1,10 +1,12 @@
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
 import "./MovieCard.css";
-import { Button, Card, Container } from "@mui/material";
+import { Button, Card, Container, Modal } from "@mui/material";
 import { CardProps } from "../../../interfaces/CardProps";
 import MovieDetail from "../../MovieDetail/MovieDetail";
 import { ReceiptOutlined } from "@mui/icons-material";
+import { QuickBooking } from "../..";
+import { useState } from "react";
 
 const OverlayText = styled(Typography)({
   display: "none",
@@ -27,44 +29,61 @@ const ButtonStyled = styled(Button)({
 });
 
 export default function MovieCard(props: CardProps) {
+  const [open, setOpen] = useState(false);
+  const handleClose = (event: object, reason: string) => {
+    reason == "backdropClick" ? "" : setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
-    <Card
-      className="movieCard"
-      sx={{
-        "&:hover .overlayText": {
-          display: "block",
-        },
-      }}
-    >
-      <img src={props.image} alt="raven" width={300} />
-      <OverlayText className="overlayText">
-        <Typography variant="h4">{props.title}</Typography>
-        <Typography>{props.content}</Typography>
-        <Container
-          className="blockButton"
-          component={"div"}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            paddingLeft: {
-              sm: "0.3rem",
-            },
-            paddingRight: {
-              sm: "0.3rem",
-            },
-            marginTop: "1rem",
-          }}
-        >
-          <ButtonStyled variant="outlined" startIcon={<ReceiptOutlined />}>
-            Book
-          </ButtonStyled>
-          <MovieDetail
-            image={props.image}
-            title={props.title}
-            description={props.content}
-          />
-        </Container>
-      </OverlayText>
-    </Card>
+    <>
+      <Card
+        className="movieCard"
+        sx={{
+          "&:hover .overlayText": {
+            display: "block",
+          },
+        }}
+      >
+        <img src={props.image} alt="raven" width={300} />
+        <OverlayText className="overlayText">
+          <Typography variant="h4">{props.title}</Typography>
+          <Typography>{props.content}</Typography>
+          <Container
+            className="blockButton"
+            component={"div"}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              paddingLeft: {
+                sm: "0.3rem",
+              },
+              paddingRight: {
+                sm: "0.3rem",
+              },
+              marginTop: "1rem",
+            }}
+          >
+            <ButtonStyled
+              variant="outlined"
+              onClick={handleOpen}
+              startIcon={<ReceiptOutlined />}
+            >
+              Book
+            </ButtonStyled>
+            <MovieDetail {...props} />
+          </Container>
+        </OverlayText>
+      </Card>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <QuickBooking handleClose={handleClose} movie={props.id} />
+      </Modal>
+    </>
   );
 }

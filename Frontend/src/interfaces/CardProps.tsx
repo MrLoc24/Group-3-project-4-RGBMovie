@@ -6,6 +6,9 @@ export declare interface CardProps {
   image?: string;
   content?: string;
   rated?: string;
+  runningTime?: number;
+  genres?: string;
+  releaseDate?: string;
   primaryButton?: {
     label: string;
     icon: ReactNode;
