@@ -4,6 +4,9 @@ import com.rgbmovie.dto.UserDTO;
 import com.rgbmovie.model.UserModel;
 import com.rgbmovie.service.UserService;
 import jakarta.annotation.security.RolesAllowed;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
@@ -50,14 +53,25 @@ public class ApiUserController {
     }
 
     @PostMapping("/edit/password/{username}")
-    public Object editPassword(@RequestParam("password") String password, @RequestParam("newPassword") String newPassword, @PathVariable("username") String username) {
+    public Object editPassword(@RequestBody PasswordChangeRequest passwordChangeRequest, @PathVariable("username") String username) {
         UserDTO userDTO = modelMapper.map(userService.findByUsername(username), UserDTO.class);
-        if (password.equals(newPassword)) return new ResponseEntity<>("Same password", HttpStatus.BAD_REQUEST);
+        if (passwordChangeRequest.password.equals(passwordChangeRequest.newPassword))
+            return new ResponseEntity<>("Same password", HttpStatus.BAD_REQUEST);
         if (userDTO != null) {
-            if (passwordEncoder.matches(password, userDTO.getPassword())) {
-                userService.updatePassword(passwordEncoder.encode(newPassword), userDTO.getPk());
+            if (passwordEncoder.matches(passwordChangeRequest.password, userDTO.getPassword())) {
+                userService.updatePassword(passwordEncoder.encode(passwordChangeRequest.newPassword), userDTO.getPk());
             }
         }
         return new ResponseEntity<>("Password changed", HttpStatus.OK);
+    }
+
+    @Data
+    @Getter
+    @Setter
+    private static class PasswordChangeRequest {
+        private String password;
+        private String newPassword;
+
+        // getters and setters
     }
 }

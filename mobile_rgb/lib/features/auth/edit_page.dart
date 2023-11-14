@@ -4,6 +4,7 @@ import 'package:movie_app_ui/core/constants/app_colors.dart';
 import 'package:movie_app_ui/features/auth/helper/app_constants.dart';
 import 'package:movie_app_ui/features/auth/helper/extensions.dart';
 import 'package:movie_app_ui/features/auth/widgets/form_input.dart';
+import 'package:movie_app_ui/features/movies/movies_page.dart';
 import 'package:movie_app_ui/models/user_model.dart';
 
 class EditPage extends StatefulWidget {
@@ -141,21 +142,6 @@ class _EditPageState extends State<EditPage> {
                               controller: nameController,
                             ),
                             AppTextFormField(
-                              labelText: 'Last Name',
-                              keyboardType: TextInputType.name,
-                              textInputAction: TextInputAction.next,
-                              onChanged: (value) =>
-                                  _formKey.currentState?.validate(),
-                              validator: (value) {
-                                return value!.isEmpty
-                                    ? 'Please, Enter Name '
-                                    : value.length < 4
-                                        ? 'Invalid Name'
-                                        : null;
-                              },
-                              controller: lastNameController,
-                            ),
-                            AppTextFormField(
                               labelText: 'First Name',
                               keyboardType: TextInputType.name,
                               textInputAction: TextInputAction.next,
@@ -169,6 +155,21 @@ class _EditPageState extends State<EditPage> {
                                         : null;
                               },
                               controller: firstNameController,
+                            ),
+                            AppTextFormField(
+                              labelText: 'Last Name',
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.next,
+                              onChanged: (value) =>
+                                  _formKey.currentState?.validate(),
+                              validator: (value) {
+                                return value!.isEmpty
+                                    ? 'Please, Enter Name '
+                                    : value.length < 4
+                                        ? 'Invalid Name'
+                                        : null;
+                              },
+                              controller: lastNameController,
                             ),
                             AppTextFormField(
                               labelText: 'Phone',
@@ -202,22 +203,59 @@ class _EditPageState extends State<EditPage> {
                             ),
                             FilledButton(
                               onPressed: _formKey.currentState?.validate() ??
-                                      false
-                                  ? () {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content:
-                                              Text('Registration Complete!'),
-                                        ),
+                                      true
+                                  ? () async {
+                                      UserModel data = UserModel(
+                                        pk: userModel!.pk,
+                                        username: nameController.text,
+                                        password: userModel!.password,
+                                        lastName: lastNameController.text,
+                                        firstName: firstNameController.text,
+                                        email: emailController.text,
+                                        phoneNumber: phoneNumberController.text,
+                                        enabled: true,
                                       );
-                                      nameController.clear();
-                                      emailController.clear();
+                                      UserModel result =
+                                          await UserApi().editUser(data);
+
+                                      if (result != null) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Login'),
+                                              content: Text('Success'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () => Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              const MoviesPage())),
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        AlertDialog(
+                                          title: const Text("Error"),
+                                          content: Text(result.toString()),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, 'OK'),
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      }
                                     }
                                   : null,
                               style: const ButtonStyle().copyWith(
                                 backgroundColor: MaterialStateProperty.all(
-                                  _formKey.currentState?.validate() ?? false
+                                  _formKey.currentState?.validate() ?? true
                                       ? null
                                       : Colors.grey.shade300,
                                 ),
