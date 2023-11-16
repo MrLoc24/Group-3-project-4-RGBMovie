@@ -50,7 +50,7 @@ public class ApiForgetPassword {
         passwordResetTokenModel.setExpiryDate();
         System.out.println(passwordResetTokenModel.getToken() + passwordResetTokenModel.getUserId() + passwordResetTokenModel.getExpiryDate().toString());
         passwordResetService.createPasswordResetTokenForUser(passwordResetTokenModel);
-        mailSender.send(constructResetTokenEmail("localhost:5173",
+        mailSender.send(constructResetTokenEmail("localhost:5173/newPassword",
                 user));
         Map<String, String> result = new HashMap<>();
         result.put("message", "Email with link contain password reset have been send to your email");

@@ -6,12 +6,15 @@ import {
   Container,
   CssBaseline,
   Grid,
+  Modal,
+  Paper,
   TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {
+  useChangePasswordMutation,
   useProfileMutation,
   useUpdateCustomerMutation,
 } from "../slices/customersApiSlice";
@@ -23,10 +26,19 @@ const ProfileScreen = () => {
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpenModal = (): void => {
+    setOpen(true);
+  };
 
   const { customerDetail } = useSelector((state: any) => state.profile);
 
@@ -41,6 +53,7 @@ const ProfileScreen = () => {
 
   const [update] = useUpdateCustomerMutation();
   const [profile] = useProfileMutation();
+  const [changePassword] = useChangePasswordMutation();
   const dispatch = useDispatch();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -58,13 +71,42 @@ const ProfileScreen = () => {
           email,
         });
         toast.success("Update successfully");
-        const profileDetail = await profile(username);
+        const profileDetail: any = await profile(username);
         if (profileDetail.error) {
           toast(profileDetail.error.error);
         } else {
           dispatch(setProfile({ ...profileDetail }));
         }
         window.location.reload();
+      } catch (error: any) {
+        toast(error?.data?.message || error.error);
+      }
+    }
+  };
+
+  const handleChangePassword = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Password do not match");
+    } else if (password === oldPassword) {
+      toast.error("New password is the same as current password");
+    } else {
+      try {
+        const result: any = await changePassword({
+          username: username,
+          body: {
+            password: oldPassword,
+            newPassword: password,
+          },
+        });
+        if (result.error.originalStatus == 400) {
+          toast.error("Current password is wrong");
+        } else {
+          toast.success("Update Password Successfully");
+          window.location.reload();
+        }
       } catch (error: any) {
         toast(error?.data?.message || error.error);
       }
@@ -159,32 +201,15 @@ const ProfileScreen = () => {
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                name="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </Grid>
           </Grid>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleOpenModal}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Change Password
+          </Button>
           <Button
             type="submit"
             fullWidth
@@ -195,6 +220,85 @@ const ProfileScreen = () => {
           </Button>
         </Box>
       </Box>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Container
+          component={Paper}
+          sx={{
+            width: "30vw",
+            position: "absolute",
+            top: "20%",
+            left: "35%",
+          }}
+        >
+          <Container
+            component={"form"}
+            onSubmit={handleChangePassword}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "1rem",
+              padding: "3rem 2rem",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontSize: {
+                  sm: "1rem",
+                  md: "1.6rem",
+                },
+              }}
+            >
+              New Password
+            </Typography>
+            <TextField
+              required
+              fullWidth
+              name="oldPassword"
+              label="Old Password"
+              type="password"
+              id="oldPassword"
+              autoComplete="old-password"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <TextField
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <Button fullWidth variant="contained" type="submit">
+              Save
+            </Button>
+            <Button fullWidth onClick={handleClose} variant="outlined">
+              Cancel
+            </Button>
+          </Container>
+        </Container>
+      </Modal>
     </Container>
   );
 };

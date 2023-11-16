@@ -122,7 +122,6 @@ function App() {
           <Button
             className="neonText"
             variant="outlined"
-            size="large"
             sx={{
               color: "white",
               // background: "#191717",
@@ -141,9 +140,24 @@ function App() {
                   "0 0 0.1rem #fff, 0 0 1rem var(--neonPurple), 0 0 0.5rem var(--neonBlue)",
               },
               zIndex: "999",
+              fontSize: {
+                xs: "0.7rem",
+                sm: "0.7rem",
+                md: "1rem",
+              },
             }}
             onClick={handleOpen}
-            startIcon={<Add />}
+            startIcon={
+              <Add
+                sx={{
+                  fontSize: {
+                    xs: 40,
+                    sm: 50,
+                    md: 60,
+                  },
+                }}
+              />
+            }
           >
             Book
           </Button>

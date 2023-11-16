@@ -1,15 +1,9 @@
-import {
-  Button,
-  Container,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Button, Container, Paper, TextField, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  useChangePasswordMutation,
+  useResetPasswordMutation,
   useShowChangePasswordPageMutation,
 } from "../../slices/customersApiSlice";
 import { toast } from "react-toastify";
@@ -23,7 +17,7 @@ const NewPassword = () => {
   const navigate = useNavigate();
 
   const [showChangePasswordPage] = useShowChangePasswordPageMutation();
-  const [changePassword] = useChangePasswordMutation();
+  const [resetPassword] = useResetPasswordMutation();
   const [queryParam] = useSearchParams();
 
   useEffect(() => {
@@ -35,12 +29,11 @@ const NewPassword = () => {
     if (password !== confirmPassword) {
       toast.error("Password do not match");
     } else {
-      await changePassword({
+      await resetPassword({
         token: token,
         userId: userId as string,
         newPassword: password,
-      }).then((result) => {
-        console.log(result);
+      }).then((result: any) => {
         if (result.error.originalStatus === 400) {
           toast.error("New password can not be the same as old password");
         } else {

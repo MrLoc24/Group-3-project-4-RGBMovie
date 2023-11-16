@@ -33,6 +33,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: `${CUSTOMER_URL}/user/edit/password/${data.username}`,
+        method: "POST",
+        body: data.body,
+      }),
+    }),
     profile: builder.mutation({
       query: (username) => ({
         url: `${CUSTOMER_URL}/user/profile/${username}`,
@@ -51,7 +58,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    changePassword: builder.mutation({
+    resetPassword: builder.mutation({
       query: (data) => ({
         url: `${CUSTOMER_URL}/customer/changePassword?newPassword=${data.newPassword}&userId=${data.userId}&token=${data.token}`,
         method: "POST",
@@ -67,6 +74,7 @@ export const {
   useUpdateCustomerMutation,
   useProfileMutation,
   useRecoverPasswordMutation,
-  useChangePasswordMutation,
   useShowChangePasswordPageMutation,
+  useResetPasswordMutation,
+  useChangePasswordMutation,
 } = usersApiSlice;

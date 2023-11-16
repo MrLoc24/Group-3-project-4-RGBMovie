@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -21,6 +22,8 @@ import {
 } from "../../slices/customersApiSlice";
 import { useState } from "react";
 import { setProfile } from "../../slices/profileSlice";
+import { useGetCartorHistoryMutation } from "../../slices/bookingApiSlice";
+import { addCart } from "../../slices/cartSlice";
 
 export default function SignIn() {
   const [username, setUsername] = useState("");
@@ -29,11 +32,12 @@ export default function SignIn() {
   const dispatch = useDispatch();
   const [login] = useLoginMutation();
   const [profile] = useProfileMutation();
+  const [getCartorHistory] = useGetCartorHistoryMutation();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const res = await login({
+      const res: any = await login({
         username,
         password,
       });
@@ -43,12 +47,18 @@ export default function SignIn() {
         const timestampString = timestamp.toISOString();
         dispatch(setCredentials({ ...res.data, timestamp: timestampString }));
 
-        const profileDetail = await profile(res.data.username);
+        const profileDetail: any = await profile(res.data.username);
         if (profileDetail.error) {
           toast(profileDetail.error.error);
         } else {
           dispatch(setProfile({ ...profileDetail }));
         }
+
+        const cart: any = await getCartorHistory({
+          action: "cart",
+          id: profileDetail.data.pk,
+        });
+        dispatch(addCart(cart.data));
 
         navigate("/");
       } else {
