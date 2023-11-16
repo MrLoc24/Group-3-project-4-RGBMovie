@@ -55,12 +55,10 @@ public class ApiUserController {
     @PostMapping("/edit/password/{username}")
     public Object editPassword(@RequestBody PasswordChangeRequest passwordChangeRequest, @PathVariable("username") String username) {
         UserDTO userDTO = modelMapper.map(userService.findByUsername(username), UserDTO.class);
-        if (passwordChangeRequest.password.equals(passwordChangeRequest.newPassword))
-            return new ResponseEntity<>("Same password", HttpStatus.BAD_REQUEST);
-        if (userDTO != null) {
-            if (passwordEncoder.matches(passwordChangeRequest.password, userDTO.getPassword())) {
-                userService.updatePassword(passwordEncoder.encode(passwordChangeRequest.newPassword), userDTO.getPk());
-            }
+        if (!passwordEncoder.matches(passwordChangeRequest.password, userDTO.getPassword()))
+            return new ResponseEntity<>("Current password is wrong", HttpStatus.BAD_REQUEST);
+        else {
+            userService.updatePassword(passwordEncoder.encode(passwordChangeRequest.newPassword), userDTO.getPk());
         }
         return new ResponseEntity<>("Password changed", HttpStatus.OK);
     }
