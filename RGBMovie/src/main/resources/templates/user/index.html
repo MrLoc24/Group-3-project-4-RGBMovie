@@ -70,7 +70,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Users List</li>
+                    <li class="breadcrumb-item text-dark">Staff List</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -121,7 +121,7 @@
                             <input
                                     class="form-control form-control-solid w-250px ps-14"
                                     data-kt-user-table-filter="search"
-                                    placeholder="Search user"
+                                    placeholder="Search staff"
                                     type="text"
                             />
                         </div>
@@ -173,7 +173,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add User
+                                <!--end::Svg Icon-->Add Staff
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -362,7 +362,7 @@
                                     <!--begin::Modal header-->
                                     <div class="modal-header" id="kt_modal_add_user_header">
                                         <!--begin::Modal title-->
-                                        <h2 class="fw-bolder">Add User</h2>
+                                        <h2 class="fw-bolder">Add Staff</h2>
                                         <!--end::Modal title-->
                                         <!--begin::Close-->
                                         <div
@@ -408,11 +408,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
                                                 th:action="@{/users/add}"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -511,7 +512,11 @@
                                                             placeholder="Username"
                                                             th:value="${user.username}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The username is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -532,7 +537,11 @@
                                                             placeholder="First Name"
                                                             th:value="${user.firstName}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The firstname is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -553,7 +562,11 @@
                                                             placeholder="Last Name"
                                                             th:value="${user.lastName}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The lastname is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -574,7 +587,11 @@
                                                             placeholder="example@domain.com"
                                                             th:value="${user.email}"
                                                             type="email"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			Invalid email
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -595,7 +612,11 @@
                                                             placeholder="123456789"
                                                             th:value="${user.phoneNumber}"
                                                             type="tel"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			Invalid phone number
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -615,7 +636,8 @@
                                                         >
                                                             <select class="form-control form-control-line" id="role"
                                                                     th:field="*{roleId}"
-                                                                    th:object="${userRole}">
+                                                                    th:object="${userRole}"
+                                                                    required>
                                                                 <option th:each="item : ${roles}"
                                                                         th:if="${item.name != 'ROLE_CUSTOMER'}"
                                                                         th:text="${item.name}"
@@ -647,7 +669,8 @@
                                                         >
                                                             <select class="form-control form-control-line"
                                                                     id="workPlace"
-                                                                    name="workPlace">
+                                                                    name="workPlace"
+                                                                    required>
                                                                 <option th:each="item : ${theaters}"
                                                                         th:text="${item.location}"
                                                                         th:value="${item.pk}"></option>
@@ -897,6 +920,10 @@
     <script
             defer
             th:src="@{assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->

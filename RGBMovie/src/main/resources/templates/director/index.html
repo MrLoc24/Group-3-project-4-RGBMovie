@@ -120,7 +120,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add New Movie
+                                <!--end::Svg Icon-->Add New Director
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -139,7 +139,7 @@
                                     <!--begin::Modal header-->
                                     <div class="modal-header" id="kt_modal_add_user_header">
                                         <!--begin::Modal title-->
-                                        <h2 class="fw-bolder">Add Screening</h2>
+                                        <h2 class="fw-bolder">Add Director</h2>
                                         <!--end::Modal title-->
                                         <!--begin::Close-->
                                         <div
@@ -185,11 +185,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
                                                 th:action="@{/director/add}"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -218,13 +219,17 @@
                                                             placeholder="Name"
                                                             th:field="${director.director}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The name is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
                                                 <!--begin::Input group-->
                                                 <div class="fv-row mb-7">
-                                                    <p class="required fw-bold fs-6 mb-2">Movie Director</p>
+                                                    <p class="required fw-bold fs-6 mb-2">Movie Direct</p>
                                                     <!--begin::Label-->
                                                     <label
                                                             class="form-check fw-bold fs-6 mb-2"
@@ -260,7 +265,11 @@
                                                             id="img"
                                                             name="img"
                                                             type="file"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The director's image is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -478,6 +487,10 @@
     ></script>
     <script defer
             th:src="@{/assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->

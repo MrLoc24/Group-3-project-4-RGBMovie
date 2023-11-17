@@ -185,11 +185,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
                                                 th:action="@{/cast/add}"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -218,7 +219,11 @@
                                                             placeholder="Name"
                                                             th:field="${cast.actor}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The name is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -237,6 +242,7 @@
                                                                th:value="${m.pk}"
                                                                type="checkbox"
                                                         />
+                                                        
                                                         <!--end::Input--></label
                                                     >
                                                     <!--end::Label-->
@@ -260,7 +266,11 @@
                                                             id="img"
                                                             name="img"
                                                             type="file"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The cast's' image is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -465,6 +475,10 @@
     ></script>
     <script defer
             th:src="@{/assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->

@@ -67,7 +67,7 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Screenings List</li>
+                    <li class="breadcrumb-item text-dark">Theaters List</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -147,7 +147,7 @@
                                     <!--begin::Modal header-->
                                     <div class="modal-header" id="kt_modal_add_user_header">
                                         <!--begin::Modal title-->
-                                        <h2 class="fw-bolder">Add Screening</h2>
+                                        <h2 class="fw-bolder">Add Theater</h2>
                                         <!--end::Modal title-->
                                         <!--begin::Close-->
                                         <div
@@ -193,11 +193,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_modal_add_theater_form"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
                                                 th:action="@{/theater/add}"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -227,7 +228,11 @@
                                                             placeholder="Location"
                                                             th:value="${theater.location}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+											        	The location is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -248,7 +253,11 @@
                                                             placeholder="Username"
                                                             th:value="${theater.subLocation}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+											        	The sub location is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -269,7 +278,11 @@
                                                             placeholder="Address"
                                                             th:value="${theater.address}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+											        	The address is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -475,6 +488,10 @@
     ></script>
     <script defer
             th:src="@{/assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->
