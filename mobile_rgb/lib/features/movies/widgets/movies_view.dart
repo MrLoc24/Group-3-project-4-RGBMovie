@@ -25,7 +25,7 @@ class _MoviesViewState extends State<MoviesView>
   final _showMovieDetails = ValueNotifier(true);
   late Future<List<MovieModel>> getMovies = setMovies();
 
-  Future<List<MovieModel>> setMovies() {
+  Future<List<MovieModel>> setMovies() async {
     return MovieApi().fetchMovieModel();
   }
 
@@ -72,6 +72,7 @@ class _MoviesViewState extends State<MoviesView>
             snapshot.connectionState == ConnectionState.done &&
             snapshot.connectionState != ConnectionState.active) {
           List<MovieModel> movies = snapshot.data!;
+          print(movies);
           return LayoutBuilder(
             builder: (_, constraints) {
               final h = constraints.maxHeight;

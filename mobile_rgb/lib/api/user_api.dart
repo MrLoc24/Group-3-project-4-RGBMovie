@@ -23,7 +23,7 @@ class UserApi {
       await storage.write(key: 'username', value: data['username']);
       return "Success";
     } else {
-      throw Exception("Invalid username or password");
+      return "Invalid username or password";
     }
   }
 
@@ -74,8 +74,20 @@ class UserApi {
     if (response.statusCode == 200) {
       return response.body;
     } else {
-      throw Exception("Something went wrong");
+      return "Something went wrong";
     }
+  }
+
+  Future<String> signUp(data) async {
+    final response = await http.post(Uri.parse('${URLs.baseUrl}/signup'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(data));
+    if (response.statusCode == 200) {
+      return "Success";
+    }
+    return response.body;
   }
 
   void logout() async {

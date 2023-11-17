@@ -27,17 +27,17 @@ class MovieApi {
     }
   }
 
-  Future<MovieModel> fetchMovieModelById() async {
-    final response = await http.get(Uri.parse('${URLs.baseUrl}/movie/13'));
+  // Future<MovieModel> fetchMovieModelById() async {
+  //   final response = await http.get(Uri.parse('${URLs.baseUrl}/movie/'));
 
-    if (response.statusCode == 200) {
-      // If the server did return a 200 CREATED response,
-      // then parse the JSON.
-      return MovieModel.fromJson(jsonDecode(response.body));
-    } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
-      throw Exception('Failed to load MovieModel');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     // If the server did return a 200 CREATED response,
+  //     // then parse the JSON.
+  //     return MovieModel.fromJson(jsonDecode(response.body));
+  //   } else {
+  //     // If the server did not return a 200 OK response,
+  //     // then throw an exception.
+  //     throw Exception('Failed to load MovieModel');
+  //   }
+  // }
 }

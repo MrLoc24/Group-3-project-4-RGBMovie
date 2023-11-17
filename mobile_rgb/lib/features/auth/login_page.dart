@@ -80,33 +80,32 @@ class _LoginPageState extends State<LoginPage> {
                       labelText: 'Email',
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      // onChanged: (value) {
-                      //   _formKey.currentState?.validate();
-                      // },
-                      // validator: (value) {
-                      //   return value!.isEmpty
-                      //       ? 'Please, Enter Email Address'
-                      //       : value;
-                      //   // : AppConstants.emailRegex.hasMatch(value)
-                      //   //     ? null
-                      //   //     : 'Invalid Email Address';
-                      // },
+                      onChanged: (value) {
+                        _formKey.currentState?.validate();
+                      },
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'Please, Enter Username'
+                            : value.length > 4
+                                ? null
+                                : 'Invalid Username';
+                      },
                       controller: emailController,
                     ),
                     AppTextFormField(
                       labelText: 'Password',
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
-                      // onChanged: (value) {
-                      //   _formKey.currentState?.validate();
-                      // },
-                      // validator: (value) {
-                      //   return value!.isEmpty
-                      //       ? 'Please, Enter Password'
-                      //       : AppConstants.passwordRegex.hasMatch(value)
-                      //           ? null
-                      //           : 'Invalid Password';
-                      // },
+                      onChanged: (value) {
+                        _formKey.currentState?.validate();
+                      },
+                      validator: (value) {
+                        return value!.isEmpty
+                            ? 'Please, Enter Password'
+                            : value.length > 4
+                                ? null
+                                : 'Invalid Password';
+                      },
                       controller: passwordController,
                       obscureText: isObscure,
                       suffixIcon: Padding(
@@ -146,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 15,
                     ),
                     FilledButton(
-                      onPressed: _formKey.currentState?.validate() ?? false
+                      onPressed: _formKey.currentState?.validate() ?? true
                           ? () async {
                               // ScaffoldMessenger.of(context).showSnackBar(
                               //   const SnackBar(
@@ -180,19 +179,24 @@ class _LoginPageState extends State<LoginPage> {
                                     );
                                   },
                                 );
+                              } else {
                                 emailController.clear();
                                 passwordController.clear();
-                              } else {
-                                AlertDialog(
-                                  title: const Text("Error"),
-                                  content: Text(result),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(context, 'OK'),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: const Text('Login'),
+                                      content: Text(result),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
                               }
                             }
