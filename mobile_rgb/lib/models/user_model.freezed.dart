@@ -191,7 +191,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserModelImpl extends _UserModel {
   _$UserModelImpl(
-      {@JsonKey(includeIfNull: false) required this.pk,
+      {@JsonKey(includeIfNull: false) this.pk,
       required this.username,
       required this.password,
       required this.lastName,
@@ -268,7 +268,7 @@ class _$UserModelImpl extends _UserModel {
 
 abstract class _UserModel extends UserModel {
   factory _UserModel(
-      {@JsonKey(includeIfNull: false) required final int? pk,
+      {@JsonKey(includeIfNull: false) final int? pk,
       required final String username,
       required final String password,
       required final String lastName,

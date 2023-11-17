@@ -10,7 +10,7 @@ class UserModel with _$UserModel {
   UserModel._();
 
   factory UserModel({
-    @JsonKey(includeIfNull: false) required int? pk,
+    @JsonKey(includeIfNull: false) int? pk,
     required String username,
     required String password,
     required String lastName,

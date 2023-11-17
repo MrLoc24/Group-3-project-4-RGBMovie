@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app_ui/api/user_api.dart';
 import 'package:movie_app_ui/core/constants/app_colors.dart';
 import 'package:movie_app_ui/features/auth/helper/app_constants.dart';
 import 'package:movie_app_ui/features/auth/helper/extensions.dart';
+import 'package:movie_app_ui/features/auth/login_page.dart';
 import 'package:movie_app_ui/features/auth/widgets/form_input.dart';
+import 'package:movie_app_ui/models/user_model.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -15,7 +18,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
   // FocusNode confirmFocusNode = FocusNode();
@@ -102,6 +108,51 @@ class _RegisterPageState extends State<RegisterPage> {
                     controller: nameController,
                   ),
                   AppTextFormField(
+                    labelText: 'First Name',
+                    autofocus: true,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (value) => _formKey.currentState?.validate(),
+                    validator: (value) {
+                      return value!.isEmpty
+                          ? 'Please, Enter First Name '
+                          : value.length < 4
+                              ? 'Invalid Name'
+                              : null;
+                    },
+                    controller: firstNameController,
+                  ),
+                  AppTextFormField(
+                    labelText: 'Last Name',
+                    autofocus: true,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (value) => _formKey.currentState?.validate(),
+                    validator: (value) {
+                      return value!.isEmpty
+                          ? 'Please, Enter Last Name '
+                          : value.length < 4
+                              ? 'Invalid Name'
+                              : null;
+                    },
+                    controller: lastNameController,
+                  ),
+                  AppTextFormField(
+                    labelText: 'Phone',
+                    autofocus: true,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    onChanged: (value) => _formKey.currentState?.validate(),
+                    validator: (value) {
+                      return value!.isEmpty
+                          ? 'Please, Enter Phone'
+                          : value.length < 9 || value.length > 11
+                              ? 'Phone must be 10 numbers'
+                              : null;
+                    },
+                    controller: phoneController,
+                  ),
+                  AppTextFormField(
                     labelText: 'Email',
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
@@ -123,9 +174,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       return value!.isEmpty
                           ? 'Please, Enter Password'
-                          : AppConstants.passwordRegex.hasMatch(value)
+                          : value.length < 4
                               ? null
-                              : 'Invalid Password';
+                              : 'Password must be at least 4 characters';
                     },
                     controller: passwordController,
                     obscureText: isObscure,
@@ -175,12 +226,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       return value!.isEmpty
                           ? 'Please, Re-Enter Password'
-                          : AppConstants.passwordRegex.hasMatch(value)
-                              ? passwordController.text ==
-                                      confirmPasswordController.text
-                                  ? null
-                                  : 'Password not matched!'
-                              : 'Invalid Password!';
+                          : passwordController.text ==
+                                  confirmPasswordController.text
+                              ? null
+                              : 'Password not matched!';
                     },
                     controller: confirmPasswordController,
                     obscureText: isConfirmPasswordObscure,
@@ -220,16 +269,63 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   FilledButton(
                     onPressed: _formKey.currentState?.validate() ?? false
-                        ? () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Registration Complete!'),
-                              ),
-                            );
-                            nameController.clear();
-                            emailController.clear();
-                            passwordController.clear();
-                            confirmPasswordController.clear();
+                        ? () async {
+                            UserModel newUserModel = UserModel(
+                                username: nameController.text,
+                                password: passwordController.text,
+                                email: emailController.text,
+                                lastName: lastNameController.text,
+                                firstName: firstNameController.text,
+                                phoneNumber: phoneController.text,
+                                enabled: true);
+
+                            String result =
+                                await UserApi().signUp(newUserModel);
+                            BuildContext dialogContext; // Declare a variable
+
+                            if (result == "Success") {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  dialogContext =
+                                      context; // Assign the context to the variable
+                                  return AlertDialog(
+                                    title: const Text('Login'),
+                                    content: Text(result),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(
+                                              dialogContext); // Use the stored context
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginPage()));
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Error'),
+                                    content: Text(result),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           }
                         : null,
                     style: const ButtonStyle().copyWith(

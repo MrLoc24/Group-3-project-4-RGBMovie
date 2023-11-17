@@ -146,7 +146,7 @@ packages:
     source: hosted
     version: "0.4.0"
   clock:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: clock
       sha256: cb6d7f03e1de671e34607e909a7213e31d7752be4fb66a86d29fe1eb14bfb5cf
@@ -400,14 +400,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
-  golden_toolkit:
-    dependency: "direct main"
-    description:
-      name: golden_toolkit
-      sha256: "8f74adab33154fe7b731395782797021f97d2edc52f7bfb85ff4f1b5c4a215f0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.15.0"
   google_fonts:
     dependency: "direct main"
     description:
