@@ -10,10 +10,11 @@ const CustomeContainer = styled(Container)({
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  textShadow:
-    "#fff 0px 0px 10px,var(--neonPink) 0px 0px 15px,var(--neonPurple) 0px 0px 20px, var(--neonCrimson) 0px 0px 30px",
+  textShadow: "#fff 0px 0px 5px,var(--neonPink) 0px 0px 15px",
   //   WebkitTextStroke: "1px rgba(255,47,0,1)",
   color: "white",
+  WebkitTextStroke: "0.5px var(--neonPink)",
+  gap: "0rem",
 });
 
 const Logo = () => {
@@ -22,7 +23,7 @@ const Logo = () => {
       <Typography
         className="logo"
         sx={{
-          WebkitTextStroke: "2px var(--neonBlue)",
+          WebkitTextStroke: "1px var(--neonPink)",
           fontSize: { xs: "1rem", sm: "2rem", md: "3rem" },
           margin: "0px",
           padding: "0px",
@@ -32,7 +33,8 @@ const Logo = () => {
       </Typography>
       <Typography
         sx={{
-          textDecoration: "overline",
+          // borderTop: "solid white",
+          // boxShadow: "0xp 0px 10px var(--neonPink)",
           fontSize: {
             xs: "0.5rem",
             sm: "1rem",

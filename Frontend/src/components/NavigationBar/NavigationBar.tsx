@@ -23,7 +23,7 @@ import { logout } from "../../slices/authSlice";
 import { Logo } from "..";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 
-const pages = ["Movie", "Theater", "Event", "Cart"];
+const pages = ["Movie", "Theater", "Cart"];
 const settings = ["Profile", "Logout"];
 
 function NavigationBar() {
@@ -61,7 +61,13 @@ function NavigationBar() {
 
   const handleNavClick = (e: any) => {
     setAnchorElNav(null);
-    switch (e.target.value) {
+    let value: string = "";
+    if (e.target.value) {
+      value = e.target.value;
+    } else if (e.currentTarget.dataset) {
+      value = e.currentTarget.dataset.myValue;
+    }
+    switch (value) {
       case "Movie":
         navigate("/movie");
         break;
@@ -82,7 +88,6 @@ function NavigationBar() {
   const handleProfileclick = async (e: any) => {
     setAnchorElUser(null);
     const { myValue } = e.currentTarget.dataset;
-    console.log(myValue);
 
     switch (myValue) {
       case "Profile":
@@ -181,7 +186,11 @@ function NavigationBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} value={page} onClick={handleNavClick}>
+                <MenuItem
+                  key={page}
+                  data-my-value={page}
+                  onClick={handleNavClick}
+                >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -193,7 +202,8 @@ function NavigationBar() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="#"
+            onClick={() => navigate("/")}
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -235,9 +245,18 @@ function NavigationBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Profile settings">
                 <Button
+                  variant="outlined"
                   startIcon={<AccountCircleOutlined />}
                   onClick={handleOpenUserMenu}
-                  sx={{ p: 0 }}
+                  sx={{
+                    border: "none",
+                    textTransform: "capitalize",
+                    fontSize: "1.2rem",
+                    "&:hover": {
+                      border: "none",
+                    },
+                  }}
+                  size="large"
                 >
                   {username}
                 </Button>

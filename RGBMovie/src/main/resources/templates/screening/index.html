@@ -135,7 +135,7 @@
                         <!--begin::Modal - Add task-->
                         <div
                                 aria-hidden="true"
-                                class="modal fade"
+                                class="modal fade kt_modal_add_screening"
                                 id="kt_modal_add_user"
                                 tabindex="-1"
                         >
@@ -192,11 +192,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
                                                 th:action="@{'/theater/' + ${theaterId} + '?detail=screening&add=true'}"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -228,11 +229,15 @@
                                                         >
                                                             <select class="form-control form-control-line" id="movie"
                                                                     th:field="*{movie}"
-                                                                    th:object="${screening}">
+                                                                    th:object="${screening}"
+                                                                    required>
                                                                 <option th:each="item : ${movies}"
                                                                         th:text="${item.title}"
                                                                         th:value="${item.pk}"></option>
                                                             </select>
+                                                            <div class="invalid-feedback">
+													        	The movie is required
+													      	</div>
                                                         </div>
                                                         <!--end::Radio-->
                                                     </div>
@@ -259,7 +264,10 @@
                                                                 class="form-check form-check-custom form-check-solid"
                                                         >
                                                             <input id="time" name="screeningTime"
-                                                                   type="date">
+                                                                   type="date" required>
+                                                            <div class="invalid-feedback">
+											        			The date is required
+													      	</div>
                                                         </div>
                                                         <!--end::Radio-->
                                                     </div>
@@ -287,11 +295,15 @@
                                                             <select class="form-control form-control-line"
                                                                     id="auditorium"
                                                                     th:field="*{auditorium}"
-                                                                    th:object="${screening}">
+                                                                    th:object="${screening}" 
+                                                                    required>
                                                                 <option th:each="item : ${auditorium}"
                                                                         th:text="${item.name}"
                                                                         th:value="${item.pk}"></option>
                                                             </select>
+                                                            <div class="invalid-feedback">
+													        	The auditorium is required
+													      	</div>
                                                         </div>
                                                         <!--end::Radio-->
                                                     </div>
@@ -470,6 +482,10 @@
     ></script>
     <script defer
             th:src="@{/assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->

@@ -11,20 +11,23 @@ import {
 } from "@mui/icons-material";
 import { useGetCartorHistoryMutation } from "../slices/bookingApiSlice";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Checkout } from "../components";
+import { addCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
   const [refresh, setRefresh] = useState(false);
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState<any>([]);
   const [listItem, setListItem] = useState<number[]>();
   const [listCheckout, setListCheckout] = useState<any>();
+
+  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
   const handleClose = (event: object, reason: string) => {
     reason == "backdropClick" ? "" : setOpen(false);
   };
-  const handleOpen = () => {
+  const handleCheckout = () => {
     const records = checked.map((item: any) => {
       return {
         id: item.Reservation.pk,
@@ -54,13 +57,14 @@ const CartScreen = () => {
         id: customerDetail.data.pk,
       }).then((result: any) => {
         setListItem(result.data);
+        dispatch(addCart(result.data));
       });
     } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
   }, [refresh]);
 
-  const handleToggle = (value: any) => () => {
+  const handleToggle = (value: never | any) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -108,7 +112,7 @@ const CartScreen = () => {
         }}
       >
         {listItem ? (
-          listItem.map((value) => {
+          listItem.map((value: any | never) => {
             return (
               <Container
                 sx={{
@@ -158,7 +162,9 @@ const CartScreen = () => {
                 >
                   <Typography>
                     Seats:{" "}
-                    {value.Seat ? value.Seat.map((item) => item + ", ") : null}
+                    {value.Seat
+                      ? value.Seat.map((item: any) => item + ", ")
+                      : null}
                   </Typography>
                   <Typography>
                     Time & Date:
@@ -234,17 +240,19 @@ const CartScreen = () => {
             {checked
               ? "$ " +
                 checked.reduce(
-                  (total, subtotal) => total + subtotal.Reservation.totalCost,
+                  (total: any, subtotal: any) =>
+                    total + subtotal.Reservation.totalCost,
                   0
                 )
               : "0"}
           </Typography>
         </Container>
         <Button
+          disabled={checked.length == 0}
           variant="outlined"
           fullWidth
           startIcon={<ShoppingCartCheckoutOutlined />}
-          onClick={handleOpen}
+          onClick={handleCheckout}
         >
           Checkout
         </Button>
