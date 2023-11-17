@@ -8,9 +8,9 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import "./QuickBooking.css";
-import { Detail, CustomContainer, LocationMenu, Poster, SeatsSelect } from "..";
+import { Detail, LocationMenu, Poster, SeatsSelect } from "..";
 import DateSelect from "../common/DateSelect/DateSelect";
-import { forwardRef, useEffect, useState } from "react";
+import { FormEvent, forwardRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ArrowBackOutlined } from "@mui/icons-material";
 import { useFindScreeningByMovieAndTheaterMutation } from "../../slices/screeningApiSlice";
@@ -35,6 +35,7 @@ const style = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
   const { customerInfo } = useSelector((state: any) => state.auth);
+  const cart = useSelector((state: any) => state.cart.cart);
   const [username, setUsername] = useState("");
 
   // States of Location
@@ -49,7 +50,7 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
   const [movieImage, setMovieImage] = useState<any>("");
   const [runningTime, setRunningTime] = useState("");
   const [timedate, setTimeDate] = useState("");
-  const [room, setRoom] = useState(null);
+  const [room, setRoom] = useState<any>(null);
   // const [seats, setSeats] = useState([]);
   const [price, setPrice] = useState(null);
   const [showingTime, setShowingTime] = useState(null);
@@ -93,9 +94,9 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
     }
   }, [movie]);
 
-  const handleMovieClick = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleMovieClick = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.target);
+    const data = new FormData(event.target as HTMLFormElement);
     setMovieId(data.get("id"));
     const selectedMovie = movieList.find(
       (item: any) => item.id == data.get("id")
@@ -124,7 +125,7 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
         (item: any) => item.address === event.target.value
       );
 
-      const listScreening = await screenings({
+      const listScreening: any = await screenings({
         theater: selectedScreening.pk,
         movie: movieId,
       });
@@ -170,17 +171,24 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
     const selectedScreening = showingTimeList.find(
       (item: any) => item.pk == e.target.value
     );
-
     try {
-      const auditorimInfo = await auditorium(selectedScreening.pk);
+      const auditorimInfo: any = await auditorium(selectedScreening.pk);
       setRoom(auditorimInfo.data);
     } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
-
     setShowingTime(e.target.value);
-
     setTimeDate(selectedScreening.time);
+
+    if (cart) {
+      const result: any = cart.find(
+        (item: any) => item.Screening.pk == e.target.value
+      );
+      console.log(result);
+      if (result) {
+        setSelectedSeats(result.Seat);
+      }
+    }
   };
 
   const handleBookSubmit = async () => {
@@ -188,7 +196,7 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
       await book({
         username: username,
         screening: showingTime,
-        auditorium: room.Audi.pk,
+        auditorium: room!.Audi.pk,
         seatName: selectedSeats,
       });
       toast.success("Add to Cart Successfully");
@@ -214,7 +222,6 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
       setRunningTime("");
       setTimeDate("");
       setRoom(null);
-      setPayment("");
       setPrice(null);
       setShowingTimeList(null);
       setShowingTime(null);
@@ -266,8 +273,8 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-around",
+              alignItems: "start",
             }}
-            style={{}}
           >
             {/* Location & Theater Select */}
             {movieId && !showingTime ? (
@@ -282,13 +289,19 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
             ) : null}
             {/* Date Select */}
             {dates && !showingTime ? (
-              <CustomContainer>
+              <Container
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "start",
+                }}
+              >
                 <DateSelect
                   dates={dates}
                   handleDateSelect={handleDateSelect}
                   date={date}
                 />
-              </CustomContainer>
+              </Container>
             ) : null}
 
             {/* ShowingTimes Select */}

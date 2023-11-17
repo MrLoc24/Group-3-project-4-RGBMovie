@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:movie_app_ui/api/user_api.dart';
+import 'package:movie_app_ui/features/auth/change_password.dart';
 import 'package:movie_app_ui/features/auth/edit_page.dart';
 import 'package:movie_app_ui/features/auth/login_page.dart';
 
@@ -105,7 +106,11 @@ class _MoviesPageState extends State<MoviesPage>
               ListTile(
                 title: const Text('Change Password'),
                 onTap: () {
-                  // Navigate to change password
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangePassword()),
+                  );
                 },
               ),
               ListTile(
