@@ -97,7 +97,9 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.visiblePassword,
                       textInputAction: TextInputAction.done,
                       onChanged: (value) {
-                        _formKey.currentState?.validate();
+                        setState(() {
+                          _formKey.currentState?.validate();
+                        });
                       },
                       validator: (value) {
                         return value!.isEmpty
@@ -145,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 15,
                     ),
                     FilledButton(
-                      onPressed: _formKey.currentState?.validate() ?? true
+                      onPressed: _formKey.currentState?.validate() ?? false
                           ? () async {
                               // ScaffoldMessenger.of(context).showSnackBar(
                               //   const SnackBar(
@@ -205,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: MaterialStateProperty.all(
                           _formKey.currentState?.validate() ?? false
                               ? null
-                              : Colors.grey.shade300,
+                              : Colors.blue.shade300,
                         ),
                       ),
                       child: const Text('Login'),
