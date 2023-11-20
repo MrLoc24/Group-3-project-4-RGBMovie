@@ -117,7 +117,7 @@
                             <input
                                     class="form-control form-control-solid w-250px ps-14"
                                     data-kt-user-table-filter="search"
-                                    placeholder="Search user"
+                                    placeholder="Search auditorium"
                                     type="text"
                             />
                         </div>
@@ -232,11 +232,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
                                                 th:action="@{'/theater/' + ${theaterId} + '?detail=auditorium&add=true'}"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -269,7 +270,11 @@
                                                             placeholder="Auditorium"
                                                             th:value="${audi.name}"
                                                             type="text"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			The name is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -291,7 +296,12 @@
                                                             placeholder="123456789"
                                                             th:value="${audi.row}"
                                                             type="number"
+                                                            min="1"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			Number of row is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -312,7 +322,11 @@
                                                             placeholder="123456789"
                                                             th:value="${audi.column}"
                                                             type="number"
+                                                            required
                                                     />
+                                                    <div class="invalid-feedback">
+									        			Number of column is required
+											      	</div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -479,6 +493,10 @@
     ></script>
     <script defer
             th:src="@{/assets/js/custom/widgets.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Custom Javascript-->
