@@ -12,7 +12,7 @@ import {
 import { useGetCartorHistoryMutation } from "../slices/bookingApiSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { Checkout } from "../components";
+import { Checkout, QuickBooking } from "../components";
 import { addCart } from "../slices/cartSlice";
 
 const CartScreen = () => {
@@ -24,8 +24,12 @@ const CartScreen = () => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
   const handleClose = (event: object, reason: string) => {
     reason == "backdropClick" ? "" : setOpen(false);
+  };
+  const handleCloseEdit = (event: object, reason: string) => {
+    reason == "backdropClick" ? "" : setEdit(false);
   };
   const handleCheckout = () => {
     const records = checked.map((item: any) => {
@@ -45,6 +49,10 @@ const CartScreen = () => {
 
     setListCheckout(records);
     setOpen(true);
+  };
+
+  const handleEdit = () => {
+    setEdit(true);
   };
 
   const [getCartorHistory] = useGetCartorHistoryMutation();
@@ -160,6 +168,7 @@ const CartScreen = () => {
                     maxWidth: "20vw",
                   }}
                 >
+                  <Typography>Room: {value.Auditorium.name}</Typography>
                   <Typography>
                     Seats:{" "}
                     {value.Seat
@@ -194,7 +203,11 @@ const CartScreen = () => {
                 </Container>
 
                 <div>
-                  <IconButton aria-label="edit" size="small">
+                  <IconButton
+                    aria-label="edit"
+                    size="small"
+                    onClick={handleEdit}
+                  >
                     <EditOutlined />
                   </IconButton>
                   <IconButton
@@ -205,6 +218,24 @@ const CartScreen = () => {
                     <HighlightOffOutlined />
                   </IconButton>
                 </div>
+                <Modal
+                  open={edit}
+                  onClose={handleCloseEdit}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                >
+                  <QuickBooking
+                    handleClose={handleCloseEdit}
+                    data={{
+                      editMovieId: value.Movie.pk,
+                      editLocation: value.Theater.subLocation,
+                      editTheater: value.Theater.address,
+                      editTheaterId: value.Theater.pk,
+                      editDate: value.Screening.time,
+                      editShowingTime: value.Screening.pk,
+                    }}
+                  />
+                </Modal>
               </Container>
             );
           })

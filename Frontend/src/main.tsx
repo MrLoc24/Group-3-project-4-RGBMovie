@@ -20,6 +20,7 @@ import {
 } from "./components/index.ts";
 import {
   CartScreen,
+  HistoryScreen,
   LoginScreen,
   ProfileScreen,
   SectionScreen,
@@ -57,6 +58,7 @@ const router = createBrowserRouter(
 
       {/* Private Routes */}
       <Route path="" element={<PrivateRoute />}>
+        <Route path="/history" element={<HistoryScreen />} />
         <Route path="/cart" element={<CartScreen />} />
         <Route path="/profile" element={<ProfileScreen />} />
       </Route>
