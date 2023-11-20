@@ -34,7 +34,7 @@ var KTSigninGeneral = (function () {
                   (e.disabled = !0),
                   setTimeout(function () {
                     e.removeAttribute("data-kt-indicator"),
-                      (e.disabled = !1),
+                      (e.disabled = !1),	
                       Swal.fire({
                         text: "You have successfully logged in!",
                         icon: "success",
