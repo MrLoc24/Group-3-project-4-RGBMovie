@@ -23,6 +23,7 @@ mixin _$TheaterModel {
   @JsonKey(includeIfNull: false)
   int? get pk => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   String get location => throw _privateConstructorUsedError;
   String get subLocation => throw _privateConstructorUsedError;
 
@@ -41,7 +42,7 @@ abstract class $TheaterModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(includeIfNull: false) int? pk,
       String address,
-      String location,
+      @JsonKey(includeIfNull: false) String location,
       String subLocation});
 }
 
@@ -95,7 +96,7 @@ abstract class _$$TheaterModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(includeIfNull: false) int? pk,
       String address,
-      String location,
+      @JsonKey(includeIfNull: false) String location,
       String subLocation});
 }
 
@@ -142,7 +143,7 @@ class _$TheaterModelImpl extends _TheaterModel {
   _$TheaterModelImpl(
       {@JsonKey(includeIfNull: false) required this.pk,
       required this.address,
-      required this.location,
+      @JsonKey(includeIfNull: false) required this.location,
       required this.subLocation})
       : super._();
 
@@ -155,6 +156,7 @@ class _$TheaterModelImpl extends _TheaterModel {
   @override
   final String address;
   @override
+  @JsonKey(includeIfNull: false)
   final String location;
   @override
   final String subLocation;
@@ -200,7 +202,7 @@ abstract class _TheaterModel extends TheaterModel {
   factory _TheaterModel(
       {@JsonKey(includeIfNull: false) required final int? pk,
       required final String address,
-      required final String location,
+      @JsonKey(includeIfNull: false) required final String location,
       required final String subLocation}) = _$TheaterModelImpl;
   _TheaterModel._() : super._();
 
@@ -213,6 +215,7 @@ abstract class _TheaterModel extends TheaterModel {
   @override
   String get address;
   @override
+  @JsonKey(includeIfNull: false)
   String get location;
   @override
   String get subLocation;

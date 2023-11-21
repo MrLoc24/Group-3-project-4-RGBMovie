@@ -12,7 +12,7 @@ class TheaterModel with _$TheaterModel {
   factory TheaterModel({
     @JsonKey(includeIfNull: false) required int? pk,
     required String address,
-    required String location,
+    @JsonKey(includeIfNull: false) required String location,
     required String subLocation,
   }) = _TheaterModel;
 
