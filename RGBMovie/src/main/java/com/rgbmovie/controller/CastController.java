@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/cast")
+@RequestMapping("/admin/cast")
 public class CastController {
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", AppConstant.cloudinaryName,

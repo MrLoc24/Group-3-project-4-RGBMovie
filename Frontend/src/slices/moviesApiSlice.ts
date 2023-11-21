@@ -1,5 +1,5 @@
 import { apiSlice } from "./apiSlice";
-const MOVIE_URL = "/api/movie";
+const MOVIE_URL = "/movie";
 
 export const moviesApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

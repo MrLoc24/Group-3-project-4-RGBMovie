@@ -74,12 +74,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**")).addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         //For request require auth
-        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/users/**", "/theater/**", "/role/**", "/movie/**", "/director/**", "/casting/**", "/cast/**", "/home/**", "/customer/**")
-                .hasAnyRole("ADMIN").anyRequest().authenticated()).formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/auth/login").permitAll()
-                .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/home", true)
-                .failureUrl("/auth/login?error=true")).rememberMe(rememberMe ->
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/admin/**")
+                .hasAnyRole("ADMIN", "MANAGER").anyRequest().authenticated()).formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/admin/auth/login").permitAll()
+                .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/admin/home", true)
+                .failureUrl("/admin/auth/login?error=true")).rememberMe(rememberMe ->
                 rememberMe.key("uniqueAndSecret").tokenValiditySeconds(86400).userDetailsService(userDetailsService())).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)).exceptionHandling(exp -> exp.accessDeniedPage("/403"));
-        http.logout(l -> l.logoutUrl("/auth/logout").logoutSuccessUrl("/auth/login"));
+        http.logout(l -> l.logoutUrl("/admin/auth/logout").logoutSuccessUrl("/admin/auth/login"));
         return http.build();
     }
 
