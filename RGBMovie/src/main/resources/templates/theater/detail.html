@@ -42,7 +42,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a class="text-muted text-hover-primary" href="/home">Home</a>
+                        <a class="text-muted text-hover-primary" href="/admin/home">Home</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -100,7 +100,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/theater/edit}" th:method="put" novalidate>
+                          th:action="@{/admin/theater/edit}" th:method="put" novalidate>
                         <input th:field="${theater.pk}" th:value="${theater.pk}" type="hidden">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
@@ -115,7 +115,7 @@
                                            th:field="${theater.address}"
                                            th:value="${theater.address}" type="text" required/>
                                            <div class="invalid-feedback">
-						        		   		The address is required
+						        		   		Address is required
 								      	   </div>
                                 </div>
                                 <!--end::Col-->
@@ -132,7 +132,7 @@
                                            th:field="${theater.location}"
                                            th:value="${theater.location}" type="text" required/>
                                            <div class="invalid-feedback">
-						        		        The location is required
+						        		        Location is required
 								      	   </div>
                                 </div>
                                 <!--end::Col-->
@@ -149,7 +149,7 @@
                                            th:field="${theater.subLocation}"
                                            th:value="${theater.subLocation}" type="text" required/>
                                            <div class="invalid-feedback">
-						        		        The sublocation is required
+						        		        Sublocation is required
 								      	   </div>
                                 </div>
                                 <!--end::Col-->
@@ -181,7 +181,7 @@
                     <!--begin::Card-->
                     <a
                             class="card border border-2 border-gray-300 border-hover"
-                            th:href="@{'/theater/' + ${theater.pk} + '?detail=auditorium'}"
+                            th:href="@{'/admin/theater/' + ${theater.pk} + '?detail=auditorium'}"
                     >
                         <!--begin::Card header-->
                         <div class="card-header border-0 pt-9">
@@ -238,7 +238,7 @@
                     <!--begin::Card-->
                     <a
                             class="card border border-2 border-gray-300 border-hover"
-                            th:href="@{'/theater/' + ${theater.pk} + '?detail=screening'}"
+                            th:href="@{'/admin/theater/' + ${theater.pk} + '?detail=screening'}"
                     >
                         <!--begin::Card header-->
                         <div class="card-header border-0 pt-9">
@@ -293,7 +293,7 @@
                     <!--begin::Card-->
                     <a
                             class="card border border-2 border-gray-300 border-hover"
-                            th:href="@{'/theater/' + ${theater.pk} + '?detail=workplace'}"
+                            th:href="@{'/admin/theater/' + ${theater.pk} + '?detail=workplace'}"
                     >
                         <!--begin::Card header-->
                         <div class="card-header border-0 pt-9">

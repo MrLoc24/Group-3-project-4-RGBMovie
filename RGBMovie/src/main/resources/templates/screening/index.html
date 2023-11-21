@@ -41,7 +41,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a class="text-muted text-hover-primary" href="/home">Home</a>
+                        <a class="text-muted text-hover-primary" href="/admin/home">Home</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -236,7 +236,7 @@
                                                                         th:value="${item.pk}"></option>
                                                             </select>
                                                             <div class="invalid-feedback">
-													        	The movie is required
+													        	Movie is required
 													      	</div>
                                                         </div>
                                                         <!--end::Radio-->
@@ -440,7 +440,7 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{'/theater/' + ${theaterId} + '?detail=screening&date=' +${item.date} + '&movie='+ ${item.movie}}"
+                                                th:href="@{'/admin/theater/' + ${theaterId} + '?detail=screening&date=' +${item.date} + '&movie='+ ${item.movie}}"
                                         >Details</a
                                         >
                                     </div>

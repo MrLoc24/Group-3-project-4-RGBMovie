@@ -27,7 +27,7 @@
       id="#kt_header_menu"
     >
       <div class="menu-item me-lg-1">
-        <a class="menu-link active py-3" th:href="@{/home}">
+        <a class="menu-link active py-3" th:href="@{/admin/home}">
           <span class="menu-title">Dashboard</span>
         </a>
       </div>
@@ -79,7 +79,7 @@
               class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg py-lg-4 w-lg-225px"
             >
               <div class="menu-item">
-                <a class="menu-link py-3" th:href="@{/theater}">
+                <a class="menu-link py-3" th:href="@{/admin/theater}">
                   <span class="menu-bullet">
                     <span class="bullet bullet-dot"></span>
                   </span>
@@ -87,7 +87,7 @@
                 </a>
               </div>
               <div class="menu-item">
-                <a class="menu-link py-3" th:href="@{/movie}">
+                <a class="menu-link py-3" th:href="@{/admin/movie}">
                   <span class="menu-bullet">
                     <span class="bullet bullet-dot"></span>
                   </span>
@@ -1081,7 +1081,7 @@
         <div class="menu-item px-5">
           <a
             class="menu-link px-5"
-            th:href="@{/users(username=${#authentication.getPrincipal().getUsername()})}"
+            th:href="@{/admin/users(username=${#authentication.getPrincipal().getUsername()})}"
             >My Profile</a
           >
         </div>
@@ -1092,7 +1092,7 @@
         <!--end::Menu separator-->
         <!--begin::Menu item-->
         <div class="menu-item px-5">
-          <a class="menu-link px-5" href="/auth/logout">Sign Out</a>
+          <a class="menu-link px-5" href="/admin/auth/logout">Sign Out</a>
         </div>
         <!--end::Menu item-->
         <!--begin::Menu separator-->

@@ -43,7 +43,7 @@
                     <li class="breadcrumb-item text-muted">
                         <a
                                 class="text-muted text-hover-primary"
-                                href="/home"
+                                href="/admin/home"
                         >Home</a
                         >
                     </li>
@@ -515,7 +515,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The username is required
+									        			Username is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -540,7 +540,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The firstname is required
+									        			Firstname is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -565,7 +565,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The lastname is required
+									        			Lastname is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -874,7 +874,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{/users/status(id=${item.pk})}"
+                                                th:href="@{/admin/users/status(id=${item.pk})}"
                                         >Change status</a
                                         >
                                     </div>

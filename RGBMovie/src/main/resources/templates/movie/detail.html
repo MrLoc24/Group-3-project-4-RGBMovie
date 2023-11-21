@@ -44,7 +44,7 @@
                     <li class="breadcrumb-item text-muted">
                         <a
                                 class="text-muted text-hover-primary"
-                                href="/home"
+                                href="/admin/home"
                         >Home</a
                         >
                     </li>
@@ -131,7 +131,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{'/movie/edit/' + ${movie.pk}}" th:method="put" novalidate>
+                          th:action="@{'/admin/movie/edit/' + ${movie.pk}}" th:method="put" novalidate>
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -253,7 +253,7 @@
                                            th:field="${movie.title}"
                                            th:value="${movie.title}" type="text" required/>
                                            <div class="invalid-feedback">
-									        	The title is required
+									        	Title is required
 									       </div>
                                 </div>
                                 <!--end::Col-->
@@ -272,7 +272,7 @@
                                            th:field="${movie.engTitle}"
                                            th:value="${movie.engTitle}" type="text" required/>
                                            <div class="invalid-feedback">
-									        	The english title is required
+									        	English title is required
 									       </div>
                                 </div>
                                 <!--end::Col-->
@@ -291,7 +291,7 @@
                                            th:field="${movie.durationMin}"
                                            th:value="${movie.durationMin}" type="text" required/>
                                            <div class="invalid-feedback">
-									        	The duration is required
+									        	Duration is required
 									       </div>
                                 </div>
                                 <!--end::Col-->
@@ -384,7 +384,7 @@
                                         required>
                                                     </textarea>
 	                               <div class="invalid-feedback">
-							        	The description is required
+							        	Description is required
 							       </div>
                                 <!--end::Input-->
                             </div>
@@ -403,7 +403,7 @@
                                            th:value="${movie.trailer}" type="text"
                                            required/>
                                            <div class="invalid-feedback">
-									        	The trailer is required
+									        	Trailer is required
 									       </div>
                                 </div>
                                 <!--end::Col-->
