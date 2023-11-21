@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const URI = process.env.REACT_APP_BACKEND_URL;
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8080",
+  baseUrl: URI,
   // credentials: "same-origin",
   // mode: "cors",
   prepareHeaders: (headers) => {

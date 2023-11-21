@@ -23,8 +23,8 @@ import { logout } from "../../slices/authSlice";
 import { Logo } from "..";
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 
-const pages = ["Movie", "Theater", "Cart"];
-const settings = ["Profile", "Logout"];
+const pages = ["Movie", "Event", "Cart"];
+const settings = ["Profile", "History", "Logout"];
 
 function NavigationBar() {
   const { customerInfo } = useSelector((state: any) => state.auth);
@@ -77,6 +77,9 @@ function NavigationBar() {
       case "Cart":
         navigate("/cart");
         break;
+      case "Event":
+        navigate("/");
+        break;
       case "Login":
         navigate("/signin");
         break;
@@ -92,6 +95,9 @@ function NavigationBar() {
     switch (myValue) {
       case "Profile":
         navigate("/profile");
+        break;
+      case "History":
+        navigate("/history");
         break;
       case "Logout":
         dispatch(logout(""));
@@ -228,7 +234,11 @@ function NavigationBar() {
               backgroundColor: "transparent",
             }}
             onChange={(event, newValue) => {
-              navigate(newValue);
+              if (newValue == "Event") {
+                navigate("/");
+              } else {
+                navigate(newValue);
+              }
             }}
           >
             {pages.map((page) => (

@@ -10,7 +10,7 @@ import {
 import "./QuickBooking.css";
 import { Detail, LocationMenu, Poster, SeatsSelect } from "..";
 import DateSelect from "../common/DateSelect/DateSelect";
-import { FormEvent, forwardRef, useEffect, useState } from "react";
+import React, { FormEvent, forwardRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ArrowBackOutlined } from "@mui/icons-material";
 import { useFindScreeningByMovieAndTheaterMutation } from "../../slices/screeningApiSlice";
@@ -33,7 +33,7 @@ const style = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
+const QuickBooking = forwardRef(({ handleClose, movie, data }: any) => {
   const { customerInfo } = useSelector((state: any) => state.auth);
   const cart = useSelector((state: any) => state.cart.cart);
   const [username, setUsername] = useState("");
@@ -91,6 +91,40 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
       setMovieImage(selectedMovie.image);
       setRunningTime(selectedMovie.runningTime);
       setPrice(selectedMovie.price);
+    }
+
+    if (data) {
+      const {
+        editMovieId,
+        editLocation,
+        editTheater,
+        editShowingTime,
+        editDate,
+      } = data;
+      setMovieId(editMovieId);
+      const selectedMovie = movieList.find(
+        (item: any) => item.id == editMovieId
+      );
+      setMovieName(selectedMovie.title);
+      setMovieImage(selectedMovie.image);
+      setRunningTime(selectedMovie.runningTime);
+      setPrice(selectedMovie.price);
+      setLocation(editLocation);
+      setTheater(editTheater);
+      auditorium(editShowingTime).then((result: any) => {
+        console.log(result.data);
+        setRoom(result.data);
+        setShowingTime(editShowingTime);
+        setTimeDate(editDate);
+        if (cart) {
+          const result: any = cart.find(
+            (item: any) => item.Screening.pk == editShowingTime
+          );
+          if (result) {
+            setSelectedSeats(result.Seat);
+          }
+        }
+      });
     }
   }, [movie]);
 
@@ -177,7 +211,7 @@ const QuickBooking = forwardRef(({ handleClose, movie }: any) => {
     } catch (error: any) {
       toast(error?.data?.message || error.error);
     }
-    setShowingTime(e.target.value);
+    setShowingTime(selectedScreening.pk);
     setTimeDate(selectedScreening.time);
 
     if (cart) {

@@ -14,6 +14,7 @@ export default function SeatsSelect({
 
   useEffect(() => {
     const seatList = [];
+    console.log(auditorium);
     for (let char = 65; char < auditorium.Audi.row + 65; char++) {
       for (let num = 1; num <= auditorium.Audi.column; num++) {
         seatList.push(String.fromCharCode(char) + num);
