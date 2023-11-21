@@ -132,8 +132,8 @@
                                            th:field="${theater.location}"
                                            th:value="${theater.location}" type="text" required/>
                                            <div class="invalid-feedback">
-											        			The location is required
-													      	</div>
+						        		        The location is required
+								      	   </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -147,7 +147,10 @@
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
                                            th:field="${theater.subLocation}"
-                                           th:value="${theater.subLocation}" type="text"/>
+                                           th:value="${theater.subLocation}" type="text" required/>
+                                           <div class="invalid-feedback">
+						        		        The sublocation is required
+								      	   </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -345,6 +348,12 @@
         </div>
         <!--end::Container-->
     </div>
+	<!--begin::Page Custom Javascript(used by this page)-->
+    <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
+    <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->
 

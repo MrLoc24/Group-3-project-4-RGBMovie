@@ -6,7 +6,7 @@
 >
 <head>
     <meta charset="UTF-8"/>
-    <title>Director</title>
+    <title>Director Profile</title>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
             >
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                    Director Detail
+                    Director Profile
                 </h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
@@ -63,7 +63,15 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Director</li>
+                    <li class="breadcrumb-item text-muted">Directors</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Director Profile</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -94,8 +102,8 @@
                 <!--begin::Content-->
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
-                    <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/director/edit}" th:method="put">
+                    <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
+                          th:action="@{/director/edit}" th:method="put" novalidate>
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -152,13 +160,17 @@
                             <!--begin::Input group-->
                             <div class="row mb-6">
                                 <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Director</label>
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Name</label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
                                            th:field="${director.director}"
-                                           th:value="${director.director}" type="text"/>
+                                           th:value="${director.director}" type="text"
+                                           required/>
+                                           <div class="invalid-feedback">
+									        	The name is required
+									       </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -228,7 +240,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add Movie Direct
+                                <!--end::Svg Icon-->Edit Movie Direct
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -492,6 +504,10 @@
                 th:src="@{/assets/js/custom/widgets.js}"
                 xmlns:th="http://www.thymeleaf.org"
         ></script>
+        <script defer
+    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
+            xmlns:th="http://www.thymeleaf.org"
+    ></script>
         <!--end::Page Custom Javascript-->
     </div>
     <!--end::Post-->
