@@ -42,7 +42,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a class="text-muted text-hover-primary" href="/home">Home</a>
+                        <a class="text-muted text-hover-primary" href="/admin/home">Home</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -189,7 +189,7 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/cast/add}"
+                                                th:action="@{/admin/cast/add}"
                                                 novalidate
                                         >
                                             <!--begin::Scroll-->
@@ -222,7 +222,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The name is required
+									        			Name is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -269,7 +269,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The cast's' image is required
+									        			Image is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -392,7 +392,7 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{'/cast/detail/' + ${item.pk}}"
+                                                th:href="@{'/admin/cast/detail/' + ${item.pk}}"
                                         >Details</a
                                         >
                                     </div>
@@ -402,7 +402,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/cast/delete/' + ${item.pk}}"
+                                                th:href="@{'/admin/cast/delete/' + ${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>
@@ -418,7 +418,7 @@
                         <li
                                 th:class="${currentIndex == 1}? 'page-item disabled' : 'page-item'"
                         >
-                            <a class="page-link" th:href="@{/cast}">First</a>
+                            <a class="page-link" th:href="@{/admin/cast}">First</a>
                         </li>
                         <li
                                 th:class="${currentIndex == 1}? 'page-item disabled': 'page-item' "
@@ -477,10 +477,7 @@
             th:src="@{/assets/js/custom/widgets.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script defer
-    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
     <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->

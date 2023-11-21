@@ -41,7 +41,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a class="text-muted text-hover-primary" href="/home">Home</a>
+                        <a class="text-muted text-hover-primary" href="/admin/home">Home</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -236,7 +236,7 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{'/theater/' + ${theaterId} + '?detail=auditorium&add=true'}"
+                                                th:action="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&add=true'}"
                                                 novalidate
                                         >
                                             <!--begin::Scroll-->
@@ -273,7 +273,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The name is required
+									        			Name is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -443,7 +443,7 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{'/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
+                                                th:href="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
                                         >Details</a
                                         >
                                     </div>
@@ -453,7 +453,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
+                                                th:href="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>
@@ -495,10 +495,7 @@
             th:src="@{/assets/js/custom/widgets.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script defer
-    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
 </div>
