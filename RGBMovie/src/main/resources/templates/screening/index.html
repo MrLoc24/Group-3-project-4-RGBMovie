@@ -266,7 +266,7 @@
                                                             <input id="time" name="screeningTime"
                                                                    type="date" required>
                                                             <div class="invalid-feedback">
-											        			The date is required
+											        			Date is required
 													      	</div>
                                                         </div>
                                                         <!--end::Radio-->
@@ -302,7 +302,7 @@
                                                                         th:value="${item.pk}"></option>
                                                             </select>
                                                             <div class="invalid-feedback">
-													        	The auditorium is required
+													        	Auditorium is required
 													      	</div>
                                                         </div>
                                                         <!--end::Radio-->
@@ -484,10 +484,7 @@
             th:src="@{/assets/js/custom/widgets.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script defer
-    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
     <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->
