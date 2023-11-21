@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/screening")
+@RequestMapping("/admin/screening")
 public class ScreeningController {
     @Autowired
     private ScreeningService screeningService;

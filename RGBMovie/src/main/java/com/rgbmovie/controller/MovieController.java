@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/movie")
+@RequestMapping("/admin/movie")
 public class MovieController {
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", AppConstant.cloudinaryName,
@@ -53,7 +53,7 @@ public class MovieController {
         request.getSession().setAttribute("movieList", null);
         if (model.asMap().get("success") != null)
             redirect.addFlashAttribute("success", model.asMap().get("success").toString());
-        return "redirect:/movie/page/1";
+        return "redirect:/admin/movie/page/1";
     }
 
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
@@ -81,7 +81,7 @@ public class MovieController {
             end = Math.min(current, pages.getPageCount());
             // totalPageCount = pages.getPageCount();
         }
-        String baseUrl = "/movie/page/";
+        String baseUrl = "/admin/movie/page/";
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
@@ -100,7 +100,7 @@ public class MovieController {
         movieDTO.setThumbnailImg(thumbnailResult.get("url").toString());
         movieDTO.setMainImg(mainResult.get("url").toString());
         movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
-        return "redirect:/movie";
+        return "redirect:/admin/movie";
     }
 
     @GetMapping("/detail/{id}")

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
-@RequestMapping("/invoice")
+@RequestMapping("/admin/invoice")
 public class InvoiceController {
     @Autowired
     private ReservationService reservationService;

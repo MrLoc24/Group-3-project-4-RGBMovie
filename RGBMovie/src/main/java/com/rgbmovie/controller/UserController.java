@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 public class UserController {
 
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -84,7 +84,7 @@ public class UserController {
         workplaceDTO.setTheaterId(pk);
         workplaceService.addNewWorker(modelMapper.map(workplaceDTO, WorkplaceModel.class));
         userRoleService.addNewUserRole(modelMapper.map(userRoleDTO, UserRoleModel.class));
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/status")
@@ -94,7 +94,7 @@ public class UserController {
         userModel.setEnabled(!userModel.getEnabled());
         if (userService.update(userModel)) model.addAttribute("message", "Failed to change status of user");
         else model.addAttribute("message", "Deleted");
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @PutMapping("/edit")
@@ -106,17 +106,17 @@ public class UserController {
             user.setImages(oldImage);
             boolean result = userService.updateWithoutPassword(user);
             if (result) {
-                return "redirect:/users?username=" + user.getUsername();
+                return "redirect:/admin/users?username=" + user.getUsername();
             }
-            return "redirect:/users";
+            return "redirect:/admin/users";
         } else {
             Map uploadResult = cloudinary.uploader().upload(multipartFile.getBytes(), ObjectUtils.emptyMap());
             user.setImages(uploadResult.get("url").toString());
             boolean result = userService.updateWithoutPassword(user);
             if (result) {
-                return "redirect:/users?username=" + user.getUsername();
+                return "redirect:/admin/users?username=" + user.getUsername();
             }
-            return "redirect:/users";
+            return "redirect:/admin/users";
         }
 
     }
@@ -125,8 +125,8 @@ public class UserController {
     public String setStatus(@RequestParam("pk") int pk) {
         boolean res = userService.updateEnable(pk, false);
         if (res) {
-            return "redirect:/auth/logout";
-        } else return "redirect:/users";
+            return "redirect:/admin/auth/logout";
+        } else return "redirect:/admin/users";
     }
 
     @PostMapping("/changePassword")
@@ -135,10 +135,10 @@ public class UserController {
         if (result != null) {
             if (passwordEncoder.matches(currentPassword, result.getPassword())) {
                 userService.updatePassword(passwordEncoder.encode(newPassword), pk);
-                return "redirect:/auth/logout";
+                return "redirect:/admin/auth/logout";
             }
         }
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 }
 
