@@ -175,13 +175,13 @@ public class TheaterController {
             screeningDTO.setTheater(id);
             screeningDTO.setTime(convertStringToLocalDateTime(time));
             screeningService.addNewScreening(modelMapper.map(screeningDTO, ScreeningModel.class));
-            return "redirect:/theater/" + id + "?detail=screening";
+            return "redirect:/admin/theater/" + id + "?detail=screening";
         }
         auditoriumDTO.setName(auditoriumDTO.getName() + "_" + id);
         auditoriumDTO.setTheater(id);
         AuditoriumModel result = auditoriumService.addNew(modelMapper.map(auditoriumDTO, AuditoriumModel.class));
         seatService.addNewSeat(result);
-        return "redirect:/theater/" + id + "?detail=auditorium";
+        return "redirect:/admin/theater/" + id + "?detail=auditorium";
     }
 
     @PostMapping("/add")
@@ -189,10 +189,10 @@ public class TheaterController {
         TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
         if (result != null) {
             model.addAttribute("message", "Add Success");
-            return "redirect:/theater";
+            return "redirect:/admin/theater";
         }
         model.addAttribute("message", "Failed to add new");
-        return "redirect:/theater";
+        return "redirect:/admin/theater";
     }
 
     @PutMapping("/edit")
