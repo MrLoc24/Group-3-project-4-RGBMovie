@@ -95,7 +95,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/cast/edit}" th:method="put">
+                          th:action="@{/admin/cast/edit}" th:method="put">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -152,14 +152,17 @@
                             <!--begin::Input group-->
                             <div class="row mb-6">
                                 <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Cast</label>
+                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Name</label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
                                            th:field="${cast.actor}"
-                                           th:value="${cast.actor}" type="text"/>
+                                           th:value="${cast.actor}" type="text" required/>
                                 </div>
+                                <div class="invalid-feedback">
+						        	Name is required
+						      	</div>
                                 <!--end::Col-->
                             </div>
                             <!--end::Input group-->
@@ -228,7 +231,7 @@
                         />
                       </svg>
                     </span>
-                                <!--end::Svg Icon-->Add Movie Direct
+                                <!--end::Svg Icon-->Add Movie Cast
                             </button>
                             <!--end::Add user-->
                         </div>
@@ -293,11 +296,12 @@
                                     <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
                                         <!--begin::Form-->
                                         <form
-                                                class="form"
+                                                class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
-                                                th:action="@{/cast/addMovie}"
+                                                th:action="@{/admin/cast/addMovie}"
                                                 th:method="put"
+                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -492,6 +496,7 @@
                 th:src="@{/assets/js/custom/widgets.js}"
                 xmlns:th="http://www.thymeleaf.org"
         ></script>
+        <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
         <!--end::Page Custom Javascript-->
     </div>
     <!--end::Post-->

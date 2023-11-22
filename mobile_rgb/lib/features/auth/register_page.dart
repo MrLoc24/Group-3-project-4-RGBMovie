@@ -174,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       return value!.isEmpty
                           ? 'Please, Enter Password'
-                          : value.length < 4
+                          : value.length > 4
                               ? null
                               : 'Password must be at least 4 characters';
                     },
@@ -221,7 +221,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     textInputAction: TextInputAction.done,
                     // focusNode: confirmFocusNode,
                     onChanged: (value) {
-                      _formKey.currentState?.validate();
+                      setState(() {
+                        _formKey.currentState?.validate();
+                      });
                     },
                     validator: (value) {
                       return value!.isEmpty
@@ -290,7 +292,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   dialogContext =
                                       context; // Assign the context to the variable
                                   return AlertDialog(
-                                    title: const Text('Login'),
+                                    title: const Text("Thanks for registering"),
                                     content: Text(result),
                                     actions: <Widget>[
                                       TextButton(
@@ -303,7 +305,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   builder: (context) =>
                                                       const LoginPage()));
                                         },
-                                        child: const Text('OK'),
+                                        child: const Text('Login'),
                                       ),
                                     ],
                                   );

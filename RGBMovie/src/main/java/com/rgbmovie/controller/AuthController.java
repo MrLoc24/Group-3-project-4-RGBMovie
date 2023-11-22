@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("auth")
+@RequestMapping("/admin/auth")
 public class AuthController {
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", defaultValue = "", required = false) String error, Model model) {
         if (!error.isEmpty()) {
-            model.addAttribute("message", "Username or password incorrect");
+            model.addAttribute("message", "Incorrect username or password");
         }
         return "auth/login";
     }

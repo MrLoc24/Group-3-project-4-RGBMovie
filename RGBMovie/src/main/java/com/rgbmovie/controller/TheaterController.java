@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/admin/theater")
 public class TheaterController {
     @Autowired
     private ModelMapper modelMapper;
@@ -50,15 +51,15 @@ public class TheaterController {
         return date.atStartOfDay();
     }
 
-    @RequestMapping(value = {"/theater"}, method = RequestMethod.GET)
+    @RequestMapping(value = {""}, method = RequestMethod.GET)
     public String index(Model model, HttpServletRequest request, RedirectAttributes redirect) {
         request.getSession().setAttribute("theaterList", null);
         if (model.asMap().get("success") != null)
             redirect.addFlashAttribute("success", model.asMap().get("success").toString());
-        return "redirect:/theater/page/1";
+        return "redirect:/admin/theater/page/1";
     }
 
-    @RequestMapping(value = "/theater/page/{pageNumber}", method = RequestMethod.GET)
+    @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
     public String showUserPage(HttpServletRequest request, @PathVariable int pageNumber, Model model) {
         PagedListHolder<?> pages = (PagedListHolder<?>) request.getSession().getAttribute("theaterList");
         int pageSize = 10;
@@ -83,7 +84,7 @@ public class TheaterController {
             end = Math.min(current, pages.getPageCount());
             // totalPageCount = pages.getPageCount();
         }
-        String baseUrl = "/theater/page/";
+        String baseUrl = "/admin/theater/page/";
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
@@ -94,7 +95,7 @@ public class TheaterController {
         return "theater/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/theater/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public String detail(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "auditorium", required = false, defaultValue = "") String audi, @RequestParam(value = "date", required = false, defaultValue = "") String date, @RequestParam(value = "movie", required = false, defaultValue = "") String movie, Model model) {
         List<ScreeningDTO> screeningDTOList = screeningService.getAllByTheater(id).stream().map(m -> modelMapper.map(m, ScreeningDTO.class)).toList();
         model.addAttribute("theater", modelMapper.map(theaterService.getById(id), TheaterDTO.class));
@@ -160,7 +161,7 @@ public class TheaterController {
             }
             if (detail.equals("workplace")) {
 
-                return "redirect:/users?workplace=" + id;
+                return "redirect:/admin/users?workplace=" + id;
             }
         }//Redirect to theater's auditorium
         return "theater/index";
@@ -168,33 +169,33 @@ public class TheaterController {
     }
 
     //Add new auditorium for each theater
-    @PostMapping("/theater/{id}")
+    @PostMapping("/{id}")
     public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "screeningTime", required = false) String time, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO, ScreeningDTO screeningDTO) {
         if (detail.equals("screening")) {
             screeningDTO.setTheater(id);
             screeningDTO.setTime(convertStringToLocalDateTime(time));
             screeningService.addNewScreening(modelMapper.map(screeningDTO, ScreeningModel.class));
-            return "redirect:/theater/" + id + "?detail=screening";
+            return "redirect:/admin/theater/" + id + "?detail=screening";
         }
         auditoriumDTO.setName(auditoriumDTO.getName() + "_" + id);
         auditoriumDTO.setTheater(id);
         AuditoriumModel result = auditoriumService.addNew(modelMapper.map(auditoriumDTO, AuditoriumModel.class));
         seatService.addNewSeat(result);
-        return "redirect:/theater/" + id + "?detail=auditorium";
+        return "redirect:/admin/theater/" + id + "?detail=auditorium";
     }
 
-    @PostMapping("/theater/add")
+    @PostMapping("/add")
     public String addNewTheater(Model model, TheaterDTO theaterDTO) {
         TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
         if (result != null) {
             model.addAttribute("message", "Add Success");
-            return "redirect:/theater";
+            return "redirect:/admin/theater";
         }
         model.addAttribute("message", "Failed to add new");
-        return "redirect:/theater";
+        return "redirect:/admin/theater";
     }
 
-    @PutMapping("/theater/edit")
+    @PutMapping("/edit")
     public String edit(Model model, TheaterDTO theaterDTO, @RequestHeader String referer) {
         TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
         if (result != null) {

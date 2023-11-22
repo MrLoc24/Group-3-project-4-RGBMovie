@@ -43,7 +43,7 @@
                     <li class="breadcrumb-item text-muted">
                         <a
                                 class="text-muted text-hover-primary"
-                                href="/home"
+                                href="/admin/home"
                         >Home</a
                         >
                     </li>
@@ -260,7 +260,7 @@
                                         <!--begin::Form-->
                                         <form
                                                 action="#"
-                                                class="form"
+                                                class="form kt_forms"
                                                 id="kt_modal_export_users_form"
                                         >
                                             <!--begin::Input group-->
@@ -412,7 +412,7 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/users/add}"
+                                                th:action="@{/admin/users/add}"
                                                 novalidate
                                         >
                                             <!--begin::Scroll-->
@@ -437,7 +437,7 @@
                                                     <div
                                                             class="image-input image-input-outline"
                                                             data-kt-image-input="true"
-                                                            th:style="'background-image: url(assets/media/avatars/blank.png)'"
+                                                            th:style="'background-image: url(/assets/media/avatars/blank.png)'"
                                                     >
                                                         <!--begin::Preview existing avatar-->
                                                         <div
@@ -460,7 +460,11 @@
                                                                     name="image"
                                                                     th:value="${user.images}"
                                                                     type="file"
+                                                                    required
                                                             />
+                                                            <div class="invalid-tooltip">
+											        			ERR0R
+													      	</div>
                                                             <input name="avatar_remove" type="hidden"/>
 
                                                             <!--end::Inputs-->
@@ -515,7 +519,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The username is required
+									        			Username is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -540,7 +544,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The firstname is required
+									        			Firstname is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -565,7 +569,7 @@
                                                             required
                                                     />
                                                     <div class="invalid-feedback">
-									        			The lastname is required
+									        			Lastname is required
 											      	</div>
                                                     <!--end::Input-->
                                                 </div>
@@ -874,7 +878,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{/users/status(id=${item.pk})}"
+                                                th:href="@{/admin/users/status(id=${item.pk})}"
                                         >Change status</a
                                         >
                                     </div>
@@ -902,30 +906,27 @@
     <!--begin::Page Vendors Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/plugins/custom/datatables/datatables.bundle.js}"
+            th:src="@{/assets/plugins/custom/datatables/datatables.bundle.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <!--end::Page Vendors Javascript-->
     <!--begin::Page Custom Javascript(used by this page)-->
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/table.js}"
+            th:src="@{/assets/js/custom/apps/user-management/users/list/table.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script
             defer
-            th:src="@{assets/js/custom/apps/user-management/users/list/add.js}"
+            th:src="@{/assets/js/custom/apps/user-management/users/list/add.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script
             defer
-            th:src="@{assets/js/custom/widgets.js}"
+            th:src="@{/assets/js/custom/widgets.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script defer
-    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
     <!--end::Page Custom Javascript-->
 </div>
 

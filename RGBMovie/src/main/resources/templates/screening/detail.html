@@ -41,7 +41,7 @@
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
-                        <a class="text-muted text-hover-primary" href="/home">Home</a>
+                        <a class="text-muted text-hover-primary" href="/admin/home">Home</a>
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -196,7 +196,7 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{'/theater/' + ${theaterId} + '?detail=screening&add=true'}"
+                                                th:action="@{'/admin/theater/' + ${theaterId} + '?detail=screening&add=true'}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -422,7 +422,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/screening/'+${item.pk}}"
+                                                th:href="@{'/admin/screening/'+${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>

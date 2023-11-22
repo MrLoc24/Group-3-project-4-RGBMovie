@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const URI = process.env.REACT_APP_BACKEND_URL;
+const URI = process.env["REACT_APP_BACKEND_URL"] || "http://localhost:8080/api";
+
 const baseQuery = fetchBaseQuery({
   baseUrl: URI,
   // credentials: "same-origin",
@@ -11,6 +12,7 @@ const baseQuery = fetchBaseQuery({
       headers.set("Authorization", `Bearer ${token.accessToken}`);
     }
     headers.set("Content-Type", "application/json");
+    console.log(URI);
     return headers;
   },
 });

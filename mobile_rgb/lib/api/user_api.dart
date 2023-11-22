@@ -4,7 +4,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:movie_app_ui/core/constants/url.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:movie_app_ui/models/movie_model.dart';
 import 'package:movie_app_ui/models/user_model.dart';
 
 class UserApi {

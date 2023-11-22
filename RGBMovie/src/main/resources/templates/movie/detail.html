@@ -6,7 +6,7 @@
 >
 <head>
     <meta charset="UTF-8"/>
-    <title>Movie Detail</title>
+    <title>Movie Details</title>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
                     <li class="breadcrumb-item text-muted">
                         <a
                                 class="text-muted text-hover-primary"
-                                href="/home"
+                                href="/admin/home"
                         >Home</a
                         >
                     </li>
@@ -63,7 +63,15 @@
                     </li>
                     <!--end::Item-->
                     <!--begin::Item-->
-                    <li class="breadcrumb-item text-dark">Movie</li>
+                    <li class="breadcrumb-item text-muted">Movies</li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item">
+                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                    </li>
+                    <!--end::Item-->
+                    <!--begin::Item-->
+                    <li class="breadcrumb-item text-dark">Movie Details</li>
                     <!--end::Item-->
                 </ul>
                 <!--end::Breadcrumb-->
@@ -114,7 +122,7 @@
                      role="button">
                     <!--begin::Card title-->
                     <div class="card-title m-0">
-                        <h3 class="fw-bolder m-0">Profile Details</h3>
+                        <h3 class="fw-bolder m-0">Movie Details</h3>
                     </div>
                     <!--end::Card title-->
                 </div>
@@ -122,8 +130,8 @@
                 <!--begin::Content-->
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
-                    <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{'/movie/edit/' + ${movie.pk}}" th:method="put">
+                    <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
+                          th:action="@{'/admin/movie/edit/' + ${movie.pk}}" th:method="put" novalidate>
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -146,13 +154,17 @@
                                                title="Change avatar">
                                             <i class="bi bi-pencil-fill fs-7"></i>
                                             <!--begin::Inputs-->
-                                            <input accept=".png, .jpg, .jpeg" name="image" type="file"/>
+                                            <input accept=".png, .jpg, .jpeg" name="image" type="file" required/>
                                             <input name="avatar_remove" type="hidden"/>
                                             <input hidden th:field="${movie.mainImg}" th:value="${movie.mainImg}"
                                                    type="text">
                                             <input hidden th:field="${movie.pk}" th:value="${movie.pk}" type="number">
+                                            <div class="invalid-tooltip">
+								        		ERR0R
+								        	</div>
                                             <!--end::Inputs-->
                                         </label>
+                                        
                                         <!--end::Label-->
                                         <!--begin::Cancel-->
                                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -200,7 +212,10 @@
                                             <input accept=".png, .jpg, .jpeg" name="thumb_image" type="file"/>
                                             <input name="avatar_remove" type="hidden"/>
                                             <input hidden th:field="${movie.thumbnailImg}"
-                                                   th:value="${movie.thumbnailImg}" type="text">
+                                                   th:value="${movie.thumbnailImg}" type="text" required>
+                                            <div class="invalid-tooltip">
+						        				ERR0R
+								        	</div>
                                             <!--end::Inputs-->
                                         </label>
                                         <!--end::Label-->
@@ -236,7 +251,10 @@
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
                                            th:field="${movie.title}"
-                                           th:value="${movie.title}" type="text"/>
+                                           th:value="${movie.title}" type="text" required/>
+                                           <div class="invalid-feedback">
+									        	Title is required
+									       </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -252,7 +270,10 @@
                                     <input class="form-control form-control-lg form-control-solid" id="engTitle"
                                            placeholder="Company name"
                                            th:field="${movie.engTitle}"
-                                           th:value="${movie.engTitle}" type="text"/>
+                                           th:value="${movie.engTitle}" type="text" required/>
+                                           <div class="invalid-feedback">
+									        	English title is required
+									       </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -268,7 +289,10 @@
                                     <input class="form-control form-control-lg form-control-solid" id="duration"
 
                                            th:field="${movie.durationMin}"
-                                           th:value="${movie.durationMin}" type="text"/>
+                                           th:value="${movie.durationMin}" type="text" required/>
+                                           <div class="invalid-feedback">
+									        	Duration is required
+									       </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -285,7 +309,7 @@
                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                             id="age" th:field="${movie.age}"
                                             th:value="${movie.age}"
-
+											required
                                     >
                                         <option th:selected="${movie.age == 'r'}" value="r">R</option>
                                         <option th:selected="${movie.age == 'pg-13'}" value="pg-13">PG-13</option>
@@ -308,7 +332,8 @@
                                     <input class="form-control form-control-lg form-control-solid" id="date"
 
                                            th:field="${movie.openingDate}"
-                                           th:value="${movie.openingDate}" type="date"/>
+                                           th:value="${movie.openingDate}" type="date"
+                                           required/>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -325,7 +350,7 @@
                                             id="genre"
                                             th:field="${movie.genre}"
                                             th:value="${movie.genre}"
-
+											required
                                     >
                                         <option th:selected="${movie.genre == 'mystery'}" value="mystery">Mystery
                                         </option>
@@ -355,9 +380,12 @@
                                         id="description"
                                         th:field="${movie.description}"
                                         th:value="${movie.description}"
-                                        type="text">
-
+                                        type="text"
+                                        required>
                                                     </textarea>
+	                               <div class="invalid-feedback">
+							        	Description is required
+							       </div>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -372,7 +400,11 @@
                                     <input class="form-control form-control-lg form-control-solid" id="trailer"
 
                                            th:field="${movie.trailer}"
-                                           th:value="${movie.trailer}" type="text"/>
+                                           th:value="${movie.trailer}" type="text"
+                                           required/>
+                                           <div class="invalid-feedback">
+									        	Trailer is required
+									       </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -382,8 +414,7 @@
                                 <!--begin::Label-->
                                 <label class="col-lg-4 col-form-label fw-bold fs-6" for="phone">
                                     <span class="required">Price</span>
-                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"
-                                       title="Phone number must be active"></i>
+                                    <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip"></i>
                                 </label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
@@ -416,6 +447,9 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
+    <!--begin::Page Custom Javascript(used by this page)-->
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
+    <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->
 </body>

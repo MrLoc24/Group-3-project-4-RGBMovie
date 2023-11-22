@@ -44,7 +44,7 @@
                     <li class="breadcrumb-item text-muted">
                         <a
                                 class="text-muted text-hover-primary"
-                                href="/home"
+                                href="/admin/home"
                         >Home</a
                         >
                     </li>
@@ -88,7 +88,7 @@
                                     class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
                             >
                                 <img alt="image"
-                                     th:src="${(user.images != null && !#strings.isEmpty(user.images)) ? user.images : 'assets/media/avatars/no-user-image.png'}"/>
+                                     th:src="${(user.images != null && !#strings.isEmpty(user.images)) ? user.images : '/assets/media/avatars/no-user-image.png'}"/>
                                 <div
                                         class="position-absolute translate-middle bottom-0 start-100 mb-6 bg-success rounded-circle border border-4 border-white h-20px w-20px"
                                 ></div>
@@ -209,7 +209,7 @@
                             <li class="nav-item">
                                 <a
                                         class="nav-link text-active-primary me-6 active"
-                                        th:href="@{/user(username=${user.username})}"
+                                        th:href="@{/admin/user(username=${user.username})}"
                                 >Overview</a
                                 >
                             </li>
@@ -238,8 +238,8 @@
                 <!--begin::Content-->
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
-                    <form class="form" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/users/edit}" th:method="put">
+                    <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
+                          th:action="@{/admin/users/edit}" th:method="put" novalidate>
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -251,7 +251,7 @@
                                 <div class="col-lg-8">
                                     <!--begin::Image input-->
                                     <div class="image-input image-input-outline" data-kt-image-input="true"
-                                         th:style="'background-image : url(assets/media/avatars/blank.png)'">
+                                         th:style="'background-image : url(/assets/media/avatars/blank.png)'">
                                         <!--begin::Preview existing avatar-->
                                         <div class="image-input-wrapper w-125px h-125px"
                                              th:style="'background-image: url(' + ${user.images} + ')'"></div>
@@ -295,14 +295,17 @@
                             <!--begin::Input group-->
                             <div class="row mb-6">
                                 <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label fw-bold fs-6" for="username">Username</label>
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6" for="username">Username</label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
                                            name="username"
                                            placeholder="Company website"
-                                           th:value="${user.username}" type="text"/>
+                                           th:value="${user.username}" type="text" required/>
+                                           <div class="invalid-feedback">
+					        				   Username is required
+							      		   </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -321,7 +324,10 @@
                                             <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                                                    id="firstName" name="firstName"
                                                    placeholder="First name"
-                                                   th:value="${user.firstName}" type="text"/>
+                                                   th:value="${user.firstName}" type="text" required/>
+                                                   <div class="invalid-feedback">
+							        				   Firstname is required
+									      		   </div>
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
@@ -329,7 +335,10 @@
                                             <input class="form-control form-control-lg form-control-solid" id="lastName"
                                                    name="lastName"
                                                    placeholder="Last name"
-                                                   th:value="${user.lastName}" type="text"/>
+                                                   th:value="${user.lastName}" type="text" required/>
+                                                   <div class="invalid-feedback">
+							        				   Lastname is required
+									      		   </div>
                                         </div>
                                         <!--end::Col-->
                                     </div>
@@ -348,8 +357,12 @@
                                     <input class="form-control form-control-lg form-control-solid" id="email"
                                            name="email"
                                            placeholder="Company name"
-                                           th:value="${user.email}" type="email"/>
+                                           th:value="${user.email}" type="email" required/>
+                                           <div class="invalid-feedback">
+					        				   Email is required
+							      		   </div>
                                 </div>
+                               
                                 <!--end::Col-->
                             </div>
                             <!--end::Input group-->
@@ -367,7 +380,10 @@
                                     <input class="form-control form-control-lg form-control-solid" id="phone"
                                            name="phoneNumber"
                                            placeholder="Phone number"
-                                           th:value="${user.phoneNumber}" type="tel"/>
+                                           th:value="${user.phoneNumber}" type="tel" required/>
+                                           <div class="invalid-feedback">
+					        				   Phone is required
+							      		   </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -409,7 +425,7 @@
                             <!--begin::Label-->
                             <div id="kt_signin_email">
                                 <div class="fs-6 fw-bolder mb-1">Email Address</div>
-                                <div class="fw-bold text-gray-600">support@keenthemes.com</div>
+                                <div class="fw-bold text-gray-600">support@rgbmovies.com</div>
                             </div>
                             <!--end::Label-->
                             <!--begin::Edit-->
@@ -424,7 +440,10 @@
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="emailaddress"
                                                        name="emailaddress" placeholder="Email Address" type="email"
-                                                       value="support@keenthemes.com"/>
+                                                       value="support@rgbmovies.com" required/>
+                                                       <div class="invalid-feedback">
+								        				   Email is required
+										      		   </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -433,7 +452,10 @@
                                                        for="confirmemailpassword">Confirm Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="confirmemailpassword"
-                                                       name="confirmemailpassword" type="password"/>
+                                                       name="confirmemailpassword" type="password" required/>
+                                                       <div class="invalid-feedback">
+								        				   Password is required
+										      		   </div>
                                             </div>
                                         </div>
                                     </div>
@@ -471,7 +493,7 @@
                             <!--begin::Edit-->
                             <div class="flex-row-fluid d-none" id="kt_signin_password_edit">
                                 <!--begin::Form-->
-                                <form class="form" id="kt_signin_change_password" th:action="@{/users/changePassword}"
+                                <form class="form" id="kt_signin_change_password" th:action="@{/admin/users/changePassword}"
                                       th:method="post">
                                     <input name="pk" th:value="${user.pk}" type="hidden">
                                     <div class="row mb-1">
@@ -481,7 +503,10 @@
                                                     Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="currentPassword"
-                                                       name="currentPassword" type="password"/>
+                                                       name="currentPassword" type="password" required/>
+                                                       <div class="invalid-feedback">
+								        				   Current password required
+										      		   </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -490,7 +515,10 @@
                                                     Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="newPassword"
-                                                       name="newPassword" type="password"/>
+                                                       name="newPassword" type="password" required/>
+                                                       <div class="invalid-feedback">
+								        				   New password required
+										      		   </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -499,7 +527,10 @@
                                                     New Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="confirmPassword"
-                                                       name="confirmPassword" type="password"/>
+                                                       name="confirmPassword" type="password" required/>
+                                                       <div class="invalid-feedback">
+								        				   Confirm required
+										      		   </div>
                                             </div>
                                         </div>
                                     </div>
@@ -583,7 +614,7 @@
                 <!--begin::Content-->
                 <div class="collapse show" id="kt_account_deactivate">
                     <!--begin::Form-->
-                    <form class="form" id="kt_account_deactivate_form" th:action="@{/users/deactivate}"
+                    <form class="form" id="kt_account_deactivate_form" th:action="@{/admin/users/deactivate}"
                           th:method="post">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
@@ -649,9 +680,10 @@
         <!--end::Container-->
     </div>
     <!--end::Post-->
-    <script defer th:src="@{assets/js/custom/account/settings/signin-methods.js}"></script>
-    <script defer th:src="@{assets/js/custom/account/settings/deactivate-account.js}"></script>
-    <script defer th:src="@{assets/js/custom/modals/two-factor-authentication.js}"></script>
+    <script defer th:src="@{/assets/js/custom/account/settings/signin-methods.js}"></script>
+    <script defer th:src="@{/assets/js/custom/account/settings/deactivate-account.js}"></script>
+    <script defer th:src="@{/assets/js/custom/modals/two-factor-authentication.js}"></script>
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
 </div>
 <!--end::Content-->
 </body>

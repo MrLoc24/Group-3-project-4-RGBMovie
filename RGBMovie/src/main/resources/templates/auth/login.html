@@ -62,7 +62,7 @@ License: For each use you must have a valid license purchased only from above li
                 class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20"
         >
             <!--begin::Logo-->
-            <a class="mb-12" th:href="@{/home}">
+            <a class="mb-12" th:href="@{#}">
                 <img
                         alt="Logo"
                         class="h-40px"
@@ -79,7 +79,7 @@ License: For each use you must have a valid license purchased only from above li
                         class="form w-100 kt_forms"
                         id="kt_sign_in_form"
                         method="post"
-                        th:action="@{/auth/login}"
+                        th:action="@{/admin/auth/login}"
                         novalidate
                 >
                     <!--begin::Heading-->
@@ -88,7 +88,7 @@ License: For each use you must have a valid license purchased only from above li
                         <h1 class="text-dark mb-3">Sign In to RGB</h1>
                         <!--end::Title-->
                         <!--begin::Link-->
-                        <div class="text-red-400 fw-bold fs-4">
+                        <div class="text-danger fw-bold fs-2">
                             <p th:text="${message}"></p>
                         </div>
                         <!--end::Link-->
@@ -116,7 +116,7 @@ License: For each use you must have a valid license purchased only from above li
                                 required
                         />
                         <div class="invalid-feedback">
-				        	The username is required
+				        	Username is required
 				      	</div>
                         <!--end::Input-->
                     </div>
@@ -135,7 +135,7 @@ License: For each use you must have a valid license purchased only from above li
                             <!--begin::Link-->
                             <a
                                     class="link-primary fs-6 fw-bolder"
-                                    th:href="@{/auth/recover}"
+                                    th:href="@{/admin/auth/recover}"
                             >Forgot Password ?</a
                             >
                             <!--end::Link-->
@@ -151,7 +151,7 @@ License: For each use you must have a valid license purchased only from above li
                                 required
                         />
                         <div class="invalid-feedback">
-				        	The password is required
+				        	Password is required
 				      	</div>
                         <!--end::Input-->
                     </div>
@@ -177,49 +177,6 @@ License: For each use you must have a valid license purchased only from above li
                             Login
                         </button>
                         <!--end::Submit button-->
-                        <!--begin::Separator-->
-                        <div
-                                class="text-center text-muted text-uppercase fw-bolder mb-5"
-                        >
-                            or
-                        </div>
-                        <!--end::Separator-->
-                        <!--begin::Google link-->
-                        <a
-                                class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5"
-                                th:href="@{/#}"
-                        >
-                            <img
-                                    alt="Logo"
-                                    class="h-20px me-3"
-                                    th:src="@{/assets/media/svg/brand-logos/google-icon.svg}"
-                            />Continue with Google</a
-                        >
-                        <!--end::Google link-->
-                        <!--begin::Google link-->
-                        <a
-                                class="btn btn-flex flex-center btn-light btn-lg w-100 mb-5"
-                                th:href="@{/#}"
-                        >
-                            <img
-                                    alt="Logo"
-                                    class="h-20px me-3"
-                                    th:src="@{/assets/media/svg/brand-logos/facebook-4.svg}"
-                            />Continue with Facebook</a
-                        >
-                        <!--end::Google link-->
-                        <!--begin::Google link-->
-                        <a
-                                class="btn btn-flex flex-center btn-light btn-lg w-100"
-                                th:href="@{/#}"
-                        >
-                            <img
-                                    alt="Logo"
-                                    class="h-20px me-3"
-                                    th:src="@{/assets/media/svg/brand-logos/apple-black.svg}"
-                            />Continue with Apple</a
-                        >
-                        <!--end::Google link-->
                     </div>
                     <!--end::Actions-->
                 </form>
@@ -262,10 +219,7 @@ License: For each use you must have a valid license purchased only from above li
 <script
         th:src="@{/assets/js/custom/authentication/sign-in/general.js}"
 ></script>
-<script defer
-		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
-        xmlns:th="http://www.thymeleaf.org"
-></script>
+<script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
 <!--end::Page Custom Javascript-->
 <!--end::Javascript-->
 </body>

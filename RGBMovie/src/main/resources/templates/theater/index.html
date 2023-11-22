@@ -197,7 +197,7 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/theater/add}"
+                                                th:action="@{/admin/theater/add}"
                                                 novalidate
                                         >
                                             <!--begin::Scroll-->
@@ -392,7 +392,7 @@
                                     <div class="menu-item px-3">
                                         <a
                                                 class="menu-link px-3"
-                                                th:href="@{'/theater/' + ${item.pk}}"
+                                                th:href="@{'/admin/theater/' + ${item.pk}}"
                                         >Details</a
                                         >
                                     </div>
@@ -402,7 +402,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
+                                                th:href="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>
@@ -490,10 +490,7 @@
             th:src="@{/assets/js/custom/widgets.js}"
             xmlns:th="http://www.thymeleaf.org"
     ></script>
-    <script defer
-    		th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"
-            xmlns:th="http://www.thymeleaf.org"
-    ></script>
+    <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
     <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->

@@ -1,4 +1,3 @@
-
 package com.rgbmovie.controller;
 
 import com.rgbmovie.dto.UserDTO;
@@ -19,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/customer")
+@RequestMapping("/admin/customer")
 public class CustomerController {
 
     @Autowired
@@ -33,7 +32,7 @@ public class CustomerController {
         request.getSession().setAttribute("userList", null);
         if (model.asMap().get("success") != null)
             redirect.addFlashAttribute("success", model.asMap().get("success").toString());
-        return "redirect:/customer/page/1";
+        return "redirect:/admin/customer/page/1";
     }
 
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
@@ -64,7 +63,7 @@ public class CustomerController {
             end = Math.min(current, pages.getPageCount());
             //totalPageCount = pages.getPageCount();
         }
-        String baseUrl = "/customer/page/";
+        String baseUrl = "/admin/customer/page/";
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);

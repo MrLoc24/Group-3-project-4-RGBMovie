@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/director")
+@RequestMapping("/admin/director")
 public class DirectorController {
     Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
             "cloud_name", AppConstant.cloudinaryName,
@@ -47,7 +47,7 @@ public class DirectorController {
         request.getSession().setAttribute("directorList", null);
         if (model.asMap().get("success") != null)
             redirect.addFlashAttribute("success", model.asMap().get("success").toString());
-        return "redirect:/director/page/1";
+        return "redirect:/admin/director/page/1";
     }
 
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
@@ -75,7 +75,7 @@ public class DirectorController {
             end = Math.min(current, pages.getPageCount());
             // totalPageCount = pages.getPageCount();
         }
-        String baseUrl = "/director/page/";
+        String baseUrl = "/admin/director/page/";
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
@@ -96,7 +96,7 @@ public class DirectorController {
         } catch (DataAccessException e) {
             return e.toString();
         }
-        return "redirect:/director";
+        return "redirect:/admin/director";
     }
 
     @GetMapping("/detail/{id}")

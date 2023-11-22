@@ -15,9 +15,6 @@ var KTSigninGeneral = (function () {
                 },
               },
             },
-            password: {
-              validators: { notEmpty: { message: "The password is required" } },
-            },
           },
           plugins: {
             trigger: new FormValidation.plugins.Trigger(),

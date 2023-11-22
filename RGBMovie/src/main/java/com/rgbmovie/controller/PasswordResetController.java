@@ -24,7 +24,7 @@ import java.util.UUID;
 
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/admin/auth")
 public class PasswordResetController {
     @Autowired
     private UserService userService;
@@ -60,7 +60,7 @@ public class PasswordResetController {
 
     private MimeMessagePreparator constructResetTokenEmail(
             String contextPath, String token, UserModel user) {
-        String url = "http://" + contextPath + "/auth/changePassword?token=" + token;
+        String url = "http://" + contextPath + "/admin/auth/changePassword?token=" + token;
         Context context = new Context();
         context.setVariable("url", url);
         String message = templateEngine.process("layout/email", context);

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiSlice } from "./apiSlice";
-const THEATER_URL = "/api";
+const THEATER_URL = "";
 
 export const paypalApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -19,4 +19,5 @@ export const paypalApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { usePaypalCreateOrderMutation, usePaypalOnApproveMutation } = paypalApiSlice;
+export const { usePaypalCreateOrderMutation, usePaypalOnApproveMutation } =
+  paypalApiSlice;
