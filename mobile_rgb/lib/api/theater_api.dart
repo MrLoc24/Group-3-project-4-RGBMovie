@@ -10,13 +10,15 @@ class TheaterApi {
     final response = await http.get(Uri.parse('${URLs.baseUrl}/theater/'));
 
     if (response.statusCode == 200) {
+      // print(jsonDecode(response.body) as List);
       final parsed =
           (jsonDecode(response.body) as List).cast<Map<String, dynamic>>();
       // If the server did return a 200 CREATED response,
       // then parse the JSON.
-      return parsed
-          .map<TheaterModel>((json) => TheaterModel.fromJson(json))
-          .toList();
+      print(parsed);
+      final result = parsed.map((json) => TheaterModel.fromJson(json)).toList();
+      print(result);
+      return result;
     } else {
       // If the server did not return a 200 OK response,
       // then throw an exception.
