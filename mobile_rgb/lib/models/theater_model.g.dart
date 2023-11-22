@@ -10,7 +10,7 @@ _$TheaterModelImpl _$$TheaterModelImplFromJson(Map<String, dynamic> json) =>
     _$TheaterModelImpl(
       pk: json['pk'] as int?,
       address: json['address'] as String,
-      location: json['location'] as String,
+      location: json['location'] as String?,
       subLocation: json['subLocation'] as String,
     );
 
@@ -25,7 +25,7 @@ Map<String, dynamic> _$$TheaterModelImplToJson(_$TheaterModelImpl instance) {
 
   writeNotNull('pk', instance.pk);
   val['address'] = instance.address;
-  val['location'] = instance.location;
+  writeNotNull('location', instance.location);
   val['subLocation'] = instance.subLocation;
   return val;
 }
