@@ -25,7 +25,6 @@ services:
     depends_on:
       - frontend
       - backend
-
 volumes:
   data:
     driver: azure_file
@@ -65,6 +64,8 @@ volumes:
 #     depends_on:
 #       - frontend
 #       - backend
+#
+# UNCOMMENT IF YOU NEED DATABASE LOCAL
 #     depends_on:
 #       - db
 #     environment:

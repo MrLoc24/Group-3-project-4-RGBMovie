@@ -75,7 +75,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         //For request require auth
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/admin/**")
-                .hasAnyRole("ADMIN", "MANAGER").anyRequest().authenticated()).formLogin(form -> form.loginPage("/auth/login").loginProcessingUrl("/admin/auth/login").permitAll()
+                .hasAnyRole("ADMIN", "MANAGER").anyRequest().authenticated()).formLogin(form -> form.loginPage("/admin/auth/login").loginProcessingUrl("/admin/auth/login").permitAll()
                 .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/admin/home", true)
                 .failureUrl("/admin/auth/login?error=true")).rememberMe(rememberMe ->
                 rememberMe.key("uniqueAndSecret").tokenValiditySeconds(86400).userDetailsService(userDetailsService())).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)).exceptionHandling(exp -> exp.accessDeniedPage("/403"));
