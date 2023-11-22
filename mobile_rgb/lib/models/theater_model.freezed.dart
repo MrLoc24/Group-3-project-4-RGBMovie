@@ -24,7 +24,7 @@ mixin _$TheaterModel {
   int? get pk => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
-  String get location => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   String get subLocation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $TheaterModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(includeIfNull: false) int? pk,
       String address,
-      @JsonKey(includeIfNull: false) String location,
+      @JsonKey(includeIfNull: false) String? location,
       String subLocation});
 }
 
@@ -61,7 +61,7 @@ class _$TheaterModelCopyWithImpl<$Res, $Val extends TheaterModel>
   $Res call({
     Object? pk = freezed,
     Object? address = null,
-    Object? location = null,
+    Object? location = freezed,
     Object? subLocation = null,
   }) {
     return _then(_value.copyWith(
@@ -73,10 +73,10 @@ class _$TheaterModelCopyWithImpl<$Res, $Val extends TheaterModel>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       subLocation: null == subLocation
           ? _value.subLocation
           : subLocation // ignore: cast_nullable_to_non_nullable
@@ -96,7 +96,7 @@ abstract class _$$TheaterModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(includeIfNull: false) int? pk,
       String address,
-      @JsonKey(includeIfNull: false) String location,
+      @JsonKey(includeIfNull: false) String? location,
       String subLocation});
 }
 
@@ -113,7 +113,7 @@ class __$$TheaterModelImplCopyWithImpl<$Res>
   $Res call({
     Object? pk = freezed,
     Object? address = null,
-    Object? location = null,
+    Object? location = freezed,
     Object? subLocation = null,
   }) {
     return _then(_$TheaterModelImpl(
@@ -125,10 +125,10 @@ class __$$TheaterModelImplCopyWithImpl<$Res>
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
               as String,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       subLocation: null == subLocation
           ? _value.subLocation
           : subLocation // ignore: cast_nullable_to_non_nullable
@@ -157,7 +157,7 @@ class _$TheaterModelImpl extends _TheaterModel {
   final String address;
   @override
   @JsonKey(includeIfNull: false)
-  final String location;
+  final String? location;
   @override
   final String subLocation;
 
@@ -202,7 +202,7 @@ abstract class _TheaterModel extends TheaterModel {
   factory _TheaterModel(
       {@JsonKey(includeIfNull: false) required final int? pk,
       required final String address,
-      @JsonKey(includeIfNull: false) required final String location,
+      @JsonKey(includeIfNull: false) required final String? location,
       required final String subLocation}) = _$TheaterModelImpl;
   _TheaterModel._() : super._();
 
@@ -216,7 +216,7 @@ abstract class _TheaterModel extends TheaterModel {
   String get address;
   @override
   @JsonKey(includeIfNull: false)
-  String get location;
+  String? get location;
   @override
   String get subLocation;
   @override

@@ -16,7 +16,9 @@ class TheaterApi {
       // If the server did return a 200 CREATED response,
       // then parse the JSON.
       print(parsed);
-      final result = parsed.map((json) => TheaterModel.fromJson(json)).toList();
+      final result = parsed
+          .map<TheaterModel>((json) => TheaterModel.fromJson(json))
+          .toList();
       print(result);
       return result;
     } else {
