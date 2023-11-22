@@ -47,7 +47,7 @@ public class CastController {
         request.getSession().setAttribute("castList", null);
         if (model.asMap().get("success") != null)
             redirect.addFlashAttribute("success", model.asMap().get("success").toString());
-        return "redirect:/cast/page/1";
+        return "redirect:/admin/cast/page/1";
     }
 
     @RequestMapping(value = "/page/{pageNumber}", method = RequestMethod.GET)
@@ -75,7 +75,7 @@ public class CastController {
             end = Math.min(current, pages.getPageCount());
             // totalPageCount = pages.getPageCount();
         }
-        String baseUrl = "/cast/page/";
+        String baseUrl = "/admin/cast/page/";
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
@@ -92,7 +92,7 @@ public class CastController {
         castDTO.setProfileImg(cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url").toString());
         try {
             model.addAttribute("message", castService.addNew(modelMapper.map(castDTO, CastModel.class), movie));
-            return "redirect:/cast";
+            return "redirect:/admin/cast";
         } catch (DataAccessException e) {
             return e.toString();
         }
@@ -134,7 +134,7 @@ public class CastController {
     public String delete(@PathVariable("id") int id, @RequestHeader String referer, Model model) {
         String result = castService.delete(id);
         model.addAttribute("message", result);
-        return "redirect:/cast";
+        return "redirect:/admin/cast";
     }
 
 }

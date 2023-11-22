@@ -17,7 +17,8 @@
       }, false)
     })
 
-  // Insert date and time into kt_modal_add_movie_form input/date field
-  document.getElementById('openingDate').valueAsDate = new Date();
-  
+  // Validate of add_movie and add_screening forms input/date field
+  // Add current date
+  const dateControl = document.querySelector('input[type="date"]');
+  dateControl.valueAsDate = new Date();  
 })()

@@ -263,7 +263,7 @@
                                                         <div
                                                                 class="form-check form-check-custom form-check-solid"
                                                         >
-                                                            <input id="time" name="screeningTime"
+                                                            <input id="time" class="datepicker" name="screeningTime"
                                                                    type="date" required>
                                                             <div class="invalid-feedback">
 											        			Date is required
@@ -402,7 +402,7 @@
                             <!--end::movie-->
                             <!--begin::movie-->
                             <td>
-                                <button class="badge-info" th:each="ti : ${item.time}"
+                                <button class="badge-info mx-1 mb-2" th:each="ti : ${item.time}"
                                         th:text="${ti}"></button>
                             </td>
                             <!--end::movie-->
@@ -485,6 +485,9 @@
             xmlns:th="http://www.thymeleaf.org"
     ></script>
     <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
+    <!--<script type="text/javascript">
+		
+	</script> -->
     <!--end::Page Custom Javascript-->
 </div>
 <!--end::Content-->
