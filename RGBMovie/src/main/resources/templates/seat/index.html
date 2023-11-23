@@ -341,26 +341,28 @@
                         </select>
                     </div>
 
-                    <ul class="seat-showcase">
+                    <ul class="seat-showcase bg-light">
                         <li>
                             <div class="seat selected"></div>
-                            <small>Selected</small>
+                            <small class="fw-bold fs-7">Selected</small>
                         </li>
                         <li>
-                            <div class="seat"></div>
-                            <small>N/A</small>
+                            <div class="seat bg-secondary"></div>
+                            <small class="fw-bold fs-7">Available</small>
                         </li>
                         <li>
                             <div class="seat occupied"></div>
-                            <small>Occupied</small>
+                            <small class="fw-bold fs-7">Occupied</small>
                         </li>
 
                     </ul>
 
                     <div class="seat-container">
-                        <div class="screen"></div>
+                        <div class="screen mb-3">
+							<div class="justify-content-center d-flex text-white fw-bold">___</div>
+						</div>
                         <div class="seat-row" th:each="row, rowStat : ${#numbers.sequence(1, auditor.row)}">
-                            <div class="seat" th:each="col, colStat : ${#numbers.sequence(1, auditor.column)}"
+                            <div class="seat bg-secondary" th:each="col, colStat : ${#numbers.sequence(1, auditor.column)}"
                                  th:text="${#strings.substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', rowStat.index,rowStat.index + 1)} + ${colStat.count}">
                             </div>
                         </div>
