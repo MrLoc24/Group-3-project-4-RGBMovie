@@ -67,9 +67,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         //For request static and template file
-        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**").permitAll());
+        http.authorizeHttpRequests((auth) -> auth.requestMatchers("/assets/**", "/error/**", "/403", "/admin/403").permitAll());
         //For request not require auth
-        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/api/screening", "/auth/recover", "/auth/changePassword", "/docs/**", "/api/customer/recover", "/api/customer/resetPassword", "/api/customer/changePassword").permitAll());
+        http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).authorizeHttpRequests((auth) -> auth.requestMatchers("/api/auth", "/api/theater/**", "/api/movie/**", "/api/signup", "/api/screening", "/admin/auth/recover", "/admin/auth/changePassword", "/docs/**", "/api/customer/recover", "/api/customer/resetPassword", "/api/customer/changePassword").permitAll());
         // Filter for api only
         http.authorizeHttpRequests((auth) -> auth.requestMatchers("/api/**")).addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class).csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -78,7 +78,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .hasAnyRole("ADMIN", "MANAGER").anyRequest().authenticated()).formLogin(form -> form.loginPage("/admin/auth/login").loginProcessingUrl("/admin/auth/login").permitAll()
                 .usernameParameter("username").passwordParameter("password").defaultSuccessUrl("/admin/home", true)
                 .failureUrl("/admin/auth/login?error=true")).rememberMe(rememberMe ->
-                rememberMe.key("uniqueAndSecret").tokenValiditySeconds(86400).userDetailsService(userDetailsService())).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)).exceptionHandling(exp -> exp.accessDeniedPage("/403"));
+                rememberMe.key("uniqueAndSecret").tokenValiditySeconds(86400).userDetailsService(userDetailsService())).sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)).exceptionHandling(exp -> exp.accessDeniedPage("/admin/403"));
         http.logout(l -> l.logoutUrl("/admin/auth/logout").logoutSuccessUrl("/admin/auth/login"));
         return http.build();
     }

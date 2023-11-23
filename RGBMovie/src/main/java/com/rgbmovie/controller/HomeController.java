@@ -11,9 +11,5 @@ public class HomeController {
     public String index() {
         return "home/index";
     }
-
-    @GetMapping("")
-    public String index2() {
-        return "home/index";
-    }
+    
 }
