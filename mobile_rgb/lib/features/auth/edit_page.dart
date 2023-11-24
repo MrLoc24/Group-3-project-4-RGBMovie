@@ -190,8 +190,11 @@ class _EditPageState extends State<EditPage> {
                               labelText: 'Email',
                               keyboardType: TextInputType.emailAddress,
                               textInputAction: TextInputAction.next,
-                              onChanged: (_) =>
-                                  _formKey.currentState?.validate(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _formKey.currentState?.validate();
+                                });
+                              },
                               validator: (value) {
                                 return value!.isEmpty
                                     ? 'Please, Enter Email Address'
@@ -203,7 +206,7 @@ class _EditPageState extends State<EditPage> {
                             ),
                             FilledButton(
                               onPressed: _formKey.currentState?.validate() ??
-                                      true
+                                      false
                                   ? () async {
                                       UserModel data = UserModel(
                                         pk: userModel!.pk,
@@ -239,16 +242,22 @@ class _EditPageState extends State<EditPage> {
                                           },
                                         );
                                       } else {
-                                        AlertDialog(
-                                          title: const Text("Error"),
-                                          content: Text(result.toString()),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context, 'OK'),
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text("Error"),
+                                              content: Text(result.toString()),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context, 'OK'),
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         );
                                       }
                                     }
