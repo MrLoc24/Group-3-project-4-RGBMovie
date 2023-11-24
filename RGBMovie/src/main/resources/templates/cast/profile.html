@@ -462,8 +462,12 @@
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
                                                 th:href="@{/cast/delete/movie(id=${item.pk})}"
+                                                th:onclick="return confirmDelete()"
                                         >Delete</a
                                         >
+                                        <script> function confirmDelete() {
+                                            return confirm("Are you sure you want to delete this row?");
+                                        } </script>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
