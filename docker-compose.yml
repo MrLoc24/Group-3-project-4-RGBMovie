@@ -39,7 +39,6 @@ services:
     build:
       context: ./Frontend
       dockerfile: Dockerfile
-    image: project4rgb.azurecr.io/my-frontend-app:latest
     ports:
       - "5173:5173"
     depends_on:
@@ -51,7 +50,6 @@ services:
     build:
       context: ./RGBMovie
       dockerfile: Dockerfile
-    image: project4rgb.azurecr.io/my-backend-app:latest
     ports:
       - "8080:8080"
 

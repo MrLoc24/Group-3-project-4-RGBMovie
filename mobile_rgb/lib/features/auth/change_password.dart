@@ -100,6 +100,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : 'Invalid Password';
                     },
                     controller: passwordController,
+                    obscureText: isObscure,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(48, 48),
+                          ),
+                        ),
+                        icon: Icon(
+                          isObscure
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
                   AppTextFormField(
                     labelText: 'New Password',
@@ -118,6 +140,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : 'New password can not be same as the current one';
                     },
                     controller: newPasswordController,
+                    obscureText: isObscure,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(48, 48),
+                          ),
+                        ),
+                        icon: Icon(
+                          isObscure
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
                   AppTextFormField(
                     labelText: 'Confirm Password',
@@ -125,7 +169,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                     textInputAction: TextInputAction.done,
                     // focusNode: confirmFocusNode,
                     onChanged: (value) {
-                      _formKey.currentState?.validate();
+                      setState(() {
+                        _formKey.currentState?.validate();
+                      });
                     },
                     validator: (value) {
                       return value!.isEmpty
@@ -136,6 +182,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                               : 'Password not matched!';
                     },
                     controller: confirmPasswordController,
+                    obscureText: isObscure,
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isObscure = !isObscure;
+                          });
+                        },
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            const Size(48, 48),
+                          ),
+                        ),
+                        icon: Icon(
+                          isObscure
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
                   ),
                   FilledButton(
                     onPressed: _formKey.currentState?.validate() ?? true
