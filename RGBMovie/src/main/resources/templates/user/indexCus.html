@@ -39,7 +39,7 @@
                 <!--end::Separator-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 my-1">
-					<!--begin::Item-->
+                    <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">Home</li>
                     <!--end::Item-->
                     <!--begin::Item-->
@@ -224,8 +224,12 @@
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
                                                 th:href="@{/admin/users/status(id=${item.pk})}"
+                                                th:onclick="return confirmDelete()"
                                         >Active/Inactive</a
                                         >
+                                        <script> function confirmDelete() {
+                                            return confirm("Confirm change status?");
+                                        } </script>
                                     </div>
                                     <!--end::Menu item-->
                                 </div>
