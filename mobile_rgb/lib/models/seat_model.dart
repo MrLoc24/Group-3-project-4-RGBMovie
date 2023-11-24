@@ -13,7 +13,9 @@ class SeatModel with _$SeatModel {
   factory SeatModel({
     @JsonKey(includeIfNull: false) required int? pk,
     required String seatName,
-    required int auditorium,
+    required int? auditorium,
+    required bool? isOcuppied,
+    required bool? isSelected,
   }) = _SeatModel;
 
   factory SeatModel.fromJson(JSON json) => _$SeatModelFromJson(json);

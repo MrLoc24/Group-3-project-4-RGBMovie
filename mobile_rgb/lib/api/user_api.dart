@@ -93,4 +93,12 @@ class UserApi {
     await storage.delete(key: 'token');
     await storage.delete(key: 'username');
   }
+
+  Future<String?> getToken() async {
+    return await storage.read(key: 'token');
+  }
+
+  Future<String?> getUsername() async {
+    return await storage.read(key: 'username');
+  }
 }
