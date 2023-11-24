@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -189,8 +198,8 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/admin/cast/add}"
                                                 novalidate
+                                                th:action="@{/admin/cast/add}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -217,13 +226,13 @@
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="title"
                                                             placeholder="Name"
+                                                            required
                                                             th:field="${cast.actor}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Name is required
-											      	</div>
+                                                        Name is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -242,7 +251,7 @@
                                                                th:value="${m.pk}"
                                                                type="checkbox"
                                                         />
-                                                        
+
                                                         <!--end::Input--></label
                                                     >
                                                     <!--end::Label-->
@@ -265,12 +274,12 @@
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="img"
                                                             name="img"
-                                                            type="file"
                                                             required
+                                                            type="file"
                                                     />
                                                     <div class="invalid-feedback">
-									        			Image is required
-											      	</div>
+                                                        Image is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->

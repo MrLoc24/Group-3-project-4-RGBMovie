@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -103,7 +112,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/admin/director/edit}" th:method="put" novalidate>
+                          novalidate th:action="@{/admin/director/edit}" th:method="put">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -165,12 +174,12 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
-                                           th:field="${director.director}"
-                                           th:value="${director.director}" type="text"
-                                           required/>
-                                           <div class="invalid-feedback">
-									        	Name is required
-									       </div>
+                                           required
+                                           th:field="${director.director}" th:value="${director.director}"
+                                           type="text"/>
+                                    <div class="invalid-feedback">
+                                        Name is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>

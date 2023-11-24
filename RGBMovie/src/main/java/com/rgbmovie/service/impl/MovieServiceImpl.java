@@ -37,4 +37,11 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieModel> getAllNotCast() {
         return movieRepository.findAllNotCast();
     }
+
+    @Override
+    public void deleteMovie(int id) {
+        movieRepository.deleteById(id);
+    }
+
+
 }

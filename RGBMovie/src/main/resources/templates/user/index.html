@@ -15,6 +15,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -412,8 +421,8 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/admin/users/add}"
                                                 novalidate
+                                                th:action="@{/admin/users/add}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -458,13 +467,13 @@
                                                             <input
                                                                     accept=".png, .jpg, .jpeg"
                                                                     name="image"
+                                                                    required
                                                                     th:value="${user.images}"
                                                                     type="file"
-                                                                    required
                                                             />
                                                             <div class="invalid-tooltip">
-											        			ERR0R
-													      	</div>
+                                                                ERR0R
+                                                            </div>
                                                             <input name="avatar_remove" type="hidden"/>
 
                                                             <!--end::Inputs-->
@@ -514,13 +523,13 @@
                                                             id="username"
                                                             name="username"
                                                             placeholder="Username"
+                                                            required
                                                             th:value="${user.username}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Username is required
-											      	</div>
+                                                        Username is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -539,13 +548,13 @@
                                                             id="firstname"
                                                             name="firstName"
                                                             placeholder="First Name"
+                                                            required
                                                             th:value="${user.firstName}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Firstname is required
-											      	</div>
+                                                        Firstname is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -564,13 +573,13 @@
                                                             id="lastname"
                                                             name="lastName"
                                                             placeholder="Last Name"
+                                                            required
                                                             th:value="${user.lastName}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Lastname is required
-											      	</div>
+                                                        Lastname is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -589,13 +598,13 @@
                                                             id="email"
                                                             name="email"
                                                             placeholder="example@domain.com"
+                                                            required
                                                             th:value="${user.email}"
                                                             type="email"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Invalid email
-											      	</div>
+                                                        Invalid email
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -614,13 +623,13 @@
                                                             id="phone"
                                                             name="phoneNumber"
                                                             placeholder="123456789"
+                                                            required
                                                             th:value="${user.phoneNumber}"
                                                             type="tel"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Invalid phone number
-											      	</div>
+                                                        Invalid phone number
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -639,9 +648,9 @@
                                                                 class="form-check form-check-custom form-check-solid"
                                                         >
                                                             <select class="form-control form-control-line" id="role"
+                                                                    required
                                                                     th:field="*{roleId}"
-                                                                    th:object="${userRole}"
-                                                                    required>
+                                                                    th:object="${userRole}">
                                                                 <option th:each="item : ${roles}"
                                                                         th:if="${item.name != 'ROLE_CUSTOMER'}"
                                                                         th:text="${item.name}"
@@ -676,7 +685,7 @@
                                                                     name="workPlace"
                                                                     required>
                                                                 <option th:each="item : ${theaters}"
-                                                                        th:text="${item.location}"
+                                                                        th:text="${item.address}"
                                                                         th:value="${item.pk}"></option>
                                                             </select>
                                                         </div>
@@ -864,15 +873,7 @@
                                         class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold fs-7 w-125px py-4"
                                         data-kt-menu="true"
                                 >
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-                                        <a
-                                                class="menu-link px-3"
-                                                href="../../demo1/dist/apps/user-management/users/view.html"
-                                        >Edit</a
-                                        >
-                                    </div>
-                                    <!--end::Menu item-->
+                                    
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <a

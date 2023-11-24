@@ -89,10 +89,11 @@ public class DirectorController {
     }
 
     @PostMapping("/add")
-    public String addNew(@RequestParam("img") MultipartFile img, DirectorDTO directorDTO, @RequestParam("movie") List<Integer> directingDTOs) throws IOException {
+    public String addNew(@RequestParam("img") MultipartFile img, DirectorDTO directorDTO, @RequestParam("movie") List<Integer> directingDTOs, Model model) throws IOException {
         directorDTO.setProfileImg(cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url").toString());
         try {
             directorService.addNew(modelMapper.map(directorDTO, DirectorModel.class), directingDTOs);
+            model.addAttribute("message", "Add new director success");
         } catch (DataAccessException e) {
             return e.toString();
         }
@@ -108,34 +109,53 @@ public class DirectorController {
     }
 
     @PutMapping("edit")
-    public String edit(DirectorModel directorModel, @RequestHeader String referer, @RequestParam("image") MultipartFile image) throws IOException {
+    public String edit(DirectorModel directorModel, @RequestHeader String referer, @RequestParam("image") MultipartFile image, RedirectAttributes model) throws IOException {
         String name = StringUtils.cleanPath(image.getOriginalFilename());
         if (!name.isEmpty()) {
             var imageUpload = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
             directorModel.setProfileImg(name);
         }
-        directorService.edit(directorModel);
-        return "redirect:" + referer;
+        try {
+            directorService.edit(directorModel);
+            model.addFlashAttribute("message", "Edit success");
+            return "redirect:" + referer;
+        } catch (Exception e) {
+            model.addFlashAttribute("message", e.toString());
+            return "redirect:" + referer;
+        }
+
     }
 
     @GetMapping("/delete/movie")
-    public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer) {
-        directorService.deleteMovie(id);
+    public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer, RedirectAttributes model) {
+        try {
+            directorService.deleteMovie(id);
+            model.addAttribute("message", "Success");
+        } catch (Exception e) {
+            model.addFlashAttribute("message", e.toString());
+        }
         return "redirect:" + referer;
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") int id, @RequestHeader String referer, Model model) {
-        model.addAttribute("message", directorService.delete(id));
-        return "redirect:" + referer;
+    public String delete(@PathVariable("id") int id, @RequestHeader String referer, RedirectAttributes model) {
+
+        try {
+            model.addFlashAttribute("message", directorService.delete(id));
+            return "redirect:" + referer;
+        } catch (Exception e) {
+            model.addFlashAttribute("message", e.toString());
+            return "redirect:" + referer;
+        }
     }
 
     @PutMapping("/addMovie")
-    public String addNewMovie(@RequestHeader String referer, @RequestParam("movie") List<Integer> directingDTOs, @RequestParam("directorId") int id) {
+    public String addNewMovie(@RequestHeader String referer, @RequestParam("movie") List<Integer> directingDTOs, @RequestParam("directorId") int id, RedirectAttributes model) {
         try {
             directorService.addNewMovie(id, directingDTOs);
+            model.addFlashAttribute("message", "Success");
         } catch (DataAccessException e) {
-            return e.toString();
+            model.addFlashAttribute("message", "Something wrong");
         }
         return "redirect:" + referer;
     }

@@ -15,6 +15,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -236,8 +245,8 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&add=true'}"
                                                 novalidate
+                                                th:action="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&add=true'}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -268,13 +277,13 @@
                                                             id="name"
                                                             name="name"
                                                             placeholder="Auditorium"
+                                                            required
                                                             th:value="${audi.name}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Name is required
-											      	</div>
+                                                        Name is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -292,16 +301,16 @@
                                                     <input
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="row"
+                                                            min="1"
                                                             name="row"
                                                             placeholder="123456789"
+                                                            required
                                                             th:value="${audi.row}"
                                                             type="number"
-                                                            min="1"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Number of row is required
-											      	</div>
+                                                        Number of row is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -320,13 +329,13 @@
                                                             id="column"
                                                             name="column"
                                                             placeholder="123456789"
+                                                            required
                                                             th:value="${audi.column}"
                                                             type="number"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-									        			Number of column is required
-											      	</div>
+                                                        Number of column is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->

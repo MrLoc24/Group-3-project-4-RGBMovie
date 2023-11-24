@@ -111,7 +111,7 @@ public class MovieController {
     }
 
     @PutMapping("/edit/{id}")
-    public String edit(Model model, @RequestHeader String referer, @RequestParam("image") MultipartFile image, @RequestParam("thumb_image") MultipartFile thumb_image, MovieDTO movieDTO) throws IOException {
+    public String edit(RedirectAttributes model, @RequestHeader String referer, @RequestParam("image") MultipartFile image, @RequestParam("thumb_image") MultipartFile thumb_image, MovieDTO movieDTO) throws IOException {
         String name = StringUtils.cleanPath(image.getOriginalFilename());
         String thumbName = StringUtils.cleanPath(thumb_image.getOriginalFilename());
         if (!name.isEmpty()) {
@@ -122,8 +122,24 @@ public class MovieController {
             var thumbnailUpload = cloudinary.uploader().upload(thumb_image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
             movieDTO.setThumbnailImg(thumbnailUpload);
         }
-        movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
-        model.addAttribute("message", "Updated");
+        try {
+            movieService.addNew(modelMapper.map(movieDTO, MovieModel.class));
+            model.addAttribute("message", "Updated");
+        } catch (Exception e) {
+            model.addFlashAttribute("message", "Something go wrong");
+        }
+        return "redirect:" + referer;
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(RedirectAttributes model, @RequestHeader String referer, @PathVariable int id) {
+        try {
+            movieService.deleteMovie(id);
+            model.addFlashAttribute("message", "Deleted");
+
+        } catch (Exception e) {
+            model.addFlashAttribute("message", e.toString());
+        }
         return "redirect:" + referer;
     }
 }

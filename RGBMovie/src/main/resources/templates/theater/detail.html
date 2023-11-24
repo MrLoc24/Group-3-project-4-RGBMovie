@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -100,7 +109,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/admin/theater/edit}" th:method="put" novalidate>
+                          novalidate th:action="@{/admin/theater/edit}" th:method="put">
                         <input th:field="${theater.pk}" th:value="${theater.pk}" type="hidden">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
@@ -112,11 +121,11 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="address"
-                                           th:field="${theater.address}"
-                                           th:value="${theater.address}" type="text" required/>
-                                           <div class="invalid-feedback">
-						        		   		Address is required
-								      	   </div>
+                                           required
+                                           th:field="${theater.address}" th:value="${theater.address}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        Address is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -129,11 +138,11 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="location"
-                                           th:field="${theater.location}"
-                                           th:value="${theater.location}" type="text" required/>
-                                           <div class="invalid-feedback">
-						        		        Location is required
-								      	   </div>
+                                           required
+                                           th:field="${theater.location}" th:value="${theater.location}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        Location is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -146,11 +155,11 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
-                                           th:field="${theater.subLocation}"
-                                           th:value="${theater.subLocation}" type="text" required/>
-                                           <div class="invalid-feedback">
-						        		        Sublocation is required
-								      	   </div>
+                                           required
+                                           th:field="${theater.subLocation}" th:value="${theater.subLocation}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        Sublocation is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -348,7 +357,7 @@
         </div>
         <!--end::Container-->
     </div>
-	<!--begin::Page Custom Javascript(used by this page)-->
+    <!--begin::Page Custom Javascript(used by this page)-->
     <script th:src="@{/assets/js/custom/disable-invalid-form-submit.js}"></script>
     <!--end::Page Custom Javascript-->
 </div>

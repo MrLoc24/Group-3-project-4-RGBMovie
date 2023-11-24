@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -32,7 +41,7 @@
             >
                 <!--begin::Title-->
                 <h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">
-                    Auditoriums List
+                    Theater List
                 </h1>
                 <!--end::Title-->
                 <!--begin::Separator-->
@@ -197,8 +206,8 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/admin/theater/add}"
                                                 novalidate
+                                                th:action="@{/admin/theater/add}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -226,13 +235,13 @@
                                                             id="location"
                                                             name="location"
                                                             placeholder="Location"
+                                                            required
                                                             th:value="${theater.location}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	The location is required
-											      	</div>
+                                                        The location is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -251,13 +260,13 @@
                                                             id="subLocation"
                                                             name="subLocation"
                                                             placeholder="Username"
+                                                            required
                                                             th:value="${theater.subLocation}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	The sub location is required
-											      	</div>
+                                                        The sub location is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -276,13 +285,13 @@
                                                             id="address"
                                                             name="address"
                                                             placeholder="Address"
+                                                            required
                                                             th:value="${theater.address}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	The address is required
-											      	</div>
+                                                        The address is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -402,7 +411,7 @@
                                         <a
                                                 class="menu-link px-3"
                                                 data-kt-users-table-filter="delete_row"
-                                                th:href="@{'/admin/theater/' + ${theaterId} + '?detail=auditorium&auditorium=' +${item.pk}}"
+                                                th:href="@{'/admin/theater/delete/' + ${item.pk}}"
                                         >Delete</a
                                         >
                                     </div>

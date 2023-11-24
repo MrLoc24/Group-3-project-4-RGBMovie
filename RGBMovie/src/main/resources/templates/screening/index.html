@@ -15,6 +15,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -196,8 +205,8 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{'/admin/theater/' + ${theaterId} + '?detail=screening&add=true'}"
                                                 novalidate
+                                                th:action="@{'/admin/theater/' + ${theaterId} + '?detail=screening&add=true'}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -228,16 +237,16 @@
                                                                 class="form-check form-check-custom form-check-solid"
                                                         >
                                                             <select class="form-control form-control-line" id="movie"
+                                                                    required
                                                                     th:field="*{movie}"
-                                                                    th:object="${screening}"
-                                                                    required>
+                                                                    th:object="${screening}">
                                                                 <option th:each="item : ${movies}"
                                                                         th:text="${item.title}"
                                                                         th:value="${item.pk}"></option>
                                                             </select>
                                                             <div class="invalid-feedback">
-													        	Movie is required
-													      	</div>
+                                                                Movie is required
+                                                            </div>
                                                         </div>
                                                         <!--end::Radio-->
                                                     </div>
@@ -263,11 +272,11 @@
                                                         <div
                                                                 class="form-check form-check-custom form-check-solid"
                                                         >
-                                                            <input id="time" class="datepicker" name="screeningTime"
-                                                                   type="date" required>
+                                                            <input class="datepicker" id="time" name="screeningTime"
+                                                                   required type="date">
                                                             <div class="invalid-feedback">
-											        			Date is required
-													      	</div>
+                                                                Date is required
+                                                            </div>
                                                         </div>
                                                         <!--end::Radio-->
                                                     </div>
@@ -294,16 +303,16 @@
                                                         >
                                                             <select class="form-control form-control-line"
                                                                     id="auditorium"
+                                                                    required
                                                                     th:field="*{auditorium}"
-                                                                    th:object="${screening}" 
-                                                                    required>
+                                                                    th:object="${screening}">
                                                                 <option th:each="item : ${auditorium}"
                                                                         th:text="${item.name}"
                                                                         th:value="${item.pk}"></option>
                                                             </select>
                                                             <div class="invalid-feedback">
-													        	Auditorium is required
-													      	</div>
+                                                                Auditorium is required
+                                                            </div>
                                                         </div>
                                                         <!--end::Radio-->
                                                     </div>

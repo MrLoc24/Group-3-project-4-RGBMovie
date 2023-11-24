@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -157,12 +166,12 @@
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
-                                           th:field="${cast.actor}"
-                                           th:value="${cast.actor}" type="text" required/>
+                                           required
+                                           th:field="${cast.actor}" th:value="${cast.actor}" type="text"/>
                                 </div>
                                 <div class="invalid-feedback">
-						        	Name is required
-						      	</div>
+                                    Name is required
+                                </div>
                                 <!--end::Col-->
                             </div>
                             <!--end::Input group-->
@@ -299,9 +308,9 @@
                                                 class="form kt_forms"
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
+                                                novalidate
                                                 th:action="@{/admin/cast/addMovie}"
                                                 th:method="put"
-                                                novalidate
                                         >
                                             <!--begin::Scroll-->
                                             <div

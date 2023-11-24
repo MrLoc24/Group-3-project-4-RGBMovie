@@ -41,18 +41,16 @@ public class PasswordResetController {
     public String resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail, Model model) {
         UserModel user = userService.findByUsername(userEmail);
         if (user == null) {
-            model.addAttribute("message", "Not found");
+            model.addAttribute("mes", "Email not found");
             return "auth/forgetPassword";
         }
         String token = UUID.randomUUID().toString();
-        System.out.println(token);
         PasswordResetTokenModel passwordResetTokenModel = new PasswordResetTokenModel();
         passwordResetTokenModel.setToken(token);
         passwordResetTokenModel.setUserId(user.getPk());
         passwordResetTokenModel.setExpiryDate();
-        System.out.println(passwordResetTokenModel.getToken() + passwordResetTokenModel.getUserId() + passwordResetTokenModel.getExpiryDate().toString());
         passwordResetService.createPasswordResetTokenForUser(passwordResetTokenModel);
-        mailSender.send(constructResetTokenEmail(request.getServerName() + ":" + request.getServerPort(),
+        mailSender.send(constructResetTokenEmail(request.getServerName(),
                 token, user));
         model.addAttribute("message", "Email with link contain password reset have been send to your email");
         return "auth/forgetPassword";

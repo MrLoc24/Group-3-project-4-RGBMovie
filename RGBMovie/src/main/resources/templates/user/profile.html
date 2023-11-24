@@ -16,6 +16,16 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -239,7 +249,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{/admin/users/edit}" th:method="put" novalidate>
+                          novalidate th:action="@{/admin/users/edit}" th:method="put">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -295,17 +305,18 @@
                             <!--begin::Input group-->
                             <div class="row mb-6">
                                 <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label required fw-bold fs-6" for="username">Username</label>
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                                       for="username">Username</label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
                                            name="username"
                                            placeholder="Company website"
-                                           th:value="${user.username}" type="text" required/>
-                                           <div class="invalid-feedback">
-					        				   Username is required
-							      		   </div>
+                                           required th:value="${user.username}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        Username is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -324,10 +335,10 @@
                                             <input class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"
                                                    id="firstName" name="firstName"
                                                    placeholder="First name"
-                                                   th:value="${user.firstName}" type="text" required/>
-                                                   <div class="invalid-feedback">
-							        				   Firstname is required
-									      		   </div>
+                                                   required th:value="${user.firstName}" type="text"/>
+                                            <div class="invalid-feedback">
+                                                Firstname is required
+                                            </div>
                                         </div>
                                         <!--end::Col-->
                                         <!--begin::Col-->
@@ -335,10 +346,10 @@
                                             <input class="form-control form-control-lg form-control-solid" id="lastName"
                                                    name="lastName"
                                                    placeholder="Last name"
-                                                   th:value="${user.lastName}" type="text" required/>
-                                                   <div class="invalid-feedback">
-							        				   Lastname is required
-									      		   </div>
+                                                   required th:value="${user.lastName}" type="text"/>
+                                            <div class="invalid-feedback">
+                                                Lastname is required
+                                            </div>
                                         </div>
                                         <!--end::Col-->
                                     </div>
@@ -357,12 +368,12 @@
                                     <input class="form-control form-control-lg form-control-solid" id="email"
                                            name="email"
                                            placeholder="Company name"
-                                           th:value="${user.email}" type="email" required/>
-                                           <div class="invalid-feedback">
-					        				   Email is required
-							      		   </div>
+                                           required th:value="${user.email}" type="email"/>
+                                    <div class="invalid-feedback">
+                                        Email is required
+                                    </div>
                                 </div>
-                               
+
                                 <!--end::Col-->
                             </div>
                             <!--end::Input group-->
@@ -380,10 +391,10 @@
                                     <input class="form-control form-control-lg form-control-solid" id="phone"
                                            name="phoneNumber"
                                            placeholder="Phone number"
-                                           th:value="${user.phoneNumber}" type="tel" required/>
-                                           <div class="invalid-feedback">
-					        				   Phone is required
-							      		   </div>
+                                           required th:value="${user.phoneNumber}" type="tel"/>
+                                    <div class="invalid-feedback">
+                                        Phone is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -439,11 +450,11 @@
                                                     New Email Address</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="emailaddress"
-                                                       name="emailaddress" placeholder="Email Address" type="email"
-                                                       value="support@rgbmovies.com" required/>
-                                                       <div class="invalid-feedback">
-								        				   Email is required
-										      		   </div>
+                                                       name="emailaddress" placeholder="Email Address" required
+                                                       type="email" value="support@rgbmovies.com"/>
+                                                <div class="invalid-feedback">
+                                                    Email is required
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -452,10 +463,10 @@
                                                        for="confirmemailpassword">Confirm Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="confirmemailpassword"
-                                                       name="confirmemailpassword" type="password" required/>
-                                                       <div class="invalid-feedback">
-								        				   Password is required
-										      		   </div>
+                                                       name="confirmemailpassword" required type="password"/>
+                                                <div class="invalid-feedback">
+                                                    Password is required
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -493,7 +504,8 @@
                             <!--begin::Edit-->
                             <div class="flex-row-fluid d-none" id="kt_signin_password_edit">
                                 <!--begin::Form-->
-                                <form class="form" id="kt_signin_change_password" th:action="@{/admin/users/changePassword}"
+                                <form class="form" id="kt_signin_change_password"
+                                      th:action="@{/admin/users/changePassword}"
                                       th:method="post">
                                     <input name="pk" th:value="${user.pk}" type="hidden">
                                     <div class="row mb-1">
@@ -503,10 +515,10 @@
                                                     Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="currentPassword"
-                                                       name="currentPassword" type="password" required/>
-                                                       <div class="invalid-feedback">
-								        				   Current password required
-										      		   </div>
+                                                       name="currentPassword" required type="password"/>
+                                                <div class="invalid-feedback">
+                                                    Current password required
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -515,10 +527,10 @@
                                                     Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="newPassword"
-                                                       name="newPassword" type="password" required/>
-                                                       <div class="invalid-feedback">
-								        				   New password required
-										      		   </div>
+                                                       name="newPassword" required type="password"/>
+                                                <div class="invalid-feedback">
+                                                    New password required
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -527,10 +539,10 @@
                                                     New Password</label>
                                                 <input class="form-control form-control-lg form-control-solid"
                                                        id="confirmPassword"
-                                                       name="confirmPassword" type="password" required/>
-                                                       <div class="invalid-feedback">
-								        				   Confirm required
-										      		   </div>
+                                                       name="confirmPassword" required type="password"/>
+                                                <div class="invalid-feedback">
+                                                    Confirm required
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

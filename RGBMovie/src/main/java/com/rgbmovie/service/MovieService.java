@@ -16,4 +16,6 @@ public interface MovieService {
     List<MovieModel> getAllNotHaveDirector();
 
     List<MovieModel> getAllNotCast();
+
+    void deleteMovie(int id);
 }

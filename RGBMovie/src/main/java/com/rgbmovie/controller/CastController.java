@@ -88,13 +88,14 @@ public class CastController {
     }
 
     @PostMapping("/add")
-    public String addNewCast(@RequestParam("img") MultipartFile img, CastDTO castDTO, @RequestParam("movie") List<Integer> movie, Model model) throws IOException {
+    public String addNewCast(@RequestHeader String referer, @RequestParam("img") MultipartFile img, CastDTO castDTO, @RequestParam("movie") List<Integer> movie, RedirectAttributes model) throws IOException {
         castDTO.setProfileImg(cloudinary.uploader().upload(img.getBytes(), ObjectUtils.emptyMap()).get("url").toString());
         try {
-            model.addAttribute("message", castService.addNew(modelMapper.map(castDTO, CastModel.class), movie));
-            return "redirect:/admin/cast";
-        } catch (DataAccessException e) {
-            return e.toString();
+            model.addFlashAttribute("message", castService.addNew(modelMapper.map(castDTO, CastModel.class), movie));
+            return "redirect:" + referer;
+        } catch (Exception e) {
+            model.addFlashAttribute("message", e.toString());
+            return "redirect:" + referer;
         }
     }
 
@@ -107,33 +108,33 @@ public class CastController {
     }
 
     @PutMapping("edit")
-    public String edit(CastModel castModel, @RequestHeader String referer, @RequestParam("image") MultipartFile image, Model model) throws IOException {
+    public String edit(CastModel castModel, @RequestHeader String referer, @RequestParam("image") MultipartFile image, RedirectAttributes model) throws IOException {
         String name = StringUtils.cleanPath(image.getOriginalFilename());
         if (!name.isEmpty()) {
             var imageUpload = cloudinary.uploader().upload(image.getBytes(), ObjectUtils.emptyMap()).get("url").toString();
             castModel.setProfileImg(name);
         }
         try {
-            model.addAttribute("message", castService.edit(castModel));
+            model.addFlashAttribute("message", castService.edit(castModel));
             return "redirect:" + referer;
         } catch (DataAccessException e) {
-            model.addAttribute("message", e.toString());
+            model.addFlashAttribute("message", e.toString());
             return "redirect:" + referer;
         }
 
     }
 
     @GetMapping("/delete/movie")
-    public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer, Model model) {
+    public String deleteMovie(@RequestParam("id") int id, @RequestHeader String referer, RedirectAttributes model) {
         String result = castService.deleteMovie(id);
-        model.addAttribute("message", result);
+        model.addFlashAttribute("message", result);
         return "redirect:" + referer;
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") int id, @RequestHeader String referer, Model model) {
+    public String delete(@PathVariable("id") int id, @RequestHeader String referer, RedirectAttributes model) {
         String result = castService.delete(id);
-        model.addAttribute("message", result);
+        model.addFlashAttribute("message", result);
         return "redirect:/admin/cast";
     }
 

@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.dao.DataAccessException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -160,7 +161,6 @@ public class TheaterController {
                 return "screening/index";
             }
             if (detail.equals("workplace")) {
-
                 return "redirect:/admin/users?workplace=" + id;
             }
         }//Redirect to theater's auditorium
@@ -170,39 +170,63 @@ public class TheaterController {
 
     //Add new auditorium for each theater
     @PostMapping("/{id}")
-    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "screeningTime", required = false) String time, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO, ScreeningDTO screeningDTO) {
+    public String addAuditorium(@PathVariable("id") int id, @RequestParam(value = "detail", required = false, defaultValue = "") String detail, @RequestParam(value = "screeningTime", required = false) String time, @RequestParam(value = "add", required = false, defaultValue = "true") String add, AuditoriumDTO auditoriumDTO, ScreeningDTO screeningDTO, RedirectAttributes redirectAttributes) {
         if (detail.equals("screening")) {
             screeningDTO.setTheater(id);
             screeningDTO.setTime(convertStringToLocalDateTime(time));
-            screeningService.addNewScreening(modelMapper.map(screeningDTO, ScreeningModel.class));
+            try {
+                screeningService.addNewScreening(modelMapper.map(screeningDTO, ScreeningModel.class));
+                redirectAttributes.addFlashAttribute("message", "Add Success");
+            } catch (Exception e) {
+                redirectAttributes.addFlashAttribute("message", "Error");
+            }
             return "redirect:/admin/theater/" + id + "?detail=screening";
         }
         auditoriumDTO.setName(auditoriumDTO.getName() + "_" + id);
         auditoriumDTO.setTheater(id);
-        AuditoriumModel result = auditoriumService.addNew(modelMapper.map(auditoriumDTO, AuditoriumModel.class));
-        seatService.addNewSeat(result);
+        try {
+            AuditoriumModel result = auditoriumService.addNew(modelMapper.map(auditoriumDTO, AuditoriumModel.class));
+            seatService.addNewSeat(result);
+            redirectAttributes.addFlashAttribute("message", "Add Success");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Error");
+        }
         return "redirect:/admin/theater/" + id + "?detail=auditorium";
     }
 
     @PostMapping("/add")
-    public String addNewTheater(Model model, TheaterDTO theaterDTO) {
+    public String addNewTheater(RedirectAttributes model, TheaterDTO theaterDTO) {
         TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
         if (result != null) {
-            model.addAttribute("message", "Add Success");
+            model.addFlashAttribute("message", "Add Success");
             return "redirect:/admin/theater";
         }
-        model.addAttribute("message", "Failed to add new");
+        model.addFlashAttribute("message", "Failed to add new");
         return "redirect:/admin/theater";
     }
 
     @PutMapping("/edit")
-    public String edit(Model model, TheaterDTO theaterDTO, @RequestHeader String referer) {
+    public String edit(TheaterDTO theaterDTO, @RequestHeader String referer, RedirectAttributes model) {
         TheaterModel result = theaterService.addNew(modelMapper.map(theaterDTO, TheaterModel.class));
         if (result != null) {
-            model.addAttribute("message", "Edit Success");
+            model.addFlashAttribute("message", "Edit Success");
             return "redirect:" + referer;
         }
-        model.addAttribute("message", "Failed to add new");
+        model.addFlashAttribute("message", "Failed to edit new");
         return "redirect:" + referer;
     }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id, @RequestHeader String referer, RedirectAttributes redirectAttributes) {
+        try {
+            theaterService.deleteTheater(id);
+            redirectAttributes.addFlashAttribute("message", "Delete success");
+            return "redirect:" + referer;
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.toString());
+            return "redirect:" + referer;
+        }
+    }
+
 }

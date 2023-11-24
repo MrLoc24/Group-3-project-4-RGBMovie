@@ -20,7 +20,9 @@ public class ScreeningController {
     public String deleteScreening(@PathVariable("id") int id, @RequestHeader String referer, Model model) {
         String result = screeningService.delete(id);
         if (result != null) {
-            model.addAttribute("err", result);
+            model.addAttribute("message", result);
+        } else {
+            model.addAttribute("message", "Deleted");
         }
         return "redirect:" + referer;
     }

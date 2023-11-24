@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -131,7 +140,7 @@
                 <div class="collapse show" id="kt_account_profile_details">
                     <!--begin::Form-->
                     <form class="form kt_forms" enctype="multipart/form-data" id="kt_account_profile_details_form"
-                          th:action="@{'/admin/movie/edit/' + ${movie.pk}}" th:method="put" novalidate>
+                          novalidate th:action="@{'/admin/movie/edit/' + ${movie.pk}}" th:method="put">
                         <!--begin::Card body-->
                         <div class="card-body border-top p-9">
                             <!--begin::Input group-->
@@ -161,7 +170,7 @@
                                             <input hidden th:field="${movie.pk}" th:value="${movie.pk}" type="number">
                                             <!--end::Inputs-->
                                         </label>
-                                        
+
                                         <!--end::Label-->
                                         <!--begin::Cancel-->
                                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
@@ -239,16 +248,17 @@
                             <!--begin::Input group-->
                             <div class="row mb-6">
                                 <!--begin::Label-->
-                                <label class="col-lg-4 col-form-label required fw-bold fs-6" for="username">Title</label>
+                                <label class="col-lg-4 col-form-label required fw-bold fs-6"
+                                       for="username">Title</label>
                                 <!--end::Label-->
                                 <!--begin::Col-->
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="username"
-                                           th:field="${movie.title}"
-                                           th:value="${movie.title}" type="text" required/>
-                                           <div class="invalid-feedback">
-									        	Title is required
-									       </div>
+                                           required
+                                           th:field="${movie.title}" th:value="${movie.title}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        Title is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -263,11 +273,11 @@
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="engTitle"
                                            placeholder="Company name"
-                                           th:field="${movie.engTitle}"
-                                           th:value="${movie.engTitle}" type="text" required/>
-                                           <div class="invalid-feedback">
-									        	English title is required
-									       </div>
+                                           required
+                                           th:field="${movie.engTitle}" th:value="${movie.engTitle}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        English title is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -282,11 +292,11 @@
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="duration"
 
-                                           th:field="${movie.durationMin}"
-                                           th:value="${movie.durationMin}" type="text" required/>
-                                           <div class="invalid-feedback">
-									        	Duration is required
-									       </div>
+                                           required
+                                           th:field="${movie.durationMin}" th:value="${movie.durationMin}" type="text"/>
+                                    <div class="invalid-feedback">
+                                        Duration is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -301,9 +311,9 @@
                                     <!--begin::Input-->
                                     <select
                                             class="form-control form-control-solid mb-3 mb-lg-0"
-                                            id="age" th:field="${movie.age}"
+                                            id="age" required
+                                            th:field="${movie.age}"
                                             th:value="${movie.age}"
-											required
                                     >
                                         <option th:selected="${movie.age == 'r'}" value="r">R</option>
                                         <option th:selected="${movie.age == 'pg-13'}" value="pg-13">PG-13</option>
@@ -325,9 +335,9 @@
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="date"
 
-                                           th:field="${movie.openingDate}"
-                                           th:value="${movie.openingDate}" type="date"
-                                           required/>
+                                           required
+                                           th:field="${movie.openingDate}" th:value="${movie.openingDate}"
+                                           type="date"/>
                                 </div>
                                 <!--end::Col-->
                             </div>
@@ -342,9 +352,9 @@
                                     <select
                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                             id="genre"
+                                            required
                                             th:field="${movie.genre}"
                                             th:value="${movie.genre}"
-											required
                                     >
                                         <option th:selected="${movie.genre == 'mystery'}" value="mystery">Mystery
                                         </option>
@@ -372,14 +382,14 @@
                                 <textarea
                                         class="form-control form-control-lg form-control-solid"
                                         id="description"
+                                        required
                                         th:field="${movie.description}"
                                         th:value="${movie.description}"
-                                        type="text"
-                                        required>
+                                        type="text">
                                                     </textarea>
-	                               <div class="invalid-feedback">
-							        	Description is required
-							       </div>
+                                <div class="invalid-feedback">
+                                    Description is required
+                                </div>
                                 <!--end::Input-->
                             </div>
                             <!--end::Input group-->
@@ -393,12 +403,12 @@
                                 <div class="col-lg-8 fv-row">
                                     <input class="form-control form-control-lg form-control-solid" id="trailer"
 
-                                           th:field="${movie.trailer}"
-                                           th:value="${movie.trailer}" type="text"
-                                           required/>
-                                           <div class="invalid-feedback">
-									        	Trailer is required
-									       </div>
+                                           required
+                                           th:field="${movie.trailer}" th:value="${movie.trailer}"
+                                           type="text"/>
+                                    <div class="invalid-feedback">
+                                        Trailer is required
+                                    </div>
                                 </div>
                                 <!--end::Col-->
                             </div>

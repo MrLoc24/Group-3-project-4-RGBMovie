@@ -16,6 +16,15 @@
         id="kt_content"
         layout:fragment="content"
 >
+    <!-- Add a script tag to show the alert -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ '';
+        if (message) {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
     <!--begin::Toolbar-->
     <div class="toolbar" id="kt_toolbar">
         <!--begin::Container-->
@@ -189,8 +198,8 @@
                                                 enctype="multipart/form-data"
                                                 id="kt_modal_add_user_form"
                                                 method="post"
-                                                th:action="@{/admin/movie/add}"
                                                 novalidate
+                                                th:action="@{/admin/movie/add}"
                                         >
                                             <!--begin::Scroll-->
                                             <div
@@ -218,13 +227,13 @@
                                                             id="title"
                                                             name="title"
                                                             placeholder="Title"
+                                                            required
                                                             th:value="${movie.title}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="in-feedback">
-											        	Title is required
-											      	</div>
+                                                        Title is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -243,13 +252,13 @@
                                                             id="engTitle"
                                                             name="engTitle"
                                                             placeholder="English Title"
+                                                            required
                                                             th:value="${movie.engTitle}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	English title is required
-											      	</div>
+                                                        English title is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -267,16 +276,16 @@
                                                             accept="image/*"
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="duration"
+                                                            min="0"
                                                             name="durationMin"
                                                             placeholder="Movie duration in minute"
+                                                            required
                                                             th:value="${movie.durationMin}"
                                                             type="number"
-                                                            min="0"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	Duration is required
-											      	</div>
+                                                        Duration is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -294,8 +303,8 @@
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="age"
                                                             name="age"
+                                                            required
                                                             th:value="${movie.age}"
-															required
                                                     >
                                                         <option value="r">R</option>
                                                         <option value="pg-13">PG-13</option>
@@ -303,8 +312,8 @@
                                                         <option value="nc-17">NC-17</option>
                                                     </select>
                                                     <div class="invalid-feedback">
-											        	Age is required
-											      	</div>
+                                                        Age is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -327,8 +336,8 @@
                                                             type="date"
                                                     />
                                                     <div class="invalid-feedback">
-											        	Opening date is required
-											      	</div>
+                                                        Opening date is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -346,8 +355,8 @@
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="genre"
                                                             name="genre"
+                                                            required
                                                             th:value="${movie.genre}"
-															required
                                                     >
                                                         <option value="mystery">Mystery</option>
                                                         <option value="horror">Horror</option>
@@ -357,8 +366,8 @@
                                                         <option value="history">History</option>
                                                     </select>
                                                     <div class="invalid-feedback">
-											        	Genre is required
-											      	</div>
+                                                        Genre is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -377,13 +386,13 @@
                                                             id="description"
                                                             name="description"
                                                             placeholder="Description"
+                                                            required
                                                             th:value="${movie.description}"
-                                                            type="text"
-                                                            required>
+                                                            type="text">
                                                     </textarea>
                                                     <div class="invalid-feedback">
-											        	Description is required
-											      	</div>
+                                                        Description is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -400,16 +409,16 @@
                                                     <input
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="price"
+                                                            min="1"
                                                             name="price"
                                                             placeholder="Price"
+                                                            required
                                                             th:value="${movie.price}"
                                                             type="number"
-                                                            min="1"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	Price is required
-											      	</div>
+                                                        Price is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -428,13 +437,13 @@
                                                             id="trailer"
                                                             name="trailer"
                                                             placeholder="URL trailer"
+                                                            required
                                                             th:value="${movie.trailer}"
                                                             type="text"
-                                                            required
                                                     />
                                                     <div class="invalid-feedback">
-											        	Trailer url is required
-											      	</div>
+                                                        Trailer url is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -453,12 +462,12 @@
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="mainImg"
                                                             name="main_Img"
-                                                            type="file"
                                                             required
+                                                            type="file"
                                                     />
                                                     <div class="invalid-feedback">
-											        	Main image is required
-											      	</div>
+                                                        Main image is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
@@ -477,12 +486,12 @@
                                                             class="form-control form-control-solid mb-3 mb-lg-0"
                                                             id="thumbnailImg"
                                                             name="thumbnail_Img"
-                                                            type="file"
                                                             required
+                                                            type="file"
                                                     />
                                                     <div class="invalid-feedback">
-											        	Thumbnail image is required
-											      	</div>
+                                                        Thumbnail image is required
+                                                    </div>
                                                     <!--end::Input-->
                                                 </div>
                                                 <!--end::Input group-->
