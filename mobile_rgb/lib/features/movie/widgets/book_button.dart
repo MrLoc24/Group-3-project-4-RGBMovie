@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_app_ui/models/movie_model.dart';
 
 import '../../booking/booking_page.dart';
-import '../../../../core/data/models/movies.dart';
 import '../../../../core/constants/constants.dart';
 
 class BookButton extends StatelessWidget {

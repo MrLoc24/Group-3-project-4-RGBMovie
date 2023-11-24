@@ -6,6 +6,8 @@ import 'package:movie_app_ui/features/booking/animations/animations.dart';
 import 'package:movie_app_ui/features/booking/animations/custom_animated_opacity.dart';
 import 'package:movie_app_ui/features/booking/widgets/movie_screen_teather.dart';
 import 'package:movie_app_ui/features/booking/widgets/movie_seat_type_legend.dart';
+import 'package:movie_app_ui/features/booking/widgets/movie_seats.dart';
+import 'package:movie_app_ui/models/auditorium_model.dart';
 
 class SeatsPicker extends StatelessWidget {
   const SeatsPicker(
@@ -13,15 +15,24 @@ class SeatsPicker extends StatelessWidget {
       required this.maxHeight,
       required this.maxWidth,
       required this.controller,
-      required this.mainImg})
+      required this.mainImg,
+      required this.auditorium,
+      required this.isOcuppiedSeats,
+      required this.onSelectSeats})
       : super(key: key);
 
   final double maxHeight;
   final double maxWidth;
   final BookingPageAnimationController controller;
   final String mainImg;
+  final AuditoriumModel? auditorium;
+  final List<String> isOcuppiedSeats;
+  final Function(String value) onSelectSeats;
   @override
   Widget build(BuildContext context) {
+    print("movie seats picker !!!");
+    print(auditorium);
+    print(isOcuppiedSeats);
     // TODO: implement build
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -55,10 +66,19 @@ class SeatsPicker extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: maxHeight * 0.01),
-                // CustomAnimatedOpacity(
-                //   animation: _controller.bottomOpacityAnimation,
-                //   child: MovieSeats(seats: widget.movie.seats),
-                // ),
+                CustomAnimatedOpacity(
+                    animation: controller.bottomOpacityAnimation,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                          maxHeight: maxHeight, maxWidth: maxWidth),
+                      child: MovieSeats(
+                        auditorium: auditorium,
+                        isOcuppiedSeats: isOcuppiedSeats,
+                        onSelectSeats: onSelectSeats, maxHeight: maxHeight,
+                        maxWidth: maxWidth,
+                        // child: Placeholder(),
+                      ),
+                    )),
                 const Spacer(),
                 CustomAnimatedOpacity(
                   animation: controller.bottomOpacityAnimation,

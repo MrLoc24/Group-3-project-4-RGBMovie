@@ -23,7 +23,9 @@ mixin _$SeatModel {
   @JsonKey(includeIfNull: false)
   int? get pk => throw _privateConstructorUsedError;
   String get seatName => throw _privateConstructorUsedError;
-  int get auditorium => throw _privateConstructorUsedError;
+  int? get auditorium => throw _privateConstructorUsedError;
+  bool? get isOcuppied => throw _privateConstructorUsedError;
+  bool? get isSelected => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +41,9 @@ abstract class $SeatModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(includeIfNull: false) int? pk,
       String seatName,
-      int auditorium});
+      int? auditorium,
+      bool? isOcuppied,
+      bool? isSelected});
 }
 
 /// @nodoc
@@ -57,7 +61,9 @@ class _$SeatModelCopyWithImpl<$Res, $Val extends SeatModel>
   $Res call({
     Object? pk = freezed,
     Object? seatName = null,
-    Object? auditorium = null,
+    Object? auditorium = freezed,
+    Object? isOcuppied = freezed,
+    Object? isSelected = freezed,
   }) {
     return _then(_value.copyWith(
       pk: freezed == pk
@@ -68,10 +74,18 @@ class _$SeatModelCopyWithImpl<$Res, $Val extends SeatModel>
           ? _value.seatName
           : seatName // ignore: cast_nullable_to_non_nullable
               as String,
-      auditorium: null == auditorium
+      auditorium: freezed == auditorium
           ? _value.auditorium
           : auditorium // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      isOcuppied: freezed == isOcuppied
+          ? _value.isOcuppied
+          : isOcuppied // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSelected: freezed == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -87,7 +101,9 @@ abstract class _$$SeatModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(includeIfNull: false) int? pk,
       String seatName,
-      int auditorium});
+      int? auditorium,
+      bool? isOcuppied,
+      bool? isSelected});
 }
 
 /// @nodoc
@@ -103,7 +119,9 @@ class __$$SeatModelImplCopyWithImpl<$Res>
   $Res call({
     Object? pk = freezed,
     Object? seatName = null,
-    Object? auditorium = null,
+    Object? auditorium = freezed,
+    Object? isOcuppied = freezed,
+    Object? isSelected = freezed,
   }) {
     return _then(_$SeatModelImpl(
       pk: freezed == pk
@@ -114,10 +132,18 @@ class __$$SeatModelImplCopyWithImpl<$Res>
           ? _value.seatName
           : seatName // ignore: cast_nullable_to_non_nullable
               as String,
-      auditorium: null == auditorium
+      auditorium: freezed == auditorium
           ? _value.auditorium
           : auditorium // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
+      isOcuppied: freezed == isOcuppied
+          ? _value.isOcuppied
+          : isOcuppied // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isSelected: freezed == isSelected
+          ? _value.isSelected
+          : isSelected // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -128,7 +154,9 @@ class _$SeatModelImpl extends _SeatModel {
   _$SeatModelImpl(
       {@JsonKey(includeIfNull: false) required this.pk,
       required this.seatName,
-      required this.auditorium})
+      required this.auditorium,
+      required this.isOcuppied,
+      required this.isSelected})
       : super._();
 
   factory _$SeatModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -140,11 +168,15 @@ class _$SeatModelImpl extends _SeatModel {
   @override
   final String seatName;
   @override
-  final int auditorium;
+  final int? auditorium;
+  @override
+  final bool? isOcuppied;
+  @override
+  final bool? isSelected;
 
   @override
   String toString() {
-    return 'SeatModel(pk: $pk, seatName: $seatName, auditorium: $auditorium)';
+    return 'SeatModel(pk: $pk, seatName: $seatName, auditorium: $auditorium, isOcuppied: $isOcuppied, isSelected: $isSelected)';
   }
 
   @override
@@ -156,12 +188,17 @@ class _$SeatModelImpl extends _SeatModel {
             (identical(other.seatName, seatName) ||
                 other.seatName == seatName) &&
             (identical(other.auditorium, auditorium) ||
-                other.auditorium == auditorium));
+                other.auditorium == auditorium) &&
+            (identical(other.isOcuppied, isOcuppied) ||
+                other.isOcuppied == isOcuppied) &&
+            (identical(other.isSelected, isSelected) ||
+                other.isSelected == isSelected));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, pk, seatName, auditorium);
+  int get hashCode => Object.hash(
+      runtimeType, pk, seatName, auditorium, isOcuppied, isSelected);
 
   @JsonKey(ignore: true)
   @override
@@ -181,7 +218,9 @@ abstract class _SeatModel extends SeatModel {
   factory _SeatModel(
       {@JsonKey(includeIfNull: false) required final int? pk,
       required final String seatName,
-      required final int auditorium}) = _$SeatModelImpl;
+      required final int? auditorium,
+      required final bool? isOcuppied,
+      required final bool? isSelected}) = _$SeatModelImpl;
   _SeatModel._() : super._();
 
   factory _SeatModel.fromJson(Map<String, dynamic> json) =
@@ -193,7 +232,11 @@ abstract class _SeatModel extends SeatModel {
   @override
   String get seatName;
   @override
-  int get auditorium;
+  int? get auditorium;
+  @override
+  bool? get isOcuppied;
+  @override
+  bool? get isSelected;
   @override
   @JsonKey(ignore: true)
   _$$SeatModelImplCopyWith<_$SeatModelImpl> get copyWith =>
