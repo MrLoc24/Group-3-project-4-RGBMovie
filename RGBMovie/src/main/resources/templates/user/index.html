@@ -833,8 +833,8 @@
                             <!--end::Role=-->
                             <!--begin::Active=-->
                             <td>
-                                <div class="badge badge-light fw-bolder" th:if="${item.enabled == true}">Active</div>
-                                <div class="badge badge-light fw-bolder" th:if="${item.enabled == false}">Inactive</div>
+                                <div class="badge bg-success rounded-pill fw-bolder" th:if="${item.enabled == true}">Active</div>
+                                <div class="badge bg-danger rounded-pill fw-bolder" th:if="${item.enabled == false}">Inactive</div>
                             </td>
                             <!--end::Active=-->
                             <!--begin::Full name=-->
