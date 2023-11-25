@@ -50,7 +50,7 @@ public class PasswordResetController {
         passwordResetTokenModel.setUserId(user.getPk());
         passwordResetTokenModel.setExpiryDate();
         passwordResetService.createPasswordResetTokenForUser(passwordResetTokenModel);
-        mailSender.send(constructResetTokenEmail(request.getServerName(),
+        mailSender.send(constructResetTokenEmail("www.rgbmov.top",
                 token, user));
         model.addAttribute("message", "Email with link contain password reset have been send to your email");
         return "auth/forgetPassword";
