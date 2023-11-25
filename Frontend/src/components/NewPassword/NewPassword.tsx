@@ -22,7 +22,9 @@ const NewPassword = () => {
 
   useEffect(() => {
     setToken(queryParam.get("token"));
-    showChangePasswordPage(token).then((result: any) => setUserId(result.data));
+    showChangePasswordPage(queryParam.get("token")).then((result: any) =>
+      setUserId(result.data)
+    );
   }, []);
 
   const handleSave = async () => {

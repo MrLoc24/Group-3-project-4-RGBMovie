@@ -54,7 +54,7 @@ const router = createBrowserRouter(
       <Route path="/signin" element={<LoginScreen child={<SignIn />} />} />
       <Route path="/signup" element={<LoginScreen child={<SignUp />} />} />
       <Route path="/forgot" element={<ForgotPassword />} />
-      <Route path="/newPassword/resetPassword" element={<NewPassword />} />
+      <Route path="/resetPassword" element={<NewPassword />} />
 
       {/* Private Routes */}
       <Route path="" element={<PrivateRoute />}>
